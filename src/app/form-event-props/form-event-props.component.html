@@ -1,0 +1,54 @@
+<h2>Props</h2>
+
+<div class="form-container">
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+
+        <div formGroupName="props">
+            <mat-form-field>
+                <input matInput placeholder="Event Name" formControlName="eventName">
+            </mat-form-field>
+                
+            <mat-form-field>
+                <mat-select placeholder="Scoring System" formControlName="scoringSystem" required>
+                    <mat-option *ngFor="let s of systems; let i = index" [value]=i>{{s}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-select placeholder="Schema Code" formControlName="schemaCode" required>
+                    <mat-option *ngFor="let s of schemas; let i = index" [value]=i>{{s}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-checkbox formControlName="isTimed">Is Timed</mat-checkbox>
+        </div>
+
+        <div class="button-row" *ngIf="BOManager.BigButtonRow">
+            <button mat-button type="button" (click)="toggleJson()" matTooltip="show debug output">Debug</button>
+            <button mat-raised-button type="button" class="btn" (click)="reset()" matTooltip="reset form">Reset</button>
+            <button mat-raised-button type="button" class="btn" (click)="patch()" matTooltip="patch with data from current event">Patch</button>
+            <button mat-raised-button type="submit" class="btn" color="accent" type="submit" matTooltip="submit" [disabled]="!form.valid">Submit</button>
+        </div>
+
+        <ng-container *ngIf="!BOManager.BigButtonRow">
+        <button mat-icon-button type="button" (click)="toggleJson()" matTooltip="show debug output" *ngIf="BOManager.IsDebug">
+            <mat-icon>info</mat-icon>
+          </button>
+          <button mat-icon-button type="button" (click)="reset()" matTooltip="reset form">
+            <mat-icon>clear</mat-icon>
+          </button>
+          <button mat-icon-button type="button" (click)="patch()" matTooltip="patch with data from current event">
+            <mat-icon>undo</mat-icon>
+          </button>
+          <button mat-icon-button type="submit" (click)="submit()" matTooltip="submit">
+            <mat-icon color="accent">send</mat-icon>
+          </button>
+        </ng-container>
+    </form>
+
+</div>
+
+<p></p>
+
+<pre *ngIf="JsonVisible">{{ form.value | json }}</pre>

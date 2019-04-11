@@ -1,0 +1,49 @@
+.timing-button-row {
+    margin-top: 10px;    
+    margin-right: 4px;
+    margin-bottom: 10px;
+}
+
+.timing-button-row button {
+    margin-left: 10px;
+    margin-bottom: 10px;    
+}
+
+.button-row {
+    margin-bottom: 4px;
+}
+.button-row button {
+    margin-right: 4px;
+}
+
+.checkbox-button-row {
+    margin-top: 4px;    
+}
+
+.radio-button {
+    margin-right: 16px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.checkbox {
+    margin-right: 20px;
+}
+
+.msg-form {
+    max-width: 600px;
+}
+
+.msg-edit {
+    min-width: 220px;
+    max-width: 600px;
+}
+
+.msg-input {
+    min-width: 220px;
+    max-width: 600px;
+}
+
+#input-name-label {
+    color: #ff4081;    
+}

@@ -1,0 +1,955 @@
+export class TimingParams {
+  race: number;
+  tp: number;
+  bib: number;
+}
+
+export class IEventDataItem {
+  EventName: string;
+  EventData: string;
+}
+
+export interface IEventDataFolder {
+  Folder: string;
+  Items: Array<string>;
+}
+
+export interface IEventDataMenu {
+  Path: string;
+  Menu: Array<IEventDataFolder>;
+}
+
+export class TTestData {
+
+  static readonly DefaultEmptyEvent = `#Params
+DP.StartlistCount = 8
+DP.ITCount = 2
+DP.RaceCount = 2
+
+#Event Properties
+
+EP.Name = Default Empty Test Event
+EP.ScoringSystem = Low Point System
+EP.Throwouts = 0
+EP.DivisionName = 420
+EP.InputMode = Strict
+EP.RaceLayout = Finish
+EP.NameSchema = NX
+EP.FieldMap = SN
+EP.FieldCount = 6
+EP.NameFieldCount = 2
+EP.NameFieldOrder = 04
+EP.UseFleets = False
+EP.TargetFleetSize = 8
+EP.FirstFinalRace = 20
+EP.IsTimed = True
+EP.UseCompactFormat = True  
+`;
+
+  static readonly DefaultExample = `#Params
+
+DP.StartlistCount = 8
+DP.ITCount = 2
+DP.RaceCount = 2
+
+#Event Properties
+
+EP.Name = Default Example
+EP.ScoringSystem = Low Point System
+EP.Throwouts = 0
+EP.DivisionName = 420
+EP.InputMode = Strict
+EP.RaceLayout = Finish
+EP.NameSchema = NX
+EP.FieldMap = SN
+EP.FieldCaptions = First,Last,Sail #,NAT,Gender,Boat Name
+EP.FieldCount = 6
+EP.NameFieldCount = 2
+EP.NameFieldOrder = 04
+EP.UseFleets = False
+EP.TargetFleetSize = 8
+EP.FirstFinalRace = 20
+EP.IsTimed = True
+EP.UseCompactFormat = True
+
+NameList.Begin
+SNR;N1;N2;N3;N4;N5;N6
+1001;FN1;LN1;Sarah;GER;M;
+1002;FN2;LN2;Athena;GRE;F;Helena II
+1003;FN3;LN3;Mireille;FRA;Mixed;
+1004;FN4;LN4;Olivia;BRA;Mixed;
+1005;FN5;LN5;Anka;ARG;M;
+1006;FN6;LN6;Ai;JPN;M;
+1007;FN7;LN7;Natasha;RUS;F;
+1008;FN8;LN8;Caitlin;AUS;F;
+NameList.End
+
+StartList.Begin
+Pos;SNR;Bib
+1;1001;1
+2;1002;2
+3;1003;3
+4;1004;4
+5;1005;5
+6;1006;6
+7;1007;7
+8;1008;8
+StartList.End
+
+FinishList.Begin
+SNR;Bib;R1;R2
+1001;1;5;0
+1002;2;1;7
+1003;3;0;4
+1004;4;2;1
+1005;5;0;3
+1006;6;0;2
+1007;7;3;6
+1008;8;4;5
+FinishList.End
+
+TimeList.Begin.R1
+SNR;Bib;IT1;IT2;FT
+1001;1;12:45:58.73;12:46:03.50;12:46:18.25
+1002;2;12:45:54.68;12:46:00.78;12:46:11.37
+1003;3;12:45:53.92;12:46:02.45;
+1004;4;12:45:57.39;12:46:01.37;12:46:11.83
+1005;5;12:45:55.85;;
+1006;6;12:45:55.39;12:46:01.93;
+1007;7;12:45:58.17;12:46:02.99;12:46:12.40
+1008;8;12:45:56.54;12:46:04.19;12:46:16.18
+TimeList.End
+
+TimeList.Begin.R2
+SNR;Bib;IT1;IT2;FT
+1001;1;12:47:02.49;;
+1002;2;12:46:58.98;12:47:04.56;12:47:25.38
+1003;3;12:46:59.98;12:47:04.16;12:47:21.67
+1004;4;12:46:59.45;12:47:06.00;12:47:20.23
+1005;5;12:47:00.84;12:47:05.57;12:47:21.09
+1006;6;12:47:00.43;12:47:05.18;12:47:20.70
+1007;7;12:47:01.80;12:47:06.86;12:47:22.58
+1008;8;12:47:01.27;12:47:06.45;12:47:22.16
+TimeList.End
+
+#W1
+
+FR.*.W1.Bib3.QU=DNF
+FR.*.W1.Bib5.QU=DNF
+FR.*.W1.Bib6.QU=DNF
+
+#W2
+
+FR.*.W2.Bib1.QU=DNF
+FR.*.W2.Bib6.QU=DSQ
+
+EP.IM = Strict
+`;
+
+  static readonly NameTest = `#Params
+
+DP.StartlistCount = 8
+DP.ITCount = 0
+DP.RaceCount = 2
+
+#Event Properties
+
+EP.Name = NameTest
+EP.ScoringSystem = Low Point System
+EP.Throwouts = 0
+EP.DivisionName = 420
+EP.InputMode = Strict
+EP.RaceLayout = Finish
+EP.NameSchema = NX
+EP.FieldMap = FN,_,LN
+EP.FieldCaptions = FN,LN,SN,NAT,FN2,LN2,CPos
+EP.FieldCount = 7
+EP.NameFieldCount = 2
+EP.NameFieldOrder = 04
+EP.UseFleets = False
+EP.TargetFleetSize = 8
+EP.FirstFinalRace = 20
+EP.IsTimed = False
+EP.UseCompactFormat = True
+
+NameList.Begin
+SNR;N1;N2;N3;N4;N5;N6;N7
+1001;FN1;LN1;SN1;GER;FN2-1;LN2-1;x
+1002;FN2;LN2;SN2;ITA;FN2-2;LN2-2;y
+1003;FN3;LN3;SN3;FRA;FN2-3;LN2-3;z
+NameList.End
+
+StartList.Begin
+Pos;SNR;Bib
+1;1001;1
+2;1002;2
+3;1003;3
+4;1004;4
+5;1005;5
+6;1006;6
+7;1007;7
+8;1008;8
+StartList.End
+
+FinishList.Begin
+SNR;Bib;R1;R2
+1001;1;2;3
+1002;2;7;4
+1003;3;5;8
+1004;4;1;7
+1005;5;6;5
+1006;6;8;6
+1007;7;4;2
+1008;8;3;1
+FinishList.End
+
+#W1
+
+
+#W2
+
+
+EP.IM = Strict
+`;
+
+  static readonly FleetTest = `#Params
+
+DP.StartlistCount = 8
+DP.ITCount = 0
+DP.RaceCount = 2
+
+#Event Properties
+
+EP.Name = FleetTest
+EP.ScoringSystem = Low Point System
+EP.Throwouts = 0
+EP.DivisionName = 420
+EP.InputMode = Strict
+EP.RaceLayout = Finish
+EP.NameSchema = 
+EP.FieldMap = SN
+EP.FieldCaptions = 
+EP.FieldCount = 6
+EP.NameFieldCount = 2
+EP.NameFieldOrder = 041256
+EP.ColorMode = Fleet
+EP.UseFleets = True
+EP.TargetFleetSize = 8
+EP.FirstFinalRace = 20
+EP.IsTimed = False
+EP.UseCompactFormat = True
+
+NameList.Begin
+NameList.End
+
+StartList.Begin
+Pos;SNR;Bib
+1;1000;1
+2;1001;2
+3;1002;3
+4;1003;4
+5;1004;5
+6;1005;6
+7;1006;7
+8;1007;8
+StartList.End
+
+FleetList.Begin
+SNR;Bib;R1;R2
+1000;1;1;2
+1001;2;1;2
+1002;3;1;2
+1003;4;1;2
+1004;5;2;1
+1005;6;2;1
+1006;7;2;1
+1007;8;2;1
+FleetList.End
+
+FinishList.Begin
+SNR;Bib;R1;R2
+1000;1;1;1
+1001;2;3;2
+1002;3;2;4
+1003;4;4;3
+1004;5;4;4
+1005;6;3;3
+1006;7;2;2
+1007;8;1;1
+FinishList.End
+
+#W1
+
+
+#W2
+
+
+EP.IM = Strict        
+`;
+
+  static readonly IDM_1991 = `#Params
+
+DP.StartlistCount = 80
+DP.ITCount = 0
+DP.RaceCount = 6
+
+#Event Properties
+
+EP.Name = IDM 420 1991
+EP.ScoringSystem = Bonus Point System
+EP.Throwouts = 1
+EP.DivisionName = *
+EP.InputMode = Strict
+EP.RaceLayout = Finish
+EP.NameSchema = NX
+EP.FieldMap = SN
+EP.FieldCaptions = 
+EP.FieldCount = 6
+EP.NameFieldCount = 0
+EP.NameFieldOrder = 
+EP.ShowCupColumn = True
+EP.UseFleets = False
+EP.TargetFleetSize = 8
+EP.FirstFinalRace = 20
+EP.IsTimed = False
+EP.UseCompactFormat = True
+EP.Uniqua.Faktor = 1.45
+EP.Uniqua.Enabled  = False
+EP.Uniqua.Gesegelt = 6
+EP.Uniqua.Gemeldet = 80
+EP.Uniqua.Gezeitet = 71
+
+NameList.Begin
+NameList.End
+
+StartList.Begin
+Pos;SNR;Bib
+1;46608;1
+2;44902;2
+3;46411;3
+4;45331;4
+5;45003;5
+6;46594;6
+7;45435;7
+8;45434;8
+9;45199;9
+10;46016;10
+11;46517;11
+12;46475;12
+13;42777;13
+14;45439;14
+15;46467;15
+16;45953;16
+17;46310;17
+18;45950;18
+19;45451;19
+20;46597;20
+21;44968;21
+22;45940;22
+23;45996;23
+24;45690;24
+25;44994;25
+26;46523;26
+27;46409;27
+28;45453;28
+29;46410;29
+30;44455;30
+31;45991;31
+32;44456;32
+33;45333;33
+34;46015;34
+35;45185;35
+36;46521;36
+37;41152;37
+38;45090;38
+39;46580;39
+40;43113;40
+41;45687;41
+42;45411;42
+43;46609;43
+44;44318;44
+45;44955;45
+46;44961;46
+47;45369;47
+48;44897;48
+49;42783;49
+50;46193;50
+51;45087;51
+52;42286;52
+53;45684;53
+54;46312;54
+55;44423;55
+56;46562;56
+57;45686;57
+58;44941;58
+59;42646;59
+60;45251;60
+61;45949;61
+62;44430;62
+63;45396;63
+64;46600;64
+65;45944;65
+66;44624;66
+67;43987;67
+68;39835;68
+69;46742;69
+70;41318;70
+71;44457;71
+72;44223;72
+73;33159;73
+74;44942;74
+75;40733;75
+76;45954;76
+77;45719;77
+78;45082;78
+79;1;79
+80;43917;80
+StartList.End
+
+FinishList.Begin
+SNR;Bib;R1;R2;R3;R4;R5;R6
+46608;1;2;1;2;2;4;0
+44902;2;4;6;3;1;3;0
+46411;3;12;12;1;5;6;3
+45331;4;20;2;0;4;2;4
+45003;5;5;8;5;7;13;8
+46594;6;6;3;23;8;14;11
+45435;7;1;31;9;39;5;5
+45434;8;35;14;6;20;7;2
+45199;9;31;5;11;3;27;7
+46016;10;13;18;55;31;1;1
+46517;11;9;21;19;9;11;21
+46475;12;3;17;16;25;22;19
+42777;13;11;35;14;16;16;18
+45439;14;8;13;20;22;23;16
+46467;15;25;27;4;26;8;0
+45953;16;33;10;15;12;18;0
+46310;17;37;4;24;21;34;9
+45950;18;14;23;10;11;41;33
+45451;19;7;9;29;6;0;45
+46597;20;16;7;8;48;43;36
+44968;21;32;11;13;23;33;0
+45940;22;0;26;31;17;31;10
+45996;23;10;43;0;32;21;13
+45690;24;22;22;17;40;20;51
+44994;25;18;33;26;33;38;14
+46523;26;27;28;21;55;46;12
+46409;27;34;25;34;18;48;29
+45453;28;0;24;39;13;39;27
+46410;29;0;20;30;28;42;23
+44455;30;0;52;22;30;35;6
+45991;31;39;16;18;29;51;0
+44456;32;45;34;36;15;53;24
+45333;33;19;42;48;46;15;34
+46015;34;15;39;58;41;19;42
+45185;35;23;19;27;0;57;31
+46521;36;21;37;0;0;9;20
+41152;37;26;32;53;45;36;30
+45090;38;40;0;0;10;24;15
+46580;39;46;0;45;50;12;17
+43113;40;17;47;51;19;54;38
+45687;41;30;29;41;0;26;52
+45411;42;54;30;59;47;25;25
+46609;43;47;50;33;27;62;26
+44318;44;36;51;28;0;47;22
+44955;45;29;41;46;51;30;40
+44961;46;48;44;32;24;60;50
+45369;47;0;15;37;36;37;0
+44897;48;44;61;25;37;61;39
+42783;49;38;49;56;53;50;28
+46193;50;55;46;44;34;56;44
+45087;51;42;45;60;56;49;35
+42286;52;53;57;42;43;52;37
+45684;53;0;58;40;0;10;43
+46312;54;0;36;35;35;45;0
+44423;55;0;53;50;38;44;47
+46562;56;49;56;38;44;55;49
+45686;57;28;40;7;0;0;0
+44941;58;43;62;0;54;40;41
+42646;59;60;64;49;52;32;48
+45251;60;41;54;43;0;28;0
+45949;61;57;48;0;0;29;32
+44430;62;50;55;57;49;58;46
+45396;63;52;38;52;42;0;0
+46600;64;0;0;12;14;0;0
+45944;65;24;0;0;0;17;0
+44624;66;59;59;0;58;63;53
+43987;67;56;60;47;0;0;0
+39835;68;61;65;61;0;59;0
+46742;69;58;63;54;0;0;0
+41318;70;51;0;0;57;0;0
+44457;71;0;66;0;0;0;0
+44223;72;0;0;0;0;0;0
+33159;73;0;0;0;0;0;0
+44942;74;0;0;0;0;0;0
+40733;75;0;0;0;0;0;0
+45954;76;0;0;0;0;0;0
+45719;77;0;0;0;0;0;0
+45082;78;0;0;0;0;0;0
+1;79;0;0;0;0;0;0
+43917;80;0;0;0;0;0;0
+FinishList.End
+
+#W1
+
+FR.*.W1.Bib22.QU=DNF
+FR.*.W1.Bib28.QU=DNF
+FR.*.W1.Bib29.QU=DSQ
+FR.*.W1.Bib30.QU=DSQ
+FR.*.W1.Bib47.QU=DSQ
+FR.*.W1.Bib53.QU=DNF
+FR.*.W1.Bib54.QU=DNF
+FR.*.W1.Bib55.QU=DSQ
+FR.*.W1.Bib64.QU=DSQ
+FR.*.W1.Bib71.QU=DNF
+FR.*.W1.Bib72.QU=DNS
+FR.*.W1.Bib73.QU=DNS
+FR.*.W1.Bib74.QU=DSQ
+FR.*.W1.Bib75.QU=DSQ
+FR.*.W1.Bib76.QU=DNS
+FR.*.W1.Bib77.QU=DNS
+FR.*.W1.Bib78.QU=DNS
+FR.*.W1.Bib79.QU=DSQ
+FR.*.W1.Bib80.QU=DSQ
+
+#W2
+
+FR.*.W2.Bib38.QU=DNF
+FR.*.W2.Bib39.QU=DNS
+FR.*.W2.Bib64.QU=DNF
+FR.*.W2.Bib65.QU=DNF
+FR.*.W2.Bib70.QU=DNF
+FR.*.W2.Bib72.QU=DNS
+FR.*.W2.Bib73.QU=DNS
+FR.*.W2.Bib74.QU=DSQ
+FR.*.W2.Bib75.QU=DSQ
+FR.*.W2.Bib76.QU=DNS
+FR.*.W2.Bib77.QU=DNS
+FR.*.W2.Bib78.QU=DNS
+FR.*.W2.Bib79.QU=DSQ
+FR.*.W2.Bib80.QU=DSQ
+
+#W3
+
+FR.*.W3.Bib4.QU=DNS
+FR.*.W3.Bib23.QU=DNF
+FR.*.W3.Bib36.QU=DNF
+FR.*.W3.Bib38.QU=DNF
+FR.*.W3.Bib58.QU=DNF
+FR.*.W3.Bib61.QU=DNF
+FR.*.W3.Bib65.QU=DNF
+FR.*.W3.Bib66.QU=DNF
+FR.*.W3.Bib70.QU=DSQ
+FR.*.W3.Bib71.QU=DNF
+FR.*.W3.Bib72.QU=DNS
+FR.*.W3.Bib73.QU=DNS
+FR.*.W3.Bib74.QU=DSQ
+FR.*.W3.Bib75.QU=DSQ
+FR.*.W3.Bib76.QU=DNS
+FR.*.W3.Bib77.QU=DNS
+FR.*.W3.Bib78.QU=DNS
+FR.*.W3.Bib79.QU=DSQ
+FR.*.W3.Bib80.QU=DSQ
+
+#W4
+
+FR.*.W4.Bib35.QU=DNF
+FR.*.W4.Bib36.QU=DNF
+FR.*.W4.Bib41.QU=DNF
+FR.*.W4.Bib44.QU=DNS
+FR.*.W4.Bib53.QU=DNF
+FR.*.W4.Bib57.QU=DNS
+FR.*.W4.Bib60.QU=DNS
+FR.*.W4.Bib61.QU=DNS
+FR.*.W4.Bib65.QU=DNS
+FR.*.W4.Bib67.QU=DNS
+FR.*.W4.Bib68.QU=DNS
+FR.*.W4.Bib69.QU=DNF
+FR.*.W4.Bib71.QU=DNS
+FR.*.W4.Bib72.QU=DNS
+FR.*.W4.Bib73.QU=DNS
+FR.*.W4.Bib74.QU=DSQ
+FR.*.W4.Bib75.QU=DSQ
+FR.*.W4.Bib76.QU=DNS
+FR.*.W4.Bib77.QU=DNS
+FR.*.W4.Bib78.QU=DNS
+FR.*.W4.Bib79.QU=DSQ
+FR.*.W4.Bib80.QU=DSQ
+
+#W5
+
+FR.*.W5.Bib19.QU=DNF
+FR.*.W5.Bib57.QU=DNS
+FR.*.W5.Bib63.QU=DNS
+FR.*.W5.Bib64.QU=DNS
+FR.*.W5.Bib67.QU=DNS
+FR.*.W5.Bib69.QU=DNS
+FR.*.W5.Bib70.QU=DNS
+FR.*.W5.Bib71.QU=DNS
+FR.*.W5.Bib72.QU=DNS
+FR.*.W5.Bib73.QU=DNS
+FR.*.W5.Bib74.QU=DNS
+FR.*.W5.Bib75.QU=DNS
+FR.*.W5.Bib76.QU=DNS
+FR.*.W5.Bib77.QU=DNS
+FR.*.W5.Bib78.QU=DNS
+FR.*.W5.Bib79.QU=DNS
+FR.*.W5.Bib80.QU=DNS
+
+#W6
+
+FR.*.W6.Bib1.QU=DNS
+FR.*.W6.Bib2.QU=DNS
+FR.*.W6.Bib15.QU=DSQ
+FR.*.W6.Bib16.QU=DNF
+FR.*.W6.Bib21.QU=DNF
+FR.*.W6.Bib31.QU=DNS
+FR.*.W6.Bib47.QU=DNF
+FR.*.W6.Bib54.QU=DSQ
+FR.*.W6.Bib57.QU=DNS
+FR.*.W6.Bib60.QU=DNS
+FR.*.W6.Bib63.QU=DNS
+FR.*.W6.Bib64.QU=DNS
+FR.*.W6.Bib65.QU=DNS
+FR.*.W6.Bib67.QU=DNS
+FR.*.W6.Bib68.QU=DNS
+FR.*.W6.Bib69.QU=DNS
+FR.*.W6.Bib70.QU=DNS
+FR.*.W6.Bib71.QU=DNS
+FR.*.W6.Bib72.QU=DNS
+FR.*.W6.Bib73.QU=DNS
+FR.*.W6.Bib74.QU=DNS
+FR.*.W6.Bib75.QU=DNS
+FR.*.W6.Bib76.QU=DNS
+FR.*.W6.Bib77.QU=DNS
+FR.*.W6.Bib78.QU=DNS
+FR.*.W6.Bib79.QU=DNS
+FR.*.W6.Bib80.QU=DNS
+
+EP.IM = Strict    
+`;
+
+  static readonly IDM_1997 = `#Params
+
+DP.StartlistCount = 85
+DP.ITCount = 0
+DP.RaceCount = 6
+
+#Event Properties
+
+EP.Name = IDM 420 1997
+EP.ScoringSystem = Low Point System
+EP.Throwouts = 1
+EP.DivisionName = 420
+EP.InputMode = Strict
+EP.RaceLayout = Finish
+EP.NameSchema = NX
+EP.FieldMap = SN
+EP.FieldCaptions = 
+EP.FieldCount = 6
+EP.NameFieldCount = 0
+EP.NameFieldOrder = 
+EP.ShowCupColumn = True
+EP.UseFleets = False
+EP.TargetFleetSize = 8
+EP.FirstFinalRace = 20
+EP.IsTimed = False
+EP.UseCompactFormat = True
+EP.Uniqua.Faktor = 1.45
+EP.Uniqua.Enabled  = False
+EP.Uniqua.Gesegelt = 6
+EP.Uniqua.Gemeldet = 85
+EP.Uniqua.Gezeitet = 84
+
+NameList.Begin
+NameList.End
+
+StartList.Begin
+Pos;SNR;Bib
+1;48918;1
+2;49118;2
+3;48919;3
+4;47013;4
+5;48454;5
+6;48897;6
+7;48886;7
+8;47873;8
+9;47377;9
+10;48667;10
+11;47879;11
+12;48856;12
+13;47872;13
+14;48302;14
+15;48839;15
+16;48300;16
+17;48889;17
+18;48510;18
+19;47876;19
+20;46905;20
+21;49095;21
+22;48189;22
+23;48449;23
+24;48107;24
+25;47616;25
+26;48208;26
+27;48265;27
+28;43826;28
+29;47912;29
+30;48521;30
+31;48808;31
+32;47877;32
+33;47260;33
+34;47052;34
+35;48514;35
+36;48297;36
+37;48190;37
+38;46974;38
+39;48283;39
+40;48917;40
+41;48106;41
+42;48119;42
+43;48644;43
+44;48301;44
+45;47820;45
+46;48852;46
+47;47729;47
+48;48253;48
+49;47783;49
+50;48291;50
+51;46973;51
+52;48040;52
+53;47615;53
+54;47248;54
+55;49096;55
+56;48494;56
+57;48985;57
+58;47465;58
+59;48891;59
+60;48816;60
+61;48294;61
+62;47865;62
+63;48888;63
+64;47868;64
+65;47614;65
+66;47538;66
+67;48256;67
+68;48977;68
+69;47728;69
+70;49052;70
+71;48295;71
+72;48257;72
+73;47780;73
+74;47733;74
+75;48111;75
+76;49097;76
+77;46968;77
+78;48113;78
+79;48982;79
+80;48498;80
+81;48296;81
+82;46841;82
+83;48522;83
+84;46907;84
+85;48145;85
+StartList.End
+
+FinishList.Begin
+SNR;Bib;R1;R2;R3;R4;R5;R6
+48918;1;11;1;5;11;1;2
+49118;2;1;3;25;3;8;7
+48919;3;24;14;1;2;2;10
+47013;4;3;5;3;7;18;31
+48454;5;4;2;22;21;3;21
+48897;6;2;18;0;29;4;1
+48886;7;6;29;2;9;23;20
+47873;8;10;6;21;16;0;12
+47377;9;16;46;4;1;0;5
+48667;10;58;9;8;40;11;11
+47879;11;23;7;12;13;48;30
+48856;12;14;57;0;4;7;4
+47872;13;27;34;24;10;6;19
+48302;14;12;21;16;27;35;16
+48839;15;28;4;9;18;46;39
+48300;16;44;35;49;12;14;3
+48889;17;32;25;11;25;41;15
+48510;18;8;65;27;24;9;43
+47876;19;60;15;28;62;5;14
+46905;20;33;22;35;0;24;8
+49095;21;47;12;48;33;31;6
+48189;22;57;33;13;23;34;26
+48449;23;62;10;52;14;27;35
+48107;24;13;8;43;59;20;55
+47616;25;53;20;40;39;33;9
+48208;26;36;44;34;69;13;18
+48265;27;15;59;17;42;16;0
+43826;28;52;47;50;8;22;23
+47912;29;21;51;29;75;12;41
+48521;30;69;23;42;22;15;54
+48808;31;5;27;36;50;40;0
+47877;32;35;11;38;49;28;52
+47260;33;22;49;0;20;25;45
+47052;34;49;71;15;5;0;24
+48514;35;76;54;6;47;19;40
+48297;36;26;0;7;17;64;57
+48190;37;42;16;10;19;0;0
+46974;38;7;28;55;46;63;38
+48283;39;18;38;18;43;71;62
+48917;40;41;31;0;60;17;33
+48106;41;65;13;31;61;0;13
+48119;42;17;55;0;73;21;17
+48644;43;45;79;19;38;56;28
+48301;44;25;56;0;30;39;36
+47820;45;19;37;61;32;51;50
+48852;46;37;17;39;31;70;66
+47729;47;51;36;23;36;44;0
+48253;48;9;40;0;80;36;32
+47783;49;20;61;60;55;32;34
+48291;50;46;69;33;28;57;37
+46973;51;0;32;62;15;43;58
+48040;52;29;52;64;72;42;27
+47615;53;40;24;67;68;26;59
+47248;54;31;62;37;58;30;69
+49096;55;63;74;74;6;47;29
+48494;56;74;68;59;51;10;47
+48985;57;59;60;14;44;59;61
+47465;58;0;39;41;48;49;64
+48891;59;75;73;54;53;38;25
+48816;60;66;58;47;70;54;22
+48294;61;72;26;32;71;52;67
+47865;62;67;50;66;35;55;42
+48888;63;77;64;45;64;29;51
+47868;64;55;53;63;26;60;68
+47614;65;68;48;44;63;53;53
+47538;66;64;80;26;65;37;70
+48256;67;78;19;73;54;72;46
+48977;68;43;30;69;79;0;44
+47728;69;50;0;65;37;69;49
+49052;70;71;66;30;57;62;65
+48295;71;61;67;51;66;45;0
+48257;72;38;70;58;74;61;60
+47780;73;54;45;70;52;66;71
+47733;74;56;43;56;76;73;63
+48111;75;34;0;20;67;0;0
+49097;76;79;72;72;34;67;48
+46968;77;80;63;53;83;50;56
+48113;78;70;41;68;56;68;0
+48982;79;0;76;46;41;58;0
+48498;80;73;78;57;45;65;0
+48296;81;30;42;0;77;0;0
+46841;82;48;77;75;81;0;0
+48522;83;39;0;0;78;0;0
+46907;84;0;75;71;82;0;0
+48145;85;0;0;0;0;0;0
+FinishList.End
+
+#W1
+
+FR.*.W1.Bib51.QU=DSQ
+FR.*.W1.Bib58.QU=OCS
+FR.*.W1.Bib79.QU=OCS
+FR.*.W1.Bib84.QU=DNC
+FR.*.W1.Bib85.QU=DNC
+
+#W2
+
+FR.*.W2.Bib36.QU=OCS
+FR.*.W2.Bib69.QU=DSQ
+FR.*.W2.Bib75.QU=OCS
+FR.*.W2.Bib83.QU=DNC
+FR.*.W2.Bib85.QU=DNC
+
+#W3
+
+FR.*.W3.Bib6.QU=OCS
+FR.*.W3.Bib12.QU=OCS
+FR.*.W3.Bib33.QU=DSQ
+FR.*.W3.Bib40.QU=OCS
+FR.*.W3.Bib42.QU=OCS
+FR.*.W3.Bib44.QU=OCS
+FR.*.W3.Bib48.QU=OCS
+FR.*.W3.Bib81.QU=OCS
+FR.*.W3.Bib83.QU=DNC
+FR.*.W3.Bib85.QU=DNC
+
+#W4
+
+FR.*.W4.Bib20.QU=DSQ
+FR.*.W4.Bib85.QU=DNC
+
+#W5
+
+FR.*.W5.Bib8.QU=OCS
+FR.*.W5.Bib9.QU=OCS
+FR.*.W5.Bib34.QU=OCS
+FR.*.W5.Bib37.QU=OCS
+FR.*.W5.Bib41.QU=OCS
+FR.*.W5.Bib68.QU=OCS
+FR.*.W5.Bib75.QU=OCS
+FR.*.W5.Bib81.QU=OCS
+FR.*.W5.Bib82.QU=DNC
+FR.*.W5.Bib83.QU=DNC
+FR.*.W5.Bib84.QU=DNC
+FR.*.W5.Bib85.QU=DNC
+
+#W6
+
+FR.*.W6.Bib27.QU=OCS
+FR.*.W6.Bib31.QU=DNF
+FR.*.W6.Bib37.QU=OCS
+FR.*.W6.Bib47.QU=DNF
+FR.*.W6.Bib71.QU=RDG/58.0
+FR.*.W6.Bib75.QU=DNF
+FR.*.W6.Bib78.QU=DNC
+FR.*.W6.Bib79.QU=DNF
+FR.*.W6.Bib80.QU=OCS
+FR.*.W6.Bib81.QU=DNC
+FR.*.W6.Bib82.QU=DNC
+FR.*.W6.Bib83.QU=DNC
+FR.*.W6.Bib84.QU=DNC
+FR.*.W6.Bib85.QU=DNC
+
+EP.IM = Strict
+`;
+
+}
+
+export class TEventDataAsset implements IEventDataItem {
+  EventName: string;
+  EventData: string;
+
+  constructor() {
+    this.EventName = "empty";
+    this.EventData = "";
+  }
+
+  init_DefaultEmpty() {
+    this.EventName = "Empty Event";
+    this.EventData = TTestData.DefaultEmptyEvent;
+  }
+
+  init_DefaultExample() {
+    this.EventName = "Example Event";
+    this.EventData = TTestData.DefaultExample;
+  }
+
+  init_NameTest() {
+    this.EventName = "Name Test";
+    this.EventData = TTestData.NameTest;
+  }
+
+  init_FleetTest() {
+    this.EventName = "Fleet Test";
+    this.EventData = TTestData.FleetTest;
+  }
+
+  init_1991() {
+    this.EventName = "Test Data IDM 1991";
+    this.EventData = TTestData.IDM_1991;
+  }
+
+  init_1997() {
+    this.EventName = "Test Data IDM 1997";
+    this.EventData = TTestData.IDM_1997;
+  }
+
+}

@@ -1,0 +1,24 @@
+<h3>{{caption}} icons</h3>
+
+<table cellspacing="0">
+  <tr>
+    <th *ngIf="BOManager.IsDebug">Icon Name</th>
+    <th>Icon</th>
+    <th>Meaning</th>
+    <th>Action Type</th>
+    <th *ngIf="BOManager.IsDebug">Click Method</th>
+  </tr>    
+  <tr *ngFor="let cr of bar">
+      <td *ngIf="BOManager.IsDebug">{{cr.Name}}</td>
+      <td>
+      <button mat-icon-button>
+        <mat-icon [color]="cr.IconColorString">{{cr.Name}}</mat-icon>
+      </button>
+    </td>
+    <td>{{cr.Meaning}}</td>
+    <td>{{cr.IconActionString}}</td>
+    <td *ngIf="BOManager.IsDebug">{{cr.Method}}</td>
+  </tr>
+</table>
+
+<p></p>

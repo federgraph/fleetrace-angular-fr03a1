@@ -1,0 +1,21 @@
+<h2>Saving Event Data</h2>
+
+<div class="radio-button-row">
+  <mat-radio-group class="radio-group" [(ngModel)]="option">
+      <mat-radio-button class="radio-button" *ngFor="let o of options; let i = index" [value]=i>{{o}}</mat-radio-button><br>
+  </mat-radio-group>
+</div>
+
+<p></p>
+
+<button mat-raised-button (click)="clear()">Clear</button>
+<button mat-raised-button (click)="stage()">Stage</button>
+<button mat-raised-button (click)="save()">Save</button>
+
+<pre class="info">--- {{Info}} ---</pre>
+
+<p></p>
+
+<pre>{{TestOutput}}</pre>
+
+<p></p>

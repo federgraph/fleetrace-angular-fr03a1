@@ -1,0 +1,52 @@
+<h2>Race
+    <span id="race-name-label">( R{{race}} - IT{{timepoint}} )</span>
+</h2>
+
+<table id="race-table" cellspacing="0" cellpadding="1">
+    <ng-container *ngFor="let row of ColTable.Rows">
+        <tr>
+            <ng-container *ngFor="let tc of row.Cols; let i = index">
+                <th *ngIf="tc.th" [ngStyle]="{'background-color':tc.color, 'text-align':tc.align }" (click)="thClick(i)">{{tc.text}}</th>
+                <td *ngIf="tc.td" [ngStyle]="{'background-color':tc.color, 'text-align':tc.align }">{{tc.text}}</td>
+            </ng-container>
+        </tr>
+    </ng-container>
+</table>
+
+
+<div class="button-row" *ngIf="BOManager.BigButtonRow">
+    <button mat-button *ngIf="BOManager.IsDebug" (click)="clearRace()">Clear R</button>
+    <button mat-button *ngIf="BOManager.IsDebug" (click)="clearTP()">Clear IT</button>
+    <button mat-button (click)="calc()">Calc</button>
+    <button mat-button (click)="show()">Show</button>
+    <button mat-button *ngIf="BOManager.IsDebug" (click)="sortOrderClear()">SO</button>
+    <button mat-button *ngIf="BOManager.IsDebug" (click)="toggleLayout()">Layout</button>
+</div>
+
+<ng-container *ngIf="!BOManager.BigButtonRow">
+    <button mat-icon-button *ngIf="BOManager.IsDebug" (click)="clearRace()">
+        <mat-icon>delete</mat-icon>
+    </button>
+    <button mat-icon-button *ngIf="BOManager.IsDebug" (click)="clearTP()">
+        <mat-icon>delete_outline</mat-icon>
+    </button>
+    <button mat-icon-button *ngIf="BOManager.IsDebug" (click)="calc()">
+        <mat-icon color="primary">functions</mat-icon>
+    </button>
+    <button mat-icon-button *ngIf="BOManager.IsDebug" (click)="show()">
+        <mat-icon color="primary">filter_vintage</mat-icon>
+    </button>
+    <button mat-icon-button *ngIf="BOManager.IsDebug" (click)="sortOrderClear()">
+        <mat-icon>sort</mat-icon>
+    </button>
+    <button mat-icon-button *ngIf="BOManager.IsDebug" (click)="toggleLayout()">
+        <mat-icon>texture</mat-icon>
+    </button>
+    <button mat-icon-button *ngIf="BOManager.IsDebug" (click)="toggleLegend()">
+        <mat-icon>camera</mat-icon>
+    </button>
+</ng-container>
+
+<app-icon-bar-legend [caption]="'Race'" [bar]="legend" *ngIf="LegendVisible"></app-icon-bar-legend>
+
+<p *ngIf="!LegendVisible"></p>

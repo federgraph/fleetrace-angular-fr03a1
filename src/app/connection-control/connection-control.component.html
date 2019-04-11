@@ -1,0 +1,28 @@
+<h2>Conn</h2>
+
+<div *ngIf="wantInput" id="input-button-row">
+    <button mat-raised-button (click)="testInput()" [style.background-color]="ledColorIn">In</button>
+    <button mat-raised-button color="primary" (click)="connectInput()">on</button>
+    <button mat-raised-button color="primary" (click)="disconnectInput()">off</button>
+    <button mat-raised-button (click)="inputNettoClick()">netto</button>
+    <button mat-raised-button color="warn" (click)="clearBtnClick()">clear</button>
+    <button mat-raised-button [disabled]=!canWatch (click)="toggleWatchNetto()">{{ isWatching ? 'stop watching' : 'watch' }}</button>
+</div>
+
+<div *ngIf="wantOutput" id="output-button-row">
+    <button mat-raised-button (click)="testOutput()" [style.background-color]="ledColorOut">Out</button>
+    <button mat-raised-button color="primary" (click)="connectOutput()">on</button>
+    <button mat-raised-button color="primary" (click)="disconnectOutput()">off</button>
+    <button mat-raised-button (click)="outputNettoClick()">netto</button>
+    <button mat-raised-button [disabled]=!canWatch (click)="toggleWatchNetto()">{{ isWatching ? 'stop watching' : 'watch' }}</button>
+    <button mat-raised-button (click)="toggleDropping()">{{ isDropping ? 'Dropping' : 'Active' }}</button>
+</div>
+
+<ul *ngIf="wantInput || wantOutput">
+    <li>flash: {{flashMsg}}</li>
+    <li>i data: {{dataMsgIn}}</li>
+    <li>o data: {{dataMsgOut}}</li>
+    <li>error: {{errorMsg}}</li>
+</ul>
+
+<div *ngIf="wantInput || wantOutput" id="response-text">response-text</div>

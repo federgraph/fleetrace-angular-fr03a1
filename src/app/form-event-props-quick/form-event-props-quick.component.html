@@ -1,0 +1,45 @@
+<h2>Event Properties Quick</h2>
+
+<div class="form-container">
+
+    <div *ngIf="RadioBarVisible" class="radio-button-row">
+        <mat-radio-group [(ngModel)]="scoringSystem">
+            <mat-radio-button class="radio-button" *ngFor="let s of systems; let i = index" [value]=i>{{s}}</mat-radio-button>
+        </mat-radio-group>
+    </div>
+
+    <div *ngIf="RadioBarVisible" class="radio-button-row">
+            <mat-radio-group [(ngModel)]="schemaCode">
+                <mat-radio-button class="radio-button" *ngFor="let s of schemas; let i = index" [value]=i>{{s}}</mat-radio-button>
+            </mat-radio-group>
+        </div>
+    
+    <div *ngIf="SelectsVisible">
+        <mat-form-field>
+            <input matInput placeholder="Event Name" [(ngModel)]="eventName">
+        </mat-form-field>
+            
+        <mat-form-field>
+            <mat-select placeholder="Scoring System" [(ngModel)]="scoringSystem">
+                <mat-option *ngFor="let s of systems; let i = index" [value]=i>{{s}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-select placeholder="Schema Code" [(ngModel)]="schemaCode">
+                <mat-option *ngFor="let s of schemas; let i = index" [value]=i>{{s}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div class="checkbox-row">
+        <mat-checkbox [(ngModel)]="isTimed">Is Timed</mat-checkbox>
+    </div>
+
+    <div class="button-row">
+        <button mat-raised-button type="button" class="btn" (click)="reset()">Reset</button>
+        <button mat-raised-button type="button" class="btn" (click)="patch()">Patch</button>
+        <button mat-raised-button type="submit" class="btn" (click)="submit()">Submit</button>
+    </div>
+
+</div>

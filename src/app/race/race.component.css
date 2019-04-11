@@ -1,0 +1,15 @@
+#race-name-label {
+    color:  #3f51b5;    
+}
+
+#race-table {
+    min-width: 460px;
+ }
+
+#msg-input {
+    width: 36ch;
+}
+
+table, th, td {
+    border: 1px solid black;
+}

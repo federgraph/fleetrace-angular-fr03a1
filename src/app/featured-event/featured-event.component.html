@@ -1,0 +1,10 @@
+<h2>Featured Event</h2>
+
+<button mat-raised-button (click)="show()">Show</button>
+<button mat-raised-button (click)="loadEvent()">Load</button>
+<button mat-raised-button (click)="clear()">Clear</button>
+
+<pre class="info">--- {{Info}} ---</pre>
+<pre class="error" *ngIf="HasError">--- {{Error}} ---</pre>
+
+<p></p>

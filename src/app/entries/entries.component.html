@@ -1,0 +1,52 @@
+<h2>Entries</h2>
+
+<table id="entries-table" cellspacing="0" cellpadding="1">
+    <ng-container *ngFor="let row of ColTable.Rows">
+        <tr>
+           <ng-container *ngFor="let tc of row.Cols; let i = index">
+                <th *ngIf="tc.th" [ngStyle]="{'background-color':tc.color, 'text-align':tc.align }" (click)="thClick(i)">{{tc.text}}</th>
+                <td *ngIf="tc.td" [ngStyle]="{'background-color':tc.color, 'text-align':tc.align }">{{tc.text}}</td>
+            </ng-container>
+        </tr>
+           </ng-container>
+</table>
+
+<div class="button-row" *ngIf="BOManager.BigButtonRow">
+    <button mat-button (click)="empty()">Empty</button>
+    <button mat-button (click)="ensureCount()">Count</button>
+    <button mat-button (click)="loadNames()" *ngIf="BOManager.IsDebug"  >Load</button>
+    <button mat-button (click)="clear()">Clear</button>
+    <button mat-button (click)="show()">Show</button>
+    <button mat-button (click)="pushEntry()">Push</button>
+    <button mat-button (click)="popEntry()">Pop</button>
+    <button mat-button (click)="sortOrderClear()" *ngIf="BOManager.IsDebug">SO</button>
+</div>
+
+<ng-container *ngIf="!BOManager.BigButtonRow">
+    <button mat-icon-button (click)="empty()">
+        <mat-icon>delete_outline</mat-icon>
+    </button>
+    <button mat-icon-button (click)="ensureCount()">
+        <mat-icon>control_point</mat-icon>
+    </button>
+    <button mat-icon-button *ngIf="BOManager.IsDebug" (click)="loadNames()">
+        <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-icon-button (click)="clear()">
+        <mat-icon>delete_forever</mat-icon>
+    </button>
+    <button mat-icon-button (click)="pushEntry()">
+        <mat-icon>add</mat-icon>
+    </button>
+    <button mat-icon-button (click)="popEntry()">
+        <mat-icon>remove</mat-icon>
+    </button>
+    <button mat-icon-button *ngIf="BOManager.IsDebug" (click)="sortOrderClear()">
+        <mat-icon>sort</mat-icon>
+    </button>
+    <button mat-icon-button (click)="toggleLegend()">
+        <mat-icon>camera</mat-icon>
+    </button>    
+</ng-container>
+
+<app-icon-bar-legend [caption]="'Entries'" [bar]="legend" *ngIf="LegendVisible"></app-icon-bar-legend>

@@ -1,0 +1,28 @@
+<h2>Event Data Json</h2>
+
+<div class="button-row">
+    <button mat-button color="accent" (click)="eventData()">Event Data</button>
+    <button mat-button color="accent" (click)="raceData()">Race Data</button>
+    <button mat-button (click)="eventParams()">Params</button>
+    <button mat-button (click)="eventProps()">Properties</button>
+</div>
+    
+<div class="button-row">
+    <button mat-button (click)="nameTable()">Names</button>
+    <button mat-button (click)="startList()">Startlist</button>    
+    <button mat-button (click)="fleetList()">Fleet</button>    
+</div>
+
+<div class="button-row">
+    <button mat-button (click)="finishList()">Finishes</button>
+    <button mat-button (click)="timeLists()">all Timing</button>        
+    <button mat-button (click)="penaltyLists()">all Penalties</button>
+</div>
+
+<div class="button-row">
+    <button mat-button (click)="timeList()">Timing</button>    
+    <button mat-button (click)="penaltyList()">Penalties</button>
+    <button mat-button color="primary" (click)="eventDataArray()">Array</button>
+</div>
+    
+<pre>{{output | json}}</pre>

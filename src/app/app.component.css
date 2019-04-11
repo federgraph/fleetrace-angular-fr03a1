@@ -1,0 +1,41 @@
+.fill-remaining-space {
+    flex: 1 1 auto;
+}
+
+.real-content {
+    margin: 4px;
+    margin-left: 10px;
+}
+
+.button-line button {
+    min-width: 90px;
+    margin-right: 4px;
+    margin-bottom: 4px;
+}
+
+.button-row button {
+    margin-right: 4px;
+    margin-bottom: 4px;
+}
+
+.memo-form {
+    min-width: 400px;
+    max-width: 600px;
+}
+
+.memo {
+    width: 100%;
+    resize: none;
+}
+
+.last-button-row {
+    margin-bottom: 10px;
+}
+
+.color-accent {
+    color: #ff4081;    
+}
+
+.color-primary {
+    color:  #3f51b5;    
+}

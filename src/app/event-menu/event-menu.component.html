@@ -1,0 +1,15 @@
+<h2>Event Data Menu</h2>
+
+<ng-container *ngIf="EDM">
+
+    <ng-container *ngFor="let m of EDM.Menu">
+
+        <p><i>{{m.Folder}}</i></p>
+
+        <div *ngFor="let en of m.Items; let i = index">        
+            <button mat-button (click)="loadEvent(m.Folder, en, i)">{{en}}</button>
+        </div>
+
+    </ng-container>
+
+</ng-container>

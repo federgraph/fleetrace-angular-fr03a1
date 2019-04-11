@@ -1,0 +1,55 @@
+<h2>Event
+    <span id="event-name-label">( {{EventName}} )</span>
+</h2>
+
+<table id="event-table" cellspacing="0" cellpadding="1">
+    <ng-container *ngFor="let row of ColTable.Rows">
+        <tr>
+            <ng-container *ngFor="let tc of row.Cols; let i = index">
+                <th *ngIf="tc.th" [ngStyle]="{'background-color':tc.color, 'text-align':tc.align }" (click)="thClick(i)">{{tc.text}}</th>
+                <td *ngIf="tc.td" [ngStyle]="{'background-color':tc.color, 'text-align':tc.align }">{{tc.text}}</td>
+            </ng-container>
+        </tr>
+    </ng-container>
+</table>
+
+<div class="button-row" *ngIf="BOManager.BigButtonRow">
+    <button mat-button (click)="clear()" *ngIf="BOManager.IsDebug">Clear</button>
+    <button mat-button (click)="loadResult()" *ngIf="BOManager.IsDebug">Load</button>
+    <button mat-button (click)="setLayout(1)">Finish</button>
+    <button mat-button (click)="setLayout(0)">Points</button>
+    <button mat-button (click)="colorBtnClick(0)">{{ColorBtnCaption}}</button>
+    <button mat-button (click)="sortOrderClear()" *ngIf="BOManager.IsDebug">SO</button>
+</div>
+
+<ng-container *ngIf="!BOManager.BigButtonRow">
+    <button mat-icon-button (click)="clear()" *ngIf="BOManager.IsDebug">
+        <mat-icon>delete</mat-icon>
+    </button>
+    <button mat-icon-button (click)="loadResult()" *ngIf="BOManager.IsDebug">
+        <mat-icon>explore</mat-icon>
+    </button>
+    <button mat-icon-button (click)="setLayout(1)">
+        <mat-icon color="primary">flag</mat-icon>
+    </button>
+    <button mat-icon-button (click)="setLayout(0)">
+        <mat-icon>scatter_plot</mat-icon>
+    </button>
+    <button mat-icon-button (click)="colorBtnClick(1)">
+        <mat-icon>brush</mat-icon>
+    </button>
+    <button mat-icon-button (click)="colorBtnClick(2)">
+        <mat-icon color="primary">brush</mat-icon>
+    </button>
+    <button mat-icon-button (click)="colorBtnClick(3)">
+        <mat-icon color="accent">brush</mat-icon>
+    </button>
+    <button mat-icon-button (click)="sortOrderClear()" *ngIf="BOManager.IsDebug">
+        <mat-icon>sort</mat-icon>
+    </button>
+    <button mat-icon-button (click)="toggleLegend()">
+        <mat-icon>camera</mat-icon>
+    </button>    
+</ng-container>
+
+<app-icon-bar-legend [caption]="'Event'" [bar]="legend" *ngIf="LegendVisible"></app-icon-bar-legend>

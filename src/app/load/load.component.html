@@ -1,0 +1,21 @@
+<h2>Loading Event Data</h2>
+
+<div class="radio-button-row">
+  <mat-radio-group class="radio-group" [(ngModel)]="option">
+      <mat-radio-button class="radio-button" *ngFor="let o of options; let i = index" [value]=i>{{o}}</mat-radio-button>
+  </mat-radio-group>
+</div>
+
+<p></p>
+
+<button mat-raised-button (click)="clear()">Clear</button>
+<button mat-raised-button (click)="load()">Load</button>
+<button mat-raised-button (click)="read()">Read</button>
+
+<pre class="info">--- {{Info}} ---</pre>
+
+<p></p>
+
+<pre>{{TestOutput}}</pre>
+
+<p></p>

@@ -1,0 +1,16 @@
+#event-name-label {
+    color: #ff4081;    
+}
+
+#event-table {
+   min-width: 460px;
+}
+
+button {
+    margin-right: 4px;
+    margin-bottom: 4px;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
