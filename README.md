@@ -4,7 +4,7 @@ FR03A1 is the full Angular fat client application for the FR (fleetrace) family 
 
 Much of the code here is the same as in the `fleetrace` repo which is structured to use libraries and allows for several apps to reuse the code in the libs. By using libraries the imports look cleaner and this is probably the way to go.
 
-But I found that is easier to upgrade a normal single project setup to a new version of Angular and Material.
+But I found that it is easier to upgrade a normal single project setup to a new version of Angular and Material.
 
 And, in the single project layout which includes all the lib code directly, I can Ctrl-Click to go to the source of everything. This is not possible in the lib project layout.
 
@@ -12,7 +12,7 @@ So `FR03A1` is the project setup that I am actually using to develop the project
 
 Will do the same for `FR03E1`, which is the `event-only` version, which does not do race-timing at intermediate time points, just the finish positions at the finish time point.
 
-FR03A and FR03E would be the base versions without any dynamic api calls. I have deployed these to my static web site for preview purposes, so that you can see how the base applications looks and feels.
+FR03A and FR03E would be the base versions without any dynamic api calls. I have deployed these to my static web site for preview purposes, so that you can see how the base applications look and feel.
 
 FR03A1 and FR03E1 are actual development versions, which use an Api to call into the Delphi application, a node/express proxy server, or an Asp.Net application. Just the api was added on top of the base version, the api which is about to change as needed.
 
@@ -36,7 +36,7 @@ Keep in mind that there are variations:
 - server or client (both can be fat or thin)
 - typescript or c# (or java, swift)
 - tcp or http
-- dephi or Asp Net (as a server)
+- delphi or Asp.Net (as a server)
 - proxy or direct (node server can be a proxy)
 - web-sockets or not (node server does web-sockets)
 - json or xml (data on the server)
@@ -64,18 +64,18 @@ Parts of the original project have since been ported to the java and C# environm
 Typescript is the latest addition.
 
 ## Build for Delphi
-Run build `npm run build-fr` to build the project for use with Delphi app. 
+Run `npm run build-fr` to build the project for use with Delphi app. 
 The build artifacts will be stored in the `dist/` directory.
 The point is that a specific base-href is used.
 
 ## Build for Asp.Net
-Run build `ng build` to build the project for use with Asp.Net web applications. 
+Run `ng build` to build the project for use with Asp.Net web applications. 
 The build artifacts will be stored in the `dist/` directory.
 No specific base-href should be used!
 
 ## Build for Node proxy server
 Same as for the Delphi app.
-Run build `npm run build-fr` to build the project for use with a Node proxy server. 
+Run `npm run build-fr` to build the project for use with a Node proxy server. 
 The build artifacts will be stored in the `dist/` directory.
 A specific base-href is needed.
 
