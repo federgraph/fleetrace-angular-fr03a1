@@ -31,6 +31,12 @@ const JsonOptions = {
   })
 };
 
+const TextPlainOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'text/plain',
+  })
+};
+
 class QueryOptions {
   headers: HttpHeaders;
   params: HttpParams;
@@ -41,7 +47,7 @@ class QueryOptions {
 })
 export class ApiService {
 
-  AspNet: boolean = true;
+  AspNet: boolean = false;
 
   constructor(private http: HttpClient) { }
 
@@ -252,12 +258,12 @@ export class ApiService {
   //AngularID = 19
   pushEventData(value: string): Observable<ApiRetValue> {
     if (this.AspNet) {
-      return this.http.post<ApiRetValue>('/api/Data/PushEventData', value, JsonOptions)
+      return this.http.post<ApiRetValue>('/api/Data/PushEventData', value, TextPlainOptions)
       .pipe(
         catchError(this.handleError)
       );
     }
-    return this.http.post<ApiRetValue>('/api/event-data', value, JsonOptions)
+    return this.http.post<ApiRetValue>('/api/event-data', value, TextPlainOptions)
       .pipe(
         catchError(this.handleError)
       );

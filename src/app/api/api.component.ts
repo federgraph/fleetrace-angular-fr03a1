@@ -22,6 +22,9 @@ Push E = posting EventDataText to /api/event-data
 Push EJ = posting EventDataJSON to /api/event-data-json
 Push RJ = posting RaceDataJSON to /api/race-data-json
 
+ED = posting EventDataJSON to /api/ed.json
+RD = posting RaceDataJSON to a/pi/rd.json
+
 UD 2 = posting EventDataJSON to /ud/2
 UD 3 = posting RaceDataJSON to /ud/3
 `;
@@ -31,6 +34,9 @@ const inspect_button_row_legend = `
 event-data  = show EventDataText from /api/event-data
 event-data-json = show EventDataJson from /api/event-data-json
 race-data-json = show RaceDataJson for current Race from /api/race-data-json
+
+ed.json = show EventDataJson from /api/ed.json
+rd.json = show RaceDataJson from /api/rd.json
 
 ud/2 = show EventDataJson from /ud/2
 ud/3 = show RaceDataJson from /ud/3
@@ -78,7 +84,7 @@ export class ApiComponent implements OnInit {
   }
 
   ngOnInit() {
-    //this.pullE();
+      //this.pullE();
   }
 
   onEventDataStringAvailable(data: string) {
@@ -198,7 +204,7 @@ export class ApiComponent implements OnInit {
 
   inspectED() {
     this.Info = "show EventDataJson from api/ed.json";
-    this.apiService.pullED().subscribe(data => this.TestOutput = JSON.stringify(data, null, 2));
+    this.apiService.pullEventData().subscribe(data => this.TestOutput = JSON.stringify(data, null, 2));
   }
 
   inspectRD() {

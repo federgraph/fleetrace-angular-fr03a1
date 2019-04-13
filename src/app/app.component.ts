@@ -98,7 +98,7 @@ export class AppComponent implements OnInit {
   InputVisible = true;
   BibVisible = false;
   EntriesVisible = false;
-  RaceVisible = false;
+  RaceVisible = true;
   EventVisible = false;
 
   TextAreaVisible = false;
@@ -1289,10 +1289,10 @@ export class AppComponent implements OnInit {
   }
 
   initParams() {
-    this.wantInput = true;
-    this.wantInput = false;
-    //this.initParamsFromQueryString();
-  } 
+    //this.wantInput = false;
+    //this.wantOutput = false;
+    this.initParamsFromQueryString();
+  }
 
   initParamsFromQueryString() {
     const url = window.location.href;
