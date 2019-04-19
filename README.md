@@ -36,7 +36,7 @@ Keep in mind that there are variations:
 - server or client (both can be fat or thin)
 - typescript or c# (or java, swift)
 - tcp or http
-- delphi or Asp.Net (as a server)
+- Delphi or Asp.Net (as a server)
 - proxy or direct (node server can be a proxy)
 - web-sockets or not (node server does web-sockets)
 - json or xml (data on the server)
@@ -51,12 +51,12 @@ Keep in mind that there are variations:
 - small or big event (both!)
 - sponsor logo supported (no)
 - printed reports supported or not (never, this is paperless)
-- official or inofficial (this is inofficial, but officials are free to use it)
+- official or unofficial (this is unofficial, but officials are free to use it)
 - Windows or Mac (this should do both)
 
 The purpose is to build a client app that will be great on the devices too.
 
-The idea is still that *everyone* should use the same application, the actual data should be shared, not the reports. Applications that share the data format and message format are considered the same, or at least belonging to the same family of applications. A port of this application to a new platform, read programming language, should be considered the same, a family member. The timing team at the venu should use the same application as *everyone* who is consuming result data, live or after the fact.
+The idea is still that *everyone* should use the same application, the actual data should be shared, not the reports. Applications that share the data format and message format are considered the same, or at least belonging to the same family of applications. A port of this application to a new platform, read programming language, should be considered the same, a family member. The timing team at the venue should use the same application as *everyone* who is consuming result data, live or after the fact.
 
 The basis for this app is the common data file format and the single line message format.
 The project started out as a Delphi application in 2004.
