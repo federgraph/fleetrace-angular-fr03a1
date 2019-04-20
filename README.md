@@ -142,3 +142,50 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## Status
 
 FR03A1 should be usable in Chrome on the desktop while you are connected to a test server application located within the same local area network as the browser. Everything else needs to be done.
+
+## BOM, line endings, updating Angular and warnings
+
+### BOM
+Make sure that `package.json` is encoded in UTF-8 without BOM! If it has a BOM (Byte Order Marker) you will get a build error.
+
+In Visual Studio Code, if it shows the Encoding as **UTF-8 with BOM** in the status bar
+- you can click on that label
+- select **Save with Encoding**
+- and then select UTF-8.
+- without the BOM
+- that is all.
+
+I have set default encoding of my Merge tool to UTF-8 with BOM, because I need that for Delphi projects.
+I guess that is why it will sometimes have a BOM.
+
+### Line endings
+On Windows, I usually ensure CRLF as a line break.
+But this also gets somehow reset to LF.
+I guess this happens when I update the Angular version.
+Sometimes I convert line endings to CRLF because that will confuse my Merge tool the least,
+when I compare projects.
+
+### Updating Angular
+This project is supposed to use the latest Angular version.
+When upgrading Angular I do it like so:
+- First I run `ng update` to see if something new is available.
+- Then I do `ng update @angular/cli`.
+- Then I run `ng update @angular/core`.
+- Then I run `ng update @angular/material`.
+
+The last one will automatically take care of `@angular/cdk`.
+And I think core will take care of rxjs.
+I don't have to do these extra.
+
+### Warnings
+Build will output a warning:
+```
+WARNING in Circular dependency detected:
+src\col\race\race-bo.ts -> src\fr\fr-bo.ts -> src\col\race\race-bo.ts
+
+WARNING in Circular dependency detected:
+src\fr\fr-bo.ts -> src\col\race\race-bo.ts -> src\fr\fr-bo.ts
+```
+I know how to make the warning disappear, by combining two files,
+but I do not want to do that. these classes should be in their own file.
+If you see only two warnings, all should be good.
