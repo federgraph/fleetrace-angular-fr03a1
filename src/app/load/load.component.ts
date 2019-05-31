@@ -1,5 +1,5 @@
-﻿import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { MatSnackBar } from '@angular/material';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { TBOManager } from '../../bo/bo-manager';
 import { TTestData, IEventDataItem } from '../shared/test-data';
 

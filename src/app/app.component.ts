@@ -1,4 +1,4 @@
-﻿import { Component, ViewChild, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ChangeDetectorRef, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -16,7 +16,7 @@ import { TimingButtonsComponent } from './timing-buttons/timing-buttons.componen
 import { EventProps, EntryRow, EventParams } from './shared/data-model';
 import { TExcelExporter } from '../fr/fr-excel-export';
 import { TableID } from '../fr/fr-excel-importer';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { CurrentNumbers } from '../fr/fr-bo';
 import { BreakpointSet } from './shared/breakpoint-set';
 import { IconData, PreTextIcons, TextAreaIcons } from './icon-legend/icon-data';
@@ -120,31 +120,31 @@ export class AppComponent implements OnInit {
   SaveVisible = false;
   LoadVisible = false;
 
-  @ViewChild('eventTab')
+  @ViewChild('eventTab', { static: false })
   eventTab: EventComponent;
 
-  @ViewChild('raceTab')
+  @ViewChild('raceTab', { static: false })
   raceTab: RaceComponent;
 
-  @ViewChild('entriesTab')
+  @ViewChild('entriesTab', { static: false })
   entriesTab: EntriesComponent;
 
-  @ViewChild('widgetTab')
+  @ViewChild('widgetTab', { static: false })
   widgetTab: TimingWidgetComponent;
 
-  @ViewChild('timingTab')
+  @ViewChild('timingTab', { static: false })
   timingTab: TimingButtonsComponent;
 
-  @ViewChild('menuTab')
+  @ViewChild('menuTab', { static: false })
   menuTab: EventMenuComponent;
 
-  @ViewChild('bibInfo')
+  @ViewChild('bibInfo', { static: false })
   bibTab: BibComponent;
 
-  @ViewChild('connBar')
+  @ViewChild('connBar', { static: false })
   connBar: ConnectionControlComponent;
 
-  @ViewChild('apiBar')
+  @ViewChild('apiBar', { static: false })
   apiBar: ApiComponent;
 
   private SL: TStringList;
@@ -213,10 +213,10 @@ export class AppComponent implements OnInit {
       this.breakText = "HandsetLandscape";
     }
     else if (this.breakpointSet.TabletPortrait) {
-        this.break6 = false;
-        this.break9 = false;
-        this.break11 = true;
-        this.wantAllInputIcons = true;
+      this.break6 = false;
+      this.break9 = false;
+      this.break11 = true;
+      this.wantAllInputIcons = true;
       this.breakText = "TabletPortrait";
     }
     else if (this.breakpointSet.TabletLandscape) {
@@ -1154,7 +1154,7 @@ export class AppComponent implements OnInit {
   }
 
   initCurrent() {
-      this.processQueue();
+    this.processQueue();
 
     const bo = this.BOManager.BO;
 
@@ -1221,7 +1221,7 @@ export class AppComponent implements OnInit {
   markBibAndShow() {
     if (this.eventTab) {
       this.eventTab.markAndShow(this.CurrentBib);
-      }
+    }
     if (this.raceTab) {
       this.raceTab.markAndShow(this.CurrentBib);
     }
@@ -1257,12 +1257,12 @@ export class AppComponent implements OnInit {
     if (l.length === 0)
       this.TestOutput = this.info("Queue is empty");
     else {
-    const SL = new TStringList();
+      const SL = new TStringList();
       for (let i = 0; i < l.length; i++) {
-      SL.Add(l[i]);
+        SL.Add(l[i]);
+      }
+      this.TestOutput = SL.Text;
     }
-    this.TestOutput = SL.Text;
-  }
   }
 
   noop() {

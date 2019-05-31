@@ -1,5 +1,5 @@
-﻿import { Component, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material';
+import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { TBOManager } from '../../bo/bo-manager';
 import { TStringList } from '../../util/fb-strings';
