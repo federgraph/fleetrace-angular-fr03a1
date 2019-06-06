@@ -1,6 +1,6 @@
-import { TEventProps, TScoringSystem } from "../fr/fr-event-props";
-import { TEventRowCollectionItem, TEventRowCollection, TEventNode } from "../col/event/event-row-collection";
-import { TBO } from "../fr/fr-bo";
+import { TEventProps, TScoringSystem } from '../fr/fr-event-props';
+import { TEventRowCollectionItem, TEventRowCollection, TEventNode } from '../col/event/event-row-collection';
+import { TBO } from '../fr/fr-bo';
 
 export class TUniquaPoints {
 
@@ -31,30 +31,33 @@ export class TUniquaPoints {
             // Ranglistenpunkte
             f = u.Faktor; // Ranglistenfaktor der Regatta
             s = u.Gezeitet; // Zahl der mindestens einmal gezeiteten Boote
-            if (s === 0)
+            if (s === 0) {
                 return;
+            }
 
             z = u.Gesegelt; // Anzahl der Wettfahrten
             // m = 1; // Multiplikator
 
             // Punktzahl des fiktiven letzten
-            if (u.ScoringSystem === TScoringSystem.LowPoint)
+            if (u.ScoringSystem === TScoringSystem.LowPoint) {
                 PL = s * z; // Low Point System
-            else
+            } else {
                 PL = (s + 6) * z; // Bonus System
+            }
 
             cl = qn.Collection;
 
             // Punktzahl des ersten
             cr1 = cl.Items[cl.Items[0].PLZ];
-            if (cr1 != null)
+            if (cr1 != null) {
                 P1 = cr1.GRace.CPoints; // schnelle Variante über Platzziffer
-            else {
+            } else {
                 P1 = 0;
                 for (let i1 = 0; i1 < cl.Count; i1++) {
                     cr = cl.Items[i1];
-                    if (cr.GRace.CPoints < P1)
+                    if (cr.GRace.CPoints < P1) {
                         P1 = cr.GRace.CPoints;
+                    }
                 }
             }
 
@@ -63,27 +66,29 @@ export class TUniquaPoints {
 
                 // Ranglistenpunkte
                 PX = cr.GRace.CPoints; // Punktzahl des Bootes
-                if (PL - P1 !== 0)
+                if (PL - P1 !== 0) {
                     cr.RA = f * 100 * (PL - PX) / (PL - P1);
-                else
+                } else {
                     cr.RA = 0;
+                }
                 // begrenzen
-                if (cr.RA < 0)
+                if (cr.RA < 0) {
                     cr.RA = 0;
+                }
 
                 // Punkte für WMA/EMA
                 Platz = cr.GRace.Rank;
-                if (s !== 0)
+                if (s !== 0) {
                     cr.QR = 100 * (s + 1 - Platz) / s;
-                else
+                } else {
                     cr.QR = 0;
+                }
                 // begrenzen
-                if (cr.QR < 0)
+                if (cr.QR < 0) {
                     cr.QR = 0;
             }
         }
-        catch
-        {
+        } catch {
         }
     }
 }

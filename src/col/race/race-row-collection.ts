@@ -1,10 +1,10 @@
-import { TBaseRowCollection } from "../../grid/col-grid";
-import { TRaceColGrid, TRaceColProps } from "./race-grid";
-import { TRaceNode } from "./race-node";
-import { TRaceRowCollectionItem } from "./race-row-collection-item";
-import { TRaceColProp } from "./race-col-prop";
-import { TBO } from "../../fr/fr-bo";
-import { TRaceBO } from "./race-bo";
+import { TBaseRowCollection } from '../../grid/col-grid';
+import { TRaceColGrid, TRaceColProps } from './race-grid';
+import { TRaceNode } from './race-node';
+import { TRaceRowCollectionItem } from './race-row-collection-item';
+import { TRaceColProp } from './race-col-prop';
+import { TBO } from '../../fr/fr-bo';
+import { TRaceBO } from './race-bo';
 
 export class TRaceRowCollection extends TBaseRowCollection<
     TRaceColGrid,
@@ -14,8 +14,7 @@ export class TRaceRowCollection extends TBaseRowCollection<
     TRaceRowCollectionItem,
     TRaceColProps,
     TRaceColProp
-    >
-{
+    > {
     constructor(n: TRaceNode, BO: TBO) {
         super(n, BO);
     }
@@ -29,8 +28,9 @@ export class TRaceRowCollection extends TBaseRowCollection<
     FindKey(SNR: number): TRaceRowCollectionItem {
         for (let i = 0; i < this.Count; i++) {
             const o: TRaceRowCollectionItem = this.Items[i];
-            if (o != null && o.SNR === SNR)
+            if (o != null && o.SNR === SNR) {
                 return o;
+            }
         }
         return null;
     }

@@ -2,16 +2,16 @@
 
 export abstract class TReplayMsg {
   Division: string = '*';
-  RunID: string = "";
+  RunID: string = '';
   Bib: number = 0;
-  Cmd: string = "";
-  MsgValue: string = "";
+  Cmd: string = '';
+  MsgValue: string = '';
 
   DBID: number = 0;
 
   MsgType: TMsgType = TMsgType.None;
-  MsgKey: string = "";
-  
+  MsgKey: string = '';
+
   constructor() {
     this.ClearResult();
   }
@@ -19,7 +19,7 @@ export abstract class TReplayMsg {
   static DiskMsgHeader(): string {
     return 'Cmd,MsgValue,ReplayInterval';
   }
-  
+
   ClearResult() {
     this.Division = '*';
     this.RunID = 'RunID';
@@ -44,10 +44,8 @@ export abstract class TReplayMsg {
     }
   }
 
-  protected IsComment(s: string): boolean
-  {
-    if ( s === "" || s.startsWith("//") || s.startsWith("#") )
-    {
+  protected IsComment(s: string): boolean {
+    if ( s === '' || s.startsWith('//') || s.startsWith('#') ) {
       return true;
     }
     return false;
@@ -55,9 +53,9 @@ export abstract class TReplayMsg {
 }
 
 export class TBaseMsg extends TReplayMsg {
-  Prot: string = "";
+  Prot: string = '';
   MsgResult: number = 0;
-  
+
   DispatchProt(): boolean {
     return false;
   }

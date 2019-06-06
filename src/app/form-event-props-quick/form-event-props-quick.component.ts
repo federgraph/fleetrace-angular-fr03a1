@@ -21,13 +21,13 @@ export class FormEventPropsQuickComponent implements OnInit {
   system = 0;
   schema = 0;
 
-  eventName: string = "Event Name";
+  eventName: string = 'Event Name';
   scoringSystem: TScoringSystem = TScoringSystem.LowPoint;
   schemaCode: number;
   isTimed: boolean;
 
-  constructor(public BOManager: TBOManager) { 
-    
+  constructor(public BOManager: TBOManager) {
+
   }
 
   ngOnInit() {
@@ -42,7 +42,7 @@ export class FormEventPropsQuickComponent implements OnInit {
     this.isTimed = formData.isTimed;
   }
 
-  patch() {    
+  patch() {
     const ep = this.BOManager.BO.EventProps;
     this.eventName = ep.EventName;
     this.scoringSystem = ep.ScoringSystem;
@@ -53,7 +53,7 @@ export class FormEventPropsQuickComponent implements OnInit {
     this.schema = this.schemaCode;
   }
 
-  submit() {    
+  submit() {
     const ep = new EventProps();
     ep.eventName = this.eventName;
     ep.scoringSystem = this.scoringSystem;

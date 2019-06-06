@@ -15,14 +15,14 @@ export class TestDataComponent {
   Items: Array<string> = [];
 
   CurrentEventAsset: TEventDataAsset;
- 
+
   @Output() dataAvailable: EventEmitter<IEventDataItem> = new EventEmitter();
 
   constructor(private httpClient: HttpClient) {
     this.EDM = new TEventDataMenu();
     this.CurrentEventAsset = new TEventDataAsset();
   }
- 
+
   selectFolder(menu: IEventDataFolder) {
     this.Folder = menu.Folder;
     this.Items = menu.Items;
@@ -31,24 +31,25 @@ export class TestDataComponent {
   loadEvent(en: string) {
     // this.CurrentEventAsset.EventName = en;
     // const pn = this.EDM.Path;
-    // this.loadAssetText(`/assets/${pn}/${this.Folder}/${en}.txt`);    
+    // this.loadAssetText(`/assets/${pn}/${this.Folder}/${en}.txt`);
   }
-  
+
   loadAssetText(fn: string): void {
     this.httpClient.get(fn, {responseType: 'text'}).subscribe(
         data => this.onAssetAvailable(data),
         (err: HttpErrorResponse) => console.log(`Got error: ${err}`)
-     );    
+     );
   }
 
-  /**async event handler, used loadEvent() */
+  /**
+   * async event handler, used loadEvent()
+   */
   onAssetAvailable(data: string) {
-    if (data !== "") {
+    if (data !== '') {
       this.CurrentEventAsset.EventData = data;
       this.dataAvailable.emit(this.CurrentEventAsset);
-    }
-    else {
-      console.log("test data component: cannot load asset data.");
+    } else {
+      console.log('test data component: cannot load asset data.');
     }
   }
 

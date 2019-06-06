@@ -1,6 +1,6 @@
-import { Color } from "../util/fb-color";
-import { TCellProp } from "./grid-cell-prop";
-import { TColGridColorClass, TColAlignment } from "./grid-def";
+import { Color } from '../util/fb-color';
+import { TCellProp } from './grid-cell-prop';
+import { TColGridColorClass, TColAlignment } from './grid-def';
 
 type TColor = number;
 
@@ -25,35 +25,35 @@ export class TColorRec {
   static readonly Silver = 0xc0c0c0;
   static readonly Purple = 0x800080;
   static readonly Fuchsia = 0xff00ff;
-  static readonly Orange = 0xffa500; 
+  static readonly Orange = 0xffa500;
   static readonly YellowGreen = 0x9acd32;
-  static readonly CornflowerBlue = 0x6495ed; 
-  static readonly Tomato = 0xff6347; 
+  static readonly CornflowerBlue = 0x6495ed;
+  static readonly Tomato = 0xff6347;
 }
 
 export class ColorConst {
   static readonly clWhite = 0xFFFFFF;
   static readonly clYellow = 0xFFFF00;
 
-  static readonly TColorRec_Cornflowerblue = 0xED9564;
-  static readonly TColorRec_Orange = 0x00A5FF;
-  static readonly TColorRec_Darkorange = 0x008CFF;
-  static readonly TColorRec_Yellowgreen = 0x32CD9A;
-  static readonly TColorRec_Crimson = 0x3C14DC;
-  static readonly TColorRec_Lightgray = 0xD3D3D3;
-  static readonly TColorRec_Darkgray = 0xA9A9A9;
-  static readonly TColorRec_Skyblue = 0xFFBF00;
+  static readonly TColorRecCornflowerblue = 0xED9564;
+  static readonly TColorRecOrange = 0x00A5FF;
+  static readonly TColorRecDarkorange = 0x008CFF;
+  static readonly TColorRecYellowgreen = 0x32CD9A;
+  static readonly TColorRecCrimson = 0x3C14DC;
+  static readonly TColorRecLightgray = 0xD3D3D3;
+  static readonly TColorRecDarkgray = 0xA9A9A9;
+  static readonly TColorRecSkyblue = 0xFFBF00;
 
-  static readonly clFleetNone = ColorConst.TColorRec_Darkorange;
+  static readonly clFleetNone = ColorConst.TColorRecDarkorange;
   static readonly clFleetYellow = 0xCCFFFF;
   static readonly clFleetBlue = 0xFFFFCC;
   static readonly clFleetRed = 0xCCCCFF;
   static readonly clFleetGreen = 0xCCFFCC;
 
-  static readonly clEventBtn = ColorConst.TColorRec_Darkorange;
+  static readonly clEventBtn = ColorConst.TColorRecDarkorange;
 
   static readonly clBlank = ColorConst.clWhite;
-  static readonly clHeader = ColorConst.TColorRec_Lightgray;
+  static readonly clHeader = ColorConst.TColorRecLightgray;
 
   static readonly clFocus = ColorConst.clYellow;
   static readonly clEditable = 0xFFFFE8;
@@ -77,172 +77,171 @@ export class ColorConst {
 
 export class TColorTranslator {
 
-  colors: { [index: string]: string} = {
-    "aliceblue": "f0f8ff", 
-    "antiquewhite": "faebd7", 
-    "aqua": "00ffff", 
-    "aquamarine": "7fffd4", 
-    "azure": "f0ffff",
+  colors: { [index: string]: string } = {
+    aliceblue: 'f0f8ff',
+    antiquewhite: 'faebd7',
+    aqua: '00ffff',
+    aquamarine: '7fffd4',
+    azure: 'f0ffff',
 
-    "beige": "f5f5dc", 
-    "bisque": "ffe4c4", 
-    "black": "000000", 
-    "blanchedalmond": "ffebcd", 
-    "blue": "0000ff",
-    "blueviolet": "8a2be2", 
-    "brown": "a52a2a", 
-    "burlywood": "deb887",
+    beige: 'f5f5dc',
+    bisque: 'ffe4c4',
+    black: '000000',
+    blanchedalmond: 'ffebcd',
+    blue: '0000ff',
+    blueviolet: '8a2be2',
+    brown: 'a52a2a',
+    burlywood: 'deb887',
 
-    "cadetblue": "5f9ea0", 
-    "chartreuse": "7fff00", 
-    "chocolate": "d2691e", 
-    "coral": "ff7f50",
-    "cornflowerblue": "6495ed", 
-    "cornsilk": "fff8dc", 
-    "crimson": "dc143c", 
-    "cyan": "00ffff",
+    cadetblue: '5f9ea0',
+    chartreuse: '7fff00',
+    chocolate: 'd2691e',
+    coral: 'ff7f50',
+    cornflowerblue: '6495ed',
+    cornsilk: 'fff8dc',
+    crimson: 'dc143c',
+    cyan: '00ffff',
 
-    "darkblue": "00008b", 
-    "darkcyan": "008b8b", 
-    "darkgoldenrod": "b8860b", 
-    "darkgray": "a9a9a9",
-    "darkgreen": "006400", 
-    "darkkhaki": "bdb76b", 
-    "darkmagenta": "8b008b", 
-    "darkolivegreen": "556b2f",
-    "darkorange": "ff8c00", 
-    "darkorchid": "9932cc", 
-    "darkred": "8b0000", 
-    "darksalmon": "e9967a",
-    "darkseagreen": "8fbc8f", 
-    "darkslateblue": "483d8b", 
-    "darkslategray": "2f4f4f", 
-    "darkturquoise": "00ced1",
-    "darkviolet": "9400d3", 
-    "deeppink": "ff1493", 
-    "deepskyblue": "00bfff", 
-    "dimgray": "696969", 
-    "dodgerblue": "1e90ff",
+    darkblue: '00008b',
+    darkcyan: '008b8b',
+    darkgoldenrod: 'b8860b',
+    darkgray: 'a9a9a9',
+    darkgreen: '006400',
+    darkkhaki: 'bdb76b',
+    darkmagenta: '8b008b',
+    darkolivegreen: '556b2f',
+    darkorange: 'ff8c00',
+    darkorchid: '9932cc',
+    darkred: '8b0000',
+    darksalmon: 'e9967a',
+    darkseagreen: '8fbc8f',
+    darkslateblue: '483d8b',
+    darkslategray: '2f4f4f',
+    darkturquoise: '00ced1',
+    darkviolet: '9400d3',
+    deeppink: 'ff1493',
+    deepskyblue: '00bfff',
+    dimgray: '696969',
+    dodgerblue: '1e90ff',
 
-    "firebrick": "b22222", 
-    "floralwhite": "fffaf0", 
-    "forestgreen": "228b22", 
-    "fuchsia": "ff00ff",
+    firebrick: 'b22222',
+    floralwhite: 'fffaf0',
+    forestgreen: '228b22',
+    fuchsia: 'ff00ff',
 
-    "gainsboro": "dcdcdc", 
-    "ghostwhite": "f8f8ff", 
-    "gold": "ffd700", 
-    "goldenrod": "daa520", 
-    "gray": "808080",
-    "green": "008000", 
-    "greenyellow": "adff2f",
+    gainsboro: 'dcdcdc',
+    ghostwhite: 'f8f8ff',
+    gold: 'ffd700',
+    goldenrod: 'daa520',
+    gray: '808080',
+    green: '008000',
+    greenyellow: 'adff2f',
 
-    "honeydew": "f0fff0", 
-    "hotpink": "ff69b4",
+    honeydew: 'f0fff0',
+    hotpink: 'ff69b4',
 
-    "indianred ": "cd5c5c", 
-    "indigo": "4b0082", 
-    "ivory": "fffff0", 
-    "khaki": "f0e68c",
+    indianred: 'cd5c5c',
+    indigo: '4b0082',
+    ivory: 'fffff0',
+    khaki: 'f0e68c',
 
-    "lavender": "e6e6fa", 
-    "lavenderblush": "fff0f5", 
-    "lawngreen": "7cfc00", 
-    "lemonchiffon": "fffacd",
-    "lightblue": "add8e6", 
-    "lightcoral": "f08080", 
-    "lightcyan": "e0ffff", 
-    "lightgoldenrodyellow": "fafad2",
-    "lightgrey": "d3d3d3", 
-    "lightgreen": "90ee90", 
-    "lightpink": "ffb6c1", 
-    "lightsalmon": "ffa07a",
-    "lightseagreen": "20b2aa", 
-    "lightskyblue": "87cefa", 
-    "lightslategray": "778899", 
-    "lightsteelblue": "b0c4de",
-    "lightyellow": "ffffe0", 
-    "lime": "00ff00", 
-    "limegreen": "32cd32", 
-    "linen": "faf0e6",
+    lavender: 'e6e6fa',
+    lavenderblush: 'fff0f5',
+    lawngreen: '7cfc00',
+    lemonchiffon: 'fffacd',
+    lightblue: 'add8e6',
+    lightcoral: 'f08080',
+    lightcyan: 'e0ffff',
+    lightgoldenrodyellow: 'fafad2',
+    lightgrey: 'd3d3d3',
+    lightgreen: '90ee90',
+    lightpink: 'ffb6c1',
+    lightsalmon: 'ffa07a',
+    lightseagreen: '20b2aa',
+    lightskyblue: '87cefa',
+    lightslategray: '778899',
+    lightsteelblue: 'b0c4de',
+    lightyellow: 'ffffe0',
+    lime: '00ff00',
+    limegreen: '32cd32',
+    linen: 'faf0e6',
 
-    "magenta": "ff00ff", 
-    "maroon": "800000", 
-    "mediumaquamarine": 
-    "66cdaa", 
-    "mediumblue": "0000cd",
-    "mediumorchid": "ba55d3", 
-    "mediumpurple": "9370d8", 
-    "mediumseagreen": "3cb371", 
-    "mediumslateblue": "7b68ee",
-    "mediumspringgreen": "00fa9a", 
-    "mediumturquoise": "48d1cc", 
-    "mediumvioletred": "c71585",
-    "midnightblue": "191970", 
-    "mintcream": "f5fffa", 
-    "mistyrose": "ffe4e1", 
-    "moccasin": "ffe4b5",
+    magenta: 'ff00ff',
+    maroon: '800000',
+    mediumaquamarine: '66cdaa',
+    mediumblue: '0000cd',
+    mediumorchid: 'ba55d3',
+    mediumpurple: '9370d8',
+    mediumseagreen: '3cb371',
+    mediumslateblue: '7b68ee',
+    mediumspringgreen: '00fa9a',
+    mediumturquoise: '48d1cc',
+    mediumvioletred: 'c71585',
+    midnightblue: '191970',
+    mintcream: 'f5fffa',
+    mistyrose: 'ffe4e1',
+    moccasin: 'ffe4b5',
 
-    "navajowhite": "ffdead", 
-    "navy": "000080",
+    navajowhite: 'ffdead',
+    navy: '000080',
 
-    "oldlace": "fdf5e6", 
-    "olive": "808000", 
-    "olivedrab": "6b8e23", 
-    "orange": "ffa500", 
-    "orangered": "ff4500", 
-    "orchid": "da70d6",
+    oldlace: 'fdf5e6',
+    olive: '808000',
+    olivedrab: '6b8e23',
+    orange: 'ffa500',
+    orangered: 'ff4500',
+    orchid: 'da70d6',
 
-    "palegoldenrod": "eee8aa", 
-    "palegreen": "98fb98", 
-    "paleturquoise": "afeeee", 
-    "palevioletred": "d87093",
-    "papayawhip": "ffefd5", 
-    "peachpuff": "ffdab9", 
-    "peru": "cd853f", 
-    "pink": "ffc0cb", 
-    "plum": "dda0dd", 
-    "powderblue": "b0e0e6", 
-    "purple": "800080",
+    palegoldenrod: 'eee8aa',
+    palegreen: '98fb98',
+    paleturquoise: 'afeeee',
+    palevioletred: 'd87093',
+    papayawhip: 'ffefd5',
+    peachpuff: 'ffdab9',
+    peru: 'cd853f',
+    pink: 'ffc0cb',
+    plum: 'dda0dd',
+    powderblue: 'b0e0e6',
+    purple: '800080',
 
-    "rebeccapurple": "663399", 
-    "red": "ff0000", 
-    "rosybrown": "bc8f8f", 
-    "royalblue": "4169e1",
+    rebeccapurple: '663399',
+    red: 'ff0000',
+    rosybrown: 'bc8f8f',
+    royalblue: '4169e1',
 
-    "saddlebrown": "8b4513", 
-    "salmon": "fa8072", 
-    "sandybrown": "f4a460", 
-    "seagreen": "2e8b57",
-    "seashell": "fff5ee", 
-    "sienna": "a0522d", 
-    "silver": "c0c0c0", 
-    "skyblue": "87ceeb",
-    "slateblue": "6a5acd", 
-    "slategray": "708090", 
-    "snow": "fffafa", 
-    "springgreen": "00ff7f", 
-    "steelblue": "4682b4",
+    saddlebrown: '8b4513',
+    salmon: 'fa8072',
+    sandybrown: 'f4a460',
+    seagreen: '2e8b57',
+    seashell: 'fff5ee',
+    sienna: 'a0522d',
+    silver: 'c0c0c0',
+    skyblue: '87ceeb',
+    slateblue: '6a5acd',
+    slategray: '708090',
+    snow: 'fffafa',
+    springgreen: '00ff7f',
+    steelblue: '4682b4',
 
-    "tan": "d2b48c", 
-    "teal": "008080", 
-    "thistle": "d8bfd8", 
-    "tomato": "ff6347", 
-    "turquoise": "40e0d0",
+    tan: 'd2b48c',
+    teal: '008080',
+    thistle: 'd8bfd8',
+    tomato: 'ff6347',
+    turquoise: '40e0d0',
 
-    "violet": "ee82ee",
+    violet: 'ee82ee',
 
-    "wheat": "f5deb3", 
-    "white": "ffffff", 
-    "whitesmoke": "f5f5f5",
+    wheat: 'f5deb3',
+    white: 'ffffff',
+    whitesmoke: 'f5f5f5',
 
-    "yellow": "ffff00", 
-    "yellowgreen": "9acd32"
+    yellow: 'ffff00',
+    yellowgreen: '9acd32'
   };
 
   static fromRGB(R: number, G: number, B: number): number {
     return (R << 16) + (G << 8) + B;
-  }  
+  }
 
   getRGBHexString(color: string): string {
     return this.colors[color.toLowerCase()];
@@ -250,8 +249,9 @@ export class TColorTranslator {
 
   hexColorString(color: string): string {
     const cs = this.getRGBHexString(color);
-    if (typeof cs !== 'undefined')
+    if (typeof cs !== 'undefined') {
       return '#' + cs;
+    }
 
     return '#ffffff';
   }
@@ -306,7 +306,7 @@ export class TColGridColorRec {
     this.AlternatingEditableColor = ColorConst.clAlternatingEditable;
     this.CurrentColor = ColorConst.clHellRot;
     this.TransColor = ColorConst.clTransRot;
-  }  
+  }
 }
 
 export enum TColGridColorScheme {
@@ -319,12 +319,13 @@ export enum TColGridColorScheme {
 
 export class TColGridColors {
 
-  static StyleName: string = "";
+  static StyleName: string = '';
 
   static GetColorScheme(): TColGridColorScheme {
     let result = TColGridColorScheme.colorRed;
-    if (this.StyleName === 'Graphite')
-      result = TColGridColorScheme.colorRubyGraphite;      
+    if (this.StyleName === 'Graphite') {
+      result = TColGridColorScheme.colorRubyGraphite;
+    }
     return result;
   }
 
@@ -424,57 +425,55 @@ export class TColGridColors {
       // case ColorConst.clMoneyGreen: return '#C0DCC0';
       // case ColorConst.clCream: return '#F0FBFF';
       default:
-        if (!ColorTranslator)
+        if (!ColorTranslator) {
           ColorTranslator = new TColorTranslator();
+        }
         return ColorTranslator.TranslateColor(c);
     }
 
   }
 
-  static CSSClass(cellProp: TCellProp): string
-  {
-      const c: TColor = cellProp.Color;
-      let s = "";
-      switch (cellProp.ColorClass)
-      {
-          case TColGridColorClass.AlternatingColor:
-              s = "a";
-              break;
-          case TColGridColorClass.AlternatingEditableColor:
-              s = "ae";
-              break;
-          case TColGridColorClass.Blank:
-              return "";
-          case TColGridColorClass.CurrentColor:
-              s = "c";
-              break;
-          case TColGridColorClass.CustomColor:
-              break;
-          case TColGridColorClass.DefaultColor:
-              s = "n";
-              break;
-          case TColGridColorClass.EditableColor:
-              s = "e";
-              break;
-          case TColGridColorClass.FocusColor:
-              return "";
-          case TColGridColorClass.HeaderColor:
-              s = "h";
-              break;
+  static CSSClass(cellProp: TCellProp): string {
+    const c: TColor = cellProp.Color;
+    let s = '';
+    switch (cellProp.ColorClass) {
+      case TColGridColorClass.AlternatingColor:
+        s = 'a';
+        break;
+      case TColGridColorClass.AlternatingEditableColor:
+        s = 'ae';
+        break;
+      case TColGridColorClass.Blank:
+        return '';
+      case TColGridColorClass.CurrentColor:
+        s = 'c';
+        break;
+      case TColGridColorClass.CustomColor:
+        break;
+      case TColGridColorClass.DefaultColor:
+        s = 'n';
+        break;
+      case TColGridColorClass.EditableColor:
+        s = 'e';
+        break;
+      case TColGridColorClass.FocusColor:
+        return '';
+      case TColGridColorClass.HeaderColor:
+        s = 'h';
+        break;
+    }
+    if (s !== '') {
+      if (cellProp.Alignment === TColAlignment.taLeftJustify) {
+        s += 'l';
       }
-      if (s !== "")
-      {
-          if (cellProp.Alignment === TColAlignment.taLeftJustify)
-              s += "l";
-          return ` class="${s}"`;
+      return ` class='${s}'`;
+    } else {
+      if (cellProp.Alignment === TColAlignment.taLeftJustify) {
+        return ` bgcolor='${this.HTMLColor(c)}' align='left'`;
+      } else {
+        return ` bgcolor='${this.HTMLColor(c)}' align='right'`;
       }
-      else
-      {
-          if (cellProp.Alignment === TColAlignment.taLeftJustify)
-              return ` bgcolor="${this.HTMLColor(c)}" align="left"`;
-          else
-              return ` bgcolor="${this.HTMLColor(c)}" align="right"`;
-      }
+    }
   }
 
 }

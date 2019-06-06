@@ -1,7 +1,7 @@
-import { TStringList } from "../util/fb-strings";
-import { TUtils } from "../util/fb-classes";
-import { TBO } from "../fr/fr-bo";
-import { TMsgToken } from "./bo-msg-token";
+import { TStringList } from '../util/fb-strings';
+import { TUtils } from '../util/fb-classes';
+import { TBO } from '../fr/fr-bo';
+import { TMsgToken } from './bo-msg-token';
 
 export class TBaseToken {
     static NewActionID = 0; // used only during construction of MsgTree
@@ -16,15 +16,14 @@ export class TBaseToken {
     TokenID: number;
 
     static New(aOwner: TBaseToken) {
-        return new TBaseToken(TBaseToken.BO, TBaseToken.MsgToken, aOwner, "");
+        return new TBaseToken(TBaseToken.BO, TBaseToken.MsgToken, aOwner, '');
     }
 
     constructor(
         public BO: TBO,
         public MsgToken: TMsgToken,
-        public Owner: TBaseToken, 
-        public FNameID: string) 
-    {
+        public Owner: TBaseToken,
+        public FNameID: string) {
         this.FActionID = TBaseToken.NewActionID;
         this.TokenID = -1;
     }
@@ -33,8 +32,9 @@ export class TBaseToken {
         let result = this.FNameID;
         if (this.Owner) {
             const s = this.Owner.NamePath();
-            if (s)
+            if (s) {
                 result = s + '.' + this.NameID();
+            }
         }
         return result;
     }
@@ -42,16 +42,17 @@ export class TBaseToken {
     NameID(): string {
         let result: string;
         if (this.TokenID > -1) {
-            if (TBaseToken.UseLongNames)
+            if (TBaseToken.UseLongNames) {
                 result = this.MsgToken.LongToken(this.FNameID) + TUtils.IntToStr(this.TokenID);
-            else
+            } else {
                 result = this.FNameID + TUtils.IntToStr(this.TokenID);
-        }
-        else {
-            if (TBaseToken.UseLongNames)
+            }
+        } else {
+            if (TBaseToken.UseLongNames) {
                 result = this.MsgToken.LongToken(this.FNameID);
-            else
+            } else {
                 result = this.FNameID;
+            }
         }
         return result;
     }
@@ -78,20 +79,22 @@ export type TInputActionEvent = (sender: object, s: string) => void;
 export class TInputAction {
     OnSend: TInputActionEvent;
     Send(sKey: string, sValue: string) {
-        if (this.OnSend)
+        if (this.OnSend) {
             this.OnSend(this, sKey + '=' + sValue);
+        }
     }
 }
 
 /** Adds validation support and sendMsg method (needed for leaf-functions) */
 export class TInputValue extends TBaseToken {
-    private static $ifdef_SKK = true;
+    private static ifdefSKK = true;
 
     private GetInputAction(): TInputAction {
-        if (this.ActionID === 0)
+        if (this.ActionID === 0) {
             return TInputActionManager.DynamicActionRef;
-        else
+        } else {
             return TInputActionManager.UndoActionRef;
+        }
     }
 
     protected IsValidBoolean(s: string): boolean {
@@ -148,28 +151,27 @@ export class TInputValue extends TBaseToken {
         return s.length < 20;
     }
     IsValidRadius(s: string): boolean {
-        if (TInputValue.$ifdef_SKK)
+        if (TInputValue.ifdefSKK) {
             return this.IsPositiveInteger(s);
-        else
-            return this.IsScrollbarInt(s);
+        }
+        return this.IsScrollbarInt(s);
     }
     IsValidKoord(s: string): boolean {
-        if (TInputValue.$ifdef_SKK)
+        if (TInputValue.ifdefSKK) {
             return this.IsPositiveInteger(s);
-        else
-            return this.IsScrollbarInt(s);
+        }
+        return this.IsScrollbarInt(s);
     }
     IsScrollbarInt(s: string): boolean {
         const t = TUtils.StrToIntDef(s, -1);
         return (t > -100 * 100) && (t < 100 * 100);
     }
 
-    IsValidRace(s: string): boolean
-    {
-        if (s != null)
+    IsValidRace(s: string): boolean {
+        if (s != null) {
             return s.length < 13;
-        else
-            return false;
+        }
+        return false;
     }
 
     get InputAction(): TInputAction { return this.GetInputAction(); }
@@ -180,12 +182,13 @@ export class TInputValue extends TBaseToken {
         if (IsValid) {
             TBaseToken.MsgID++;
             sKey = '';
-        }
-        else
+        } else {
             sKey = '//';
+        }
         sKey = sKey + this.NamePath() + '.' + aCommand;
-        if (this.InputAction != null)
+        if (this.InputAction != null) {
             this.InputAction.Send(sKey, aValue);
+        }
     }
 
 }
@@ -217,7 +220,7 @@ export class TAthlete extends TInputValue {
         this.SendMsg(this.IsValidProp(Key, Value), 'Prop_' + Key, Value);
     }
     FieldN(index: number, Value: string): void {
-        this.SendMsg(this.IsValidName(Value), "N" + index.toString(), Value);
+        this.SendMsg(this.IsValidName(Value), 'N' + index.toString(), Value);
     }
 }
 
@@ -241,7 +244,7 @@ export class TStartlist extends TInputValue {
         super(BO, MsgToken, aOwner, aNameID);
         this.FPosStore = new TTokenList(this, 'Pos', new TPos(BO, MsgToken, this, aNameID));
     }
-    
+
     Pos(index: number): TPos {
         const bt = this.FPosStore.Token(index);
         if (bt instanceof TPos) {
@@ -271,14 +274,13 @@ export class TTokenDivision extends TBaseToken {
 
     constructor(
         public BO: TBO,
-        public MsgToken: TMsgToken,        
-        public Owner: TBaseToken, 
+        public MsgToken: TMsgToken,
+        public Owner: TBaseToken,
         public FNameID: string) {
         super(BO, MsgToken, Owner, FNameID);
         this.FAthleteStore = new TTokenList(this, this.MsgToken.cTokenID, TAthlete.New(this));
         this.FRaceStore = new TTokenList(this, this.MsgToken.cTokenRace, TRun.New(this));
         this.Race1 = new TRun1(BO, MsgToken, this, this.MsgToken.cTokenRace + '1');
-
     }
 
 }
@@ -288,7 +290,7 @@ export class TMsgTree extends TBaseToken {
 
     UseMsgID: boolean = false;
     UsePrefix: boolean;
-    
+
     GetLongNames(): boolean {
         return TBaseToken.UseLongNames;
     }
@@ -301,28 +303,28 @@ export class TMsgTree extends TBaseToken {
         public MsgToken: TMsgToken,
         public Owner: TBaseToken,
         public FNameID: string
-    ) 
-    {
+    ) {
         super(BO, MsgToken, Owner, FNameID);
         TBaseToken.NewActionID = this.FActionID;
         this.FDivision = new TDivision(BO, MsgToken, this, this.MsgToken.cTokenB);
         this.UsePrefix = true;
-    }    
+    }
 
     NamePath(): string {
-        let result: string = "";
+        let result: string = '';
         if (this.UseMsgID) {
-            if (this.Owner)
+            if (this.Owner) {
                 result = this.Owner.NamePath + '.' + this.NameID;
-            else
+            } else {
                 result = this.NameID + this.MsgToken.cTokenMsg + TUtils.IntToStr(TBaseToken.MsgID);
-        }
-        else if (this.UsePrefix)
+            }
+        } else if (this.UsePrefix) {
             return super.NamePath();
+        }
 
         return result;
     }
-    
+
     get LongNames(): boolean { return this.GetLongNames(); }
     set LongNames(value: boolean) { this.SetLongNames(value); }
     get Division(): TDivision { return this.FDivision; }
@@ -369,11 +371,10 @@ export class TInputActionManager {
 export class TBib extends TInputValue {
     constructor(
         public BO: TBO,
-        public MsgToken: TMsgToken,        
-        public Owner: TBaseToken, 
+        public MsgToken: TMsgToken,
+        public Owner: TBaseToken,
         public FNameID: string
-        ) 
-    {
+        ) {
         super(BO, MsgToken, Owner, FNameID);
     }
 
@@ -382,7 +383,7 @@ export class TBib extends TInputValue {
      * @param Value value for the right side of the equal sign
      */
     XX(Value: string): void {
-        this.SendMsg(true, "XX", Value);
+        this.SendMsg(true, 'XX', Value);
     }
 
     /**
@@ -390,28 +391,28 @@ export class TBib extends TInputValue {
      * @param Value value of the QU message
      */
     QU(Value: string) {
-        this.SendMsg(this.IsValidStatus(Value), "QU", Value);
+        this.SendMsg(this.IsValidStatus(Value), 'QU', Value);
     }
     DG(Value: string) {
-        this.SendMsg(this.IsValidDSQGate(Value), "DG", Value);
+        this.SendMsg(this.IsValidDSQGate(Value), 'DG', Value);
     }
     ST(Value: string) {
-        this.SendMsg(this.IsValidTime(Value), "ST", Value);
+        this.SendMsg(this.IsValidTime(Value), 'ST', Value);
     }
     IT(channel: number, Value: string) {
-        this.SendMsg(this.IsValidTime(Value), "IT" + channel.toString(), Value);
+        this.SendMsg(this.IsValidTime(Value), 'IT' + channel.toString(), Value);
     }
     FT(Value: string) {
-        this.SendMsg(this.IsValidTime(Value), "FT", Value);
+        this.SendMsg(this.IsValidTime(Value), 'FT', Value);
     }
     Rank(Value: string) {
-        this.SendMsg(this.IsPositiveInteger(Value), "Rank", Value);
+        this.SendMsg(this.IsPositiveInteger(Value), 'Rank', Value);
     }
     RV(Value: string) {
-        this.SendMsg(this.IsValidRace(Value), "RV", Value);
+        this.SendMsg(this.IsValidRace(Value), 'RV', Value);
     }
     FM(Value: string) {
-        this.SendMsg(this.IsValidRace(Value), "FM", Value);
+        this.SendMsg(this.IsValidRace(Value), 'FM', Value);
     }
 }
 
@@ -420,14 +421,14 @@ export class TRun extends TInputValue {
 
     constructor(
         public BO: TBO,
-        public MsgToken: TMsgToken,        
-        public Owner: TBaseToken, 
+        public MsgToken: TMsgToken,
+        public Owner: TBaseToken,
         public FNameID: string) {
         super(BO, MsgToken, Owner, FNameID);
-        this.FBibStore = new TTokenList(this, "Bib", new TBib(BO, MsgToken, Owner, FNameID));
+        this.FBibStore = new TTokenList(this, 'Bib', new TBib(BO, MsgToken, Owner, FNameID));
     }
     IsRacing(Value: string): void {
-        this.SendMsg(this.IsValidBoolean(Value), "IsRacing", Value);
+        this.SendMsg(this.IsValidBoolean(Value), 'IsRacing', Value);
     }
     Bib(index: number): TBib {
         return this.FBibStore.Token(index) as TBib;
@@ -438,8 +439,8 @@ export class TRun1 extends TRun {
     Startlist: TStartlist;
     constructor(
         public BO: TBO,
-        public MsgToken: TMsgToken,        
-        public Owner: TBaseToken, 
+        public MsgToken: TMsgToken,
+        public Owner: TBaseToken,
         public FNameID: string) {
         super(BO, MsgToken, Owner, FNameID);
         this.Startlist = new TStartlist(BO, MsgToken, this, 'STL');
@@ -453,13 +454,13 @@ export class TDivision extends TInputValue {
 
     constructor(
         public BO: TBO,
-        public MsgToken: TMsgToken,        
-        public Owner: TBaseToken, 
+        public MsgToken: TMsgToken,
+        public Owner: TBaseToken,
         public FNameID: string) {
         super(BO, MsgToken, Owner, FNameID);
         this.FAthleteStore = new TTokenList(this, BO.MsgToken.cTokenID, new TAthlete(BO, MsgToken, Owner, FNameID));
         this.FRaceStore = new TTokenList(this, BO.MsgToken.cTokenRace, new TRun(BO, MsgToken, Owner, FNameID));
-        this.Race1 = new TRun1(BO, MsgToken, this, BO.MsgToken.cTokenRace + "1");
+        this.Race1 = new TRun1(BO, MsgToken, this, BO.MsgToken.cTokenRace + '1');
     }
 
     Race(index: number): TRun {

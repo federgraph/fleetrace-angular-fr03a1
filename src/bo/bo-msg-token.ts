@@ -1,22 +1,22 @@
-﻿import { Injectable } from "@angular/core";
+﻿import { Injectable } from '@angular/core';
 
 @Injectable({
     providedIn: 'root'
-  })  
+  })
 export class TMsgToken {
     cAppTitle = 'App';
-   
+
     // atoms
     cTokenA = 'FR';
     cTokenB = '*';
-    
+
     // composite
     cTokenModul = 'A.';
     cTokenSport = 'A.B.';
 
-    cTokenRequest = "A.B.Request.";
+    cTokenRequest = 'A.B.Request.';
     cTokenAnonymousRequest = 'A.*.Request.';
-    cTokenCC = "A.B.CC.";
+    cTokenCC = 'A.B.CC.';
 
     cTokenOutput = 'A.B.Output.';
     cTokenAnonymousOutput = 'A.*.Output.';
@@ -33,7 +33,7 @@ export class TMsgToken {
     // special
     readonly cTokenRace = 'W';
     readonly cTokenOption = 'Graph';
-    
+
     cDefaultPortSet = 3;
 
     LongToken(t: string): string {
@@ -54,32 +54,32 @@ export class TMsgToken {
     }
     set DivisionName(value: string) {
         this.cTokenB = value;
-        this.cTokenModul = this.cTokenA + ".";
-        this.cTokenSport = this.cTokenModul + this.cTokenB + ".";
-        this.cTokenCC = this.cTokenSport + "CC.";
-        this.cTokenRequest = this.cTokenSport + "Request.";
-        this.cTokenAnonymousRequest = this.cTokenModul + "*.Request.";
-        this.cTokenOutput = this.cTokenSport + "Output.";
-        this.cTokenOutputXML = this.cTokenOutput + "XML.";
-        this.cTokenOutputCSV = this.cTokenOutput + "CSV.";
-        this.cTokenOutputHTM = this.cTokenOutput + "HTM.";
+        this.cTokenModul = this.cTokenA + '.';
+        this.cTokenSport = this.cTokenModul + this.cTokenB + '.';
+        this.cTokenCC = this.cTokenSport + 'CC.';
+        this.cTokenRequest = this.cTokenSport + 'Request.';
+        this.cTokenAnonymousRequest = this.cTokenModul + '*.Request.';
+        this.cTokenOutput = this.cTokenSport + 'Output.';
+        this.cTokenOutputXML = this.cTokenOutput + 'XML.';
+        this.cTokenOutputCSV = this.cTokenOutput + 'CSV.';
+        this.cTokenOutputHTM = this.cTokenOutput + 'HTM.';
     }
 
     get DivisionID(): number {
         switch (this.DivisionName) {
-            case "Europe": return 1;
-            case "Laser": return 2;
-            case "Finn": return 3;
-            case "470women": return 4;
-            case "470men": return 5;
-            case "49er": return 6;
-            case "Tornado": return 7;
-            case "Yngling": return 8;
-            case "Star": return 9;
-            case "MistralWomen": return 10;
-            case "MistralMen": return 11;
+            case 'Europe': return 1;
+            case 'Laser': return 2;
+            case 'Finn': return 3;
+            case '470women': return 4;
+            case '470men': return 5;
+            case '49er': return 6;
+            case 'Tornado': return 7;
+            case 'Yngling': return 8;
+            case 'Star': return 9;
+            case 'MistralWomen': return 10;
+            case 'MistralMen': return 11;
             default: return 0;
         }
     }
-    
+
 }

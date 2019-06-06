@@ -1,20 +1,21 @@
-import { TRacePoints } from "./scoring-race-points";
-import { TFinish } from "./scoring-finish";
-import { Constants, TRSPenalty } from "./scoring-penalty";
-import { TEntry } from "./scoring-entry";
-import { TRace } from "./scoring-race";
-import { TFinishPosition } from "./scoring-finish-position";
-import { TEntryList } from "./scoring-entry-list";
-import { environment } from "../environments/environment";
+import { TRacePoints } from './scoring-race-points';
+import { TFinish } from './scoring-finish';
+import { Constants, TRSPenalty } from './scoring-penalty';
+import { TEntry } from './scoring-entry';
+import { TRace } from './scoring-race';
+import { TFinishPosition } from './scoring-finish-position';
+import { TEntryList } from './scoring-entry-list';
+import { environment } from '../environments/environment';
 
 export class TRacePointsList extends Array<TRacePoints> {
 
     constructor() {
         super();
-        if (environment.wantES5)
+        if (environment.wantES5) {
             Object.setPrototypeOf(this, TRacePointsList.prototype);
+        }
     }
-    
+
     get Count() { return this.length; }
 
     Clear() {
@@ -30,8 +31,9 @@ export class TRacePointsList extends Array<TRacePoints> {
     }
     Remove(p: TRacePoints) {
         const i = this.indexOf(p);
-        if (i > -1)
+        if (i > -1) {
             this.splice(i, 1);
+        }
     }
 
     // RemoveAll(cl: Array<TRacePoints>) {
@@ -39,19 +41,18 @@ export class TRacePointsList extends Array<TRacePoints> {
     // }
 
     /**
-    calculates number of valid finishers in this list of race points;
-    NOTE: if any of the finishes are null, returns 0;
-    NOTE: this is computationally intensive, if you can go straight
-    to the raw finish list, that is better
-    */
+     * calculates number of valid finishers in this list of race points;
+     * NOTE: if any of the finishes are null, returns 0;
+     * NOTE: this is computationally intensive, if you can go straight
+     * to the raw finish list, that is better
+     */
     get NumberFinishers(): number {
         let n = 0;
         this.forEach((pts: TRacePoints) => {
             if (pts.Race == null) {
                 // if race is null, then must be series standings, assume all valid
                 n++;
-            }
-            else {
+            } else {
                 const f: TFinish = pts.Race.getFinish(pts.Entry);
                 if (f != null && f.FinishPosition != null && f.FinishPosition.isValidFinish()) {
                     n++;
@@ -61,25 +62,24 @@ export class TRacePointsList extends Array<TRacePoints> {
         return n;
     }
 
-    /** calculates number of valid starters in this list of race points;
-    NOTE: if any of the finishes are null, returns 0;
-    NOTE: this is computationally intensive, if you can go straight;
-    to the raw finish list, that is better
-    */
+    /**
+     * calculates number of valid starters in this list of race points;
+     * NOTE: if any of the finishes are null, returns 0;
+     * NOTE: this is computationally intensive, if you can go straight;
+     * to the raw finish list, that is better
+     */
     get NumberStarters(): number {
         let n = 0;
         this.forEach((pts: TRacePoints) => {
             if (pts.Race == null) {
                 // if race is null, then must be series standings, assume all valid
                 n++;
-            }
-            else {
+            } else {
                 const f: TFinish = pts.Race.getFinish(pts.Entry);
                 if (f != null && f.FinishPosition != null) {
                     if (f.FinishPosition.isValidFinish()) {
                         n++;
-                    }
-                    else if (!(f.Penalty.hasPenalty(Constants.DNC) || f.Penalty.hasPenalty(Constants.DNS))) {
+                    } else if (!(f.Penalty.hasPenalty(Constants.DNC) || f.Penalty.hasPenalty(Constants.DNS))) {
                         n++;
                     }
                 }
@@ -89,35 +89,38 @@ export class TRacePointsList extends Array<TRacePoints> {
     }
 
     equals(obj: object): boolean {
-        if (!obj)
+        if (!obj) {
             return false;
-        if (this === obj)
+        }
+        if (this === obj) {
             return true;
+        }
         try {
             const that: TRacePointsList = obj as TRacePointsList;
-            if (that.length !== this.length)
+            if (that.length !== this.length) {
                 return false;
+            }
 
             this.forEach((rpThis: TRacePoints) => {
                 const rpThat: TRacePoints = that.findPoints(rpThis.Race, rpThis.Entry);
-                if (rpThat == null)
+                if (rpThat == null) {
                     return false;
-                if (!rpThis.equals(rpThat))
+                }
+                if (!rpThis.equals(rpThat)) {
                     return false;
+                }
             });
             return true;
-        }
-        catch // (System.InvalidCastException e)
-        {
+        } catch {
             return false;
         }
     }
 
-    /** returns first (and hopefully only) item in list for specified race and entry */
+    /**
+     * returns first (and hopefully only) item in list for specified race and entry
+     */
     findPoints(r: TRace, e: TEntry): TRacePoints {
-        let p: TRacePoints;
-        for (let i = 0; i < this.length; i++) {
-            p = this[i];
+        for (const p of this) {
             if (((e == null) || (p.Entry != null) && (p.Entry.equals(e)))
                 && ((r == null) || (p.Race != null) && (p.Race.equals(r)))) {
                 return p;
@@ -146,9 +149,10 @@ export class TRacePointsList extends Array<TRacePoints> {
         return list;
     }
 
-    /**generates a string of elements*/
+    /**generates a string of elements
+     */
     toString(): string {
-        let s = "rplist=(";
+        let s = 'rplist=(';
 
         let i = 0;
         this.forEach((p: TRacePoints) => {
@@ -163,10 +167,10 @@ export class TRacePointsList extends Array<TRacePoints> {
     }
 
     /** calculates number of racers with specified penalty;
-    NOTE: if any of the finishes are null, returns 0;
-    NOTE: this is computationally intensive, if you can go straight;
-    to the raw finish list, that is better
-    */
+     * NOTE: if any of the finishes are null, returns 0;
+     * NOTE: this is computationally intensive, if you can go straight;
+     * to the raw finish list, that is better
+     */
     getNumberWithPenalty(pen: number): number {
         let n = 0;
         this.forEach((pts: TRacePoints) => {
@@ -175,9 +179,7 @@ export class TRacePointsList extends Array<TRacePoints> {
                 if (f.hasPenaltyN(pen)) {
                     n++;
                 }
-            }
-            catch // (System.NullReferenceException e)
-            {
+            } catch {
                 // trop and ignore
             }
         });
@@ -201,10 +203,10 @@ export class TRacePointsList extends Array<TRacePoints> {
     }
 
     /**
-    clears old points for race, and creates a new set of them, 
-    returns a RacePointsList of points for this race.
-    AND autoamtically adds DNC finishes for entries without finishes
-    */
+     * clears old points for race, and creates a new set of them,
+     * returns a RacePointsList of points for this race.
+     * AND autoamtically adds DNC finishes for entries without finishes
+     */
     initPoints(r: TRace, entries: TEntryList): TRacePointsList {
         this.clearAllRaces(r);
         const rList: TRacePointsList = new TRacePointsList();
@@ -228,12 +230,15 @@ export class TRacePointsList extends Array<TRacePoints> {
     }
 
     ComparePosition(left: TRacePoints, right: TRacePoints): number {
-        if (left == null && right == null)
+        if (left == null && right == null) {
             return 0;
-        if (left == null)
+        }
+        if (left == null) {
             return - 1;
-        if (right == null)
+        }
+        if (right == null) {
             return 1;
+        }
         return left.Finish.FinishPosition.compareTo(right.Finish.FinishPosition);
     }
 
@@ -243,17 +248,22 @@ export class TRacePointsList extends Array<TRacePoints> {
     }
 
     CompareFinishPosition(left: TRacePoints, right: TRacePoints): number {
-        if (left == null && right == null)
+        if (left == null && right == null) {
             return 0;
-        if (left == null)
+        }
+        if (left == null) {
             return - 1;
-        if (right == null)
+        }
+        if (right == null) {
             return 1;
+        }
 
-        if (left.Finish == null)
+        if (left.Finish == null) {
             return - 1;
-        if (right.Finish == null)
+        }
+        if (right.Finish == null) {
             return 1;
+        }
 
         return left.Finish.FinishPosition.compareTo(right.Finish.FinishPosition);
     }
@@ -264,17 +274,18 @@ export class TRacePointsList extends Array<TRacePoints> {
     }
 
     CompareRace(left: TRacePoints, right: TRacePoints): number {
-        if (left == null && right == null)
+        if (left == null && right == null) {
             return 0;
-        if (left == null)
+        }
+        if (left == null) {
             return - 1;
-        if (right == null)
+        }
+        if (right == null) {
             return 1;
+        }
         try {
             return left.Race.compareTo(right.Race);
-        }
-        catch
-        {
+        } catch {
             return 0;
         }
     }
@@ -285,15 +296,19 @@ export class TRacePointsList extends Array<TRacePoints> {
     }
 
     ComparePoints(left: TRacePoints, right: TRacePoints): number {
-        if (left == null && right == null)
+        if (left == null && right == null) {
             return 0;
-        if (left == null)
+        }
+        if (left == null) {
             return - 1;
-        if (right == null)
+        }
+        if (right == null) {
             return 1;
+        }
         const c1: number = left.compareTo(right);
-        if (c1 !== 0)
+        if (c1 !== 0) {
             return c1;
+        }
         return left.Finish.FinishPosition.compareTo(right.Finish.FinishPosition);
     }
 

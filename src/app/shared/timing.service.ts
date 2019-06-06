@@ -9,25 +9,26 @@ import { environment } from '../../environments/environment';
 export class TimingService {
   wsurl: string;
   constructor(private webSocket: WebsocketService) {
-    if (environment.production)
+    if (environment.production) {
       this.wsurl = 'ws://' + window.location.hostname + ':3000';
-    else
+    } else {
       this.wsurl = 'ws://' + environment.apiHost + ':3000';
+  }
   }
 
   send(appId: number, msg: string) {
-    this.webSocket.send({id: appId, msg: msg});
+    this.webSocket.send({id: appId, msg});
   }
 
   watchRace(raceId: number): Observable<any> {
     const sub = Subscriber.create(
-      () => this.webSocket.send({id: raceId, msg: "empty"})
+      () => this.webSocket.send({id: raceId, msg: 'empty'})
     );
 
     return this.webSocket.createObservableSocket(this.wsurl, sub).pipe(
       map(message => JSON.parse(message)
     ));
-    
+
   }
-  
+
 }

@@ -7,14 +7,14 @@ import { TimingParams } from '../shared/test-data';
     styleUrls: ['./timing-widget.component.css']
 })
 export class TimingWidgetComponent {
-   
+
     @Input() race = 1;
     @Input() timepoint = 0;
 
     @Output() newTimeAvailable: EventEmitter<TimingParams> = new EventEmitter();
 
-    bvM = "M";
-    bvP = "P";
+    bvM = 'M';
+    bvP = 'P';
 
     bv0 = 0;
     bv1 = 1;
@@ -28,12 +28,14 @@ export class TimingWidgetComponent {
     bv9 = 9;
 
     offset = 0;
-   
+
     updateBtnValue(delta: number) {
-        if (delta < 0 && this.offset < 10)
+        if (delta < 0 && this.offset < 10) {
             return;
-        if (delta > 0 && this.offset > 80)
+        }
+        if (delta > 0 && this.offset > 80) {
             return;
+        }
 
         this.bv0 += delta;
         this.bv1 += delta;
@@ -92,10 +94,10 @@ export class TimingWidgetComponent {
         const t: TimingParams = {
             race: this.race,
             tp: this.timepoint,
-            bib: bib
+            bib
         };
 
         this.newTimeAvailable.emit(t);
     }
-   
+
 }

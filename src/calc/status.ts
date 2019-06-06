@@ -10,22 +10,22 @@ export class TStatusStrings {
 
     getString(status: TStatusEnum): string {
         switch (status) {
-            case TStatusEnum.csOK: return "ok";
-            case TStatusEnum.csDNS: return "dns";
-            case TStatusEnum.csDNF: return "dnf";
-            case TStatusEnum.csDSQ: return "dsq";
-            case TStatusEnum.csDSQPending: return "*";
+            case TStatusEnum.csOK: return 'ok';
+            case TStatusEnum.csDNS: return 'dns';
+            case TStatusEnum.csDNF: return 'dnf';
+            case TStatusEnum.csDSQ: return 'dsq';
+            case TStatusEnum.csDSQPending: return '*';
         }
-        return "";
+        return '';
     }
 }
 
 export class StatusConst {
-    static Status_OK = 0;
-    static Status_DNS = 1;
-    static Status_DNF = 2;
-    static Status_DSQ = 3;
-    static Status_DSQPending = 4;
+    static StatusOK = 0;
+    static StatusDNS = 1;
+    static StatusDNF = 2;
+    static StatusDSQ = 3;
+    static StatusDSQPending = 4;
 
     static StatusStrings: TStatusStrings = new TStatusStrings();
 
@@ -60,36 +60,37 @@ export class TStatus implements TPenalty {
         return (this.Status === TStatusEnum.csDSQ) || (this.Status === TStatusEnum.csDNF) || (this.Status === TStatusEnum.csDNS);
     }
     SetIsDSQPending(value: boolean): void {
-        if (value)
+        if (value) {
             this.Status = TStatusEnum.csDSQPending;
-        else
+        } else {
             this.Status = TStatusEnum.csOK;
+        }
     }
     GetAsInteger(): number {
         switch (this.Status) {
-            case TStatusEnum.csOK: return StatusConst.Status_OK;
-            case TStatusEnum.csDSQ: return StatusConst.Status_DSQ;
-            case TStatusEnum.csDNF: return StatusConst.Status_DNF;
-            case TStatusEnum.csDNS: return StatusConst.Status_DNS;
-            case TStatusEnum.csDSQPending: return StatusConst.Status_DSQPending;
-            default: return StatusConst.Status_OK;
+            case TStatusEnum.csOK: return StatusConst.StatusOK;
+            case TStatusEnum.csDSQ: return StatusConst.StatusDSQ;
+            case TStatusEnum.csDNF: return StatusConst.StatusDNF;
+            case TStatusEnum.csDNS: return StatusConst.StatusDNS;
+            case TStatusEnum.csDSQPending: return StatusConst.StatusDSQPending;
+            default: return StatusConst.StatusOK;
         }
     }
     SetAsInteger(value: number): void {
         switch (value) {
-            case StatusConst.Status_OK:
+            case StatusConst.StatusOK:
                 this.Status = TStatusEnum.csOK;
                 break;
-            case StatusConst.Status_DSQ:
+            case StatusConst.StatusDSQ:
                 this.Status = TStatusEnum.csDSQ;
                 break;
-            case StatusConst.Status_DNF:
+            case StatusConst.StatusDNF:
                 this.Status = TStatusEnum.csDNF;
                 break;
-            case StatusConst.Status_DNS:
+            case StatusConst.StatusDNS:
                 this.Status = TStatusEnum.csDNS;
                 break;
-            case StatusConst.Status_DSQPending:
+            case StatusConst.StatusDSQPending:
                 this.Status = TStatusEnum.csDSQPending;
                 break;
             default:
@@ -112,18 +113,19 @@ export class TStatus implements TPenalty {
     Parse(value: string): boolean {
         const temp: string = value.toLowerCase();
         let result = true;
-        if (temp === "dsq")
+        if (temp === 'dsq') {
             this.Status = TStatusEnum.csDSQ;
-        else if (temp === "dns")
+        } else if (temp === 'dns') {
             this.Status = TStatusEnum.csDNS;
-        else if (temp === "dnf")
+        } else if (temp === 'dnf') {
             this.Status = TStatusEnum.csDNF;
-        else if (temp === "ok")
+        } else if (temp === 'ok') {
             this.Status = TStatusEnum.csOK;
-        else if (temp === "*")
+        } else if (temp === '*') {
             this.Status = TStatusEnum.csDSQPending;
-        else
+        } else {
             result = false;
+        }
         return result;
     }
 
@@ -138,40 +140,31 @@ export class TStatus implements TPenalty {
                 ((A.Status === TStatusEnum.csDNF) && (B.Status === TStatusEnum.csDNF))
                 || ((A.Status === TStatusEnum.csDSQ) && (B.Status === TStatusEnum.csDSQ))
             ) {
-                if (GateA > GateB)
+                if (GateA > GateB) {
                     return 1;
-                else if (GateB > GateA)
+                } else if (GateB > GateA) {
                     return 2;
-            }
-            else
+                }
+            } else {
                 return 0;
-        }
-
-        // beide ok, niemand besser:
-        else if (A.IsOK && B.IsOK)
-            return 0;
-
-        // A ok, B out:
-        else if (A.IsOK && B.IsOut)
-            return 1;
-
-        // A out, B ok:
-        else if (A.IsOut && B.IsOK)
-            return 2;
-
-        // beide Out aber nicht gleich:
-        else // if (A.IsOut && B.IsOut)
-        {
-            if (A.Status === TStatusEnum.csDNF)
-                return 1;
-            else if (B.Status === TStatusEnum.csDNF)
+            }
+        } else if (A.IsOK && B.IsOK) {
+            return 0; // beide ok, niemand besser:
+        } else if (A.IsOK && B.IsOut) {
+            return 1; // A ok, B out:
+        } else if (A.IsOut && B.IsOK) {
+            return 2; // A out, B ok:
+        } else {
+            // if (A.IsOut && B.IsOut)
+            if (A.Status === TStatusEnum.csDNF) {
+                return 1; // beide Out aber nicht gleich:
+            } else if (B.Status === TStatusEnum.csDNF) {
                 return 2;
-            else if (A.Status === TStatusEnum.csDSQ)
+            } else if (A.Status === TStatusEnum.csDSQ) {
                 return 1;
-            else if (B.Status === TStatusEnum.csDSQ)
+            } else if (B.Status === TStatusEnum.csDSQ) {
                 return 2;
-            // else //if ((A.Status == csDNS) && (B.Status == cdDNS))
-            // return 0;
+            }
         }
         return 0;
     }

@@ -1,6 +1,6 @@
-import { TRaceNode } from "../col/race/race-node";
-import { TBO } from "./fr-bo";
-import { TEventNode } from "../col/event/event-row-collection";
+import { TRaceNode } from '../col/race/race-node';
+import { TBO } from './fr-bo';
+import { TEventNode } from '../col/event/event-row-collection';
 
 export class TNodeList {
     private EventNode: TEventNode;
@@ -20,8 +20,9 @@ export class TNodeList {
 
     private FindRaceNodeByNameID(rd: string): TRaceNode {
         this.RaceNodeList.forEach((rn: TRaceNode) => {
-            if (rn.NameID === rd)
+            if (rn.NameID === rd) {
                 return rn;
+            }
         });
         return null;
     }
@@ -49,32 +50,37 @@ export class TNodeList {
     ClearResult(rd: string): void {
         if (rd === this.EventNode.NameID) {
             this.EventNode.Collection.ClearResult();
-            if (!this.Loading)
+            if (!this.Loading) {
                 this.EventNode.Calc();
+            }
             return;
         }
 
         const bn: TRaceNode = this.FindRaceNodeByNameID(rd);
         if (bn) {
             bn.Collection.ClearResult();
-            if (!this.Loading)
+            if (!this.Loading) {
                 bn.Calc();
+            }
             return;
         }
 
         this.EventNode.Collection.ClearResult();
-        if (!this.Loading)
+        if (!this.Loading) {
             this.EventNode.Calc();
+        }
         this.RaceNodeList.forEach((rn: TRaceNode) => {
             rn.Collection.ClearResult();
-            if (!this.Loading)
+            if (!this.Loading) {
                 rn.Calc();
+            }
         });
     }
 
     CalcNodes(): void {
-        if (this.EventNode.Modified)
+        if (this.EventNode.Modified) {
             this.EventNode.Calc();
+        }
         this.RaceNodeList.forEach((rn: TRaceNode) => {
             if (rn.Modified) {
                 rn.Calc();

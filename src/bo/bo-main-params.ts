@@ -1,4 +1,4 @@
-﻿import { Injectable } from "@angular/core";
+﻿import { Injectable } from '@angular/core';
 
 export enum TEditPage {
     epNone,
@@ -11,7 +11,7 @@ export enum TEditPage {
 
 @Injectable({
     providedIn: 'root'
-  })  
+  })
 export class TMainParams {
     DisabledEditPages: Array<TEditPage> = [];
 

@@ -1,14 +1,14 @@
-import { TBaseRowCollectionItem } from "../../grid/col-grid";
-import { TStammdatenRowCollectionItem } from "../stammdaten/stammdaten-row-collection-item";
-import { TPTime } from "../../calc/time";
-import { TRaceRowCollection } from "./race-row-collection";
-import { TRaceColGrid, TRaceColProps } from "./race-grid";
-import { TRaceNode } from "./race-node";
-import { TRaceColProp } from "./race-col-prop";
-import { TPenaltyISAF } from "../../calc/penalty-isaf";
-import { TTimePoint } from "./time-point";
-import { TBO } from "../../fr/fr-bo";
-import { TRaceBO } from "./race-bo";
+import { TBaseRowCollectionItem } from '../../grid/col-grid';
+import { TStammdatenRowCollectionItem } from '../stammdaten/stammdaten-row-collection-item';
+import { TPTime } from '../../calc/time';
+import { TRaceRowCollection } from './race-row-collection';
+import { TRaceColGrid, TRaceColProps } from './race-grid';
+import { TRaceNode } from './race-node';
+import { TRaceColProp } from './race-col-prop';
+import { TPenaltyISAF } from '../../calc/penalty-isaf';
+import { TTimePoint } from './time-point';
+import { TBO } from '../../fr/fr-bo';
+import { TRaceBO } from './race-bo';
 
 export class TRaceRowCollectionItem extends TBaseRowCollectionItem<
     TRaceColGrid,
@@ -18,8 +18,7 @@ export class TRaceRowCollectionItem extends TBaseRowCollectionItem<
     TRaceRowCollectionItem,
     TRaceColProps,
     TRaceColProp
-    >
-{
+    > {
     Bib = -1;
     SNR = -1;
     private FQU: TPenaltyISAF;
@@ -28,23 +27,21 @@ export class TRaceRowCollectionItem extends TBaseRowCollectionItem<
     FT: TTimePoint;
     MRank = 0;
 
-    constructor(
-        cl: TRaceRowCollection,
-        public BO: TBO,
-    ) {
+    constructor(cl: TRaceRowCollection, public BO: TBO) {
         super(cl, BO);
         this.FQU = new TPenaltyISAF();
         this.IT = new Array<TTimePoint>(this.BO.BOParams.ITCount + 1);
-        for (let i = 0; i < this.ITCount; i++)
+        for (let i = 0; i < this.ITCount; i++) {
             this.IT[i] = new TTimePoint();
+        }
         this.FT = this.IT[0];
     }
 
     protected GetIndex(): number {
-        if (this.Collection != null)
+        if (this.Collection != null) {
             return this.Collection.Items.indexOf(this);
-        else
-            return -1;
+        }
+        return -1;
     }
 
     Assign(Source: TRaceRowCollectionItem): void {
@@ -56,16 +53,16 @@ export class TRaceRowCollectionItem extends TBaseRowCollectionItem<
             this.DG = o.DG;
             this.MRank = o.MRank;
             this.ST.Assign(o.ST);
-            for (let i = 0; i < this.ITCount; i++)
+            for (let i = 0; i < this.ITCount; i++) {
                 this.IT[i].Assign(o.IT[i]);
+            }
         }
     }
 
     ClearList(): void {
         super.ClearList();
-        //this.SNR = 0;
         this.Bib = this.BaseID;
-        this.SNR = 1000 + this.Bib;                
+        this.SNR = 1000 + this.Bib;
     }
 
     ClearResult(): void {
@@ -74,18 +71,20 @@ export class TRaceRowCollectionItem extends TBaseRowCollectionItem<
         this.DG = 0;
         this.MRank = 0;
         this.QU.Clear();
-        for (let i = 0; i < this.ITCount; i++)
+        for (let i = 0; i < this.ITCount; i++) {
             this.IT[i].Clear();
+        }
     }
 
     ClearTimePoint(tp: number): void {
         if (tp >= 0 && tp < this.ITCount) {
-            //super.ClearResult();
-            //this.ST.Clear();
-            //this.DG = 0;
-            if (tp === 0)
+            // super.ClearResult();
+            // this.ST.Clear();
+            // this.DG = 0;
+            if (tp === 0) {
               this.MRank = 0;
-            //this.QU.Clear();
+            }
+            // this.QU.Clear();
             this.IT[tp].Clear();
         }
     }
@@ -98,17 +97,17 @@ export class TRaceRowCollectionItem extends TBaseRowCollectionItem<
         return this.ru.ST;
     }
     set ST(value: TPTime) {
-        if (value != null)
+        if (value != null) {
             this.ru.ST.Assign(value);
+        }
     }
 
-    getTimePoint(Index: number) // this[int Index]
-    {
+    getTimePoint(Index: number) { // this[int Index]
         // property IT[Index: Integer]: TTimePoint read GetIT;
-        if ((Index >= 0) && (Index <= this.ITCount))
+        if ((Index >= 0) && (Index <= this.ITCount)) {
             return this.IT[Index];
-        else
-            return null;
+        }
+        return null;
     }
 
     get ITCount(): number {
@@ -117,58 +116,59 @@ export class TRaceRowCollectionItem extends TBaseRowCollectionItem<
 
     get FN(): string {
         const sd: TStammdatenRowCollectionItem = this.GetSDItem();
-        if (sd != null)
+        if (sd != null) {
             return sd.FN;
-        else
-            return "";
+        }
+        return '';
     }
 
     get LN(): string {
         const sd: TStammdatenRowCollectionItem = this.GetSDItem();
-        if (sd != null)
+        if (sd != null) {
             return sd.LN;
-        else
-            return "";
+        }
+        return '';
     }
 
     get SN(): string {
         const sd: TStammdatenRowCollectionItem = this.GetSDItem();
-        if (sd != null)
+        if (sd != null) {
             return sd.SN;
-        else
-            return "";
+        }
+        return '';
     }
 
     get NC(): string {
         const sd: TStammdatenRowCollectionItem = this.GetSDItem();
-        if (sd != null)
+        if (sd != null) {
             return sd.NC;
-        else
-            return "";
+        }
+        return '';
     }
 
     get GR(): string {
         const sd: TStammdatenRowCollectionItem = this.GetSDItem();
-        if (sd != null)
+        if (sd != null) {
             return sd.GR;
-        else
-            return "";
+        }
+        return '';
     }
 
     get PB(): string {
         const sd: TStammdatenRowCollectionItem = this.GetSDItem();
-        if (sd != null)
+        if (sd != null) {
             return sd.PB;
-        else
-            return "";
+        }
+        return '';
     }
 
     get QU(): TPenaltyISAF {
         return this.FQU;
     }
     set QU(value: TPenaltyISAF) {
-        if (value != null)
+        if (value != null) {
             this.QU.Assign(value);
+        }
     }
 
 }

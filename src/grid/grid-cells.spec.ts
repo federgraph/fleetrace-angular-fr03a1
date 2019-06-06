@@ -1,10 +1,10 @@
-import { TGridCells, TCell } from "./grid-cells";
+import { TGridCells, TCell } from './grid-cells';
 
 describe('grid-cells', () => {
 
     it('should return true for property HasGroup if GroupColor != clFleetNone', () => {
         const o = new TGridCells();
-        let s = "Hello";
+        let s = 'Hello';
 
         const k1 = new TCell(0, 0);
         o.map.set(k1.value, s);
@@ -18,10 +18,10 @@ describe('grid-cells', () => {
 
         o.SetCells(0, 0, s);
         expect(o.GetCells(0, 0)).toEqual(s);
-        
-        s = "World";
+
+        s = 'World';
         o.SetCells(0, 1, s);
-        expect(o.GetCells(0, 1)).toBe(s);        
+        expect(o.GetCells(0, 1)).toBe(s);
     });
 
 });

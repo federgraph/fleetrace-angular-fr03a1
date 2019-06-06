@@ -22,5 +22,5 @@ export class WebsocketService {
   send(message: any) {
     this.ws.send(JSON.stringify(message));
   }
-  
+
 }

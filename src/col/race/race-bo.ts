@@ -1,14 +1,14 @@
-﻿import { TBaseColBO } from "../../grid/col-grid";
-import { TRaceColGrid, TRaceColProps } from "./race-grid";
-import { TRaceNode } from "./race-node";
-import { TRaceRowCollection } from "./race-row-collection";
-import { TRaceRowCollectionItem } from "./race-row-collection-item";
-import { TRaceColProp } from "./race-col-prop";
-import { TNotifyEvent } from "../../grid/grid-def";
-import { TBO, BOIndexer } from "../../fr/fr-bo";
-import { TPTime } from "../../calc/time";
-import { TUtils } from "../../util/fb-classes";
-import { TTimePoint } from "./time-point";
+﻿import { TBaseColBO } from '../../grid/col-grid';
+import { TRaceColGrid, TRaceColProps } from './race-grid';
+import { TRaceNode } from './race-node';
+import { TRaceRowCollection } from './race-row-collection';
+import { TRaceRowCollectionItem } from './race-row-collection-item';
+import { TRaceColProp } from './race-col-prop';
+import { TNotifyEvent } from '../../grid/grid-def';
+import { TBO, BOIndexer } from '../../fr/fr-bo';
+import { TPTime } from '../../calc/time';
+import { TUtils } from '../../util/fb-classes';
+import { TTimePoint } from './time-point';
 
 export class TRaceBO extends TBaseColBO<
     TRaceColGrid,
@@ -37,91 +37,97 @@ export class TRaceBO extends TBaseColBO<
         const ss = d.getSeconds();
         const t = d.getMilliseconds();
 
-        const shh = "" + hh;
-        const smm = mm < 10 ? "0" + mm : mm;
-        const sss = ss < 10 ? "0" + ss : ss;
-        let sms = "" + t;
-        if (t < 10) { sms = "00" + t; }
-        else if (t < 100) sms = "0" + t;
-        if (digits < 3 )
+        const shh = '' + hh;
+        const smm = mm < 10 ? '0' + mm : mm;
+        const sss = ss < 10 ? '0' + ss : ss;
+        let sms = '' + t;
+        if (t < 10) {
+            sms = '00' + t;
+        } else if (t < 100) {
+            sms = '0' + t;
+        }
+        if (digits < 3 ) {
             sms = sms.substring(0, digits);
+        }
 
         const tm = shh + ':' + smm + ':' + sss + '.' + sms;
         return tm;
     }
-    
+
     private ValidateOTime(t: TPTime, Value: string): string {
-        if (true) // not Locked
-        {
-            if (Value === "-1")
+        if (true) { // not Locked
+            if (Value === '-1') {
                 t.Clear();
-            else if (Value === "n")
-                t.Parse(this.getTimeString(2)); // "HH:mm:ss.ff"
-            else
+            } else if (Value === 'n') {
+                t.Parse(this.getTimeString(2)); // 'HH:mm:ss.ff'
+            } else {
                 t.Parse(Value);
+            }
         }
         return t.toString();
     }
 
     InitColsActive(g: TRaceColGrid): void {
-        if (this.CurrentNode != null)
+        if (this.CurrentNode != null) {
             this.InitColsActiveLayout(g, this.CurrentNode.Layout);
+        }
     }
 
     InitColsActiveLayout(g: TRaceColGrid, tp: number) {
-        if (this.TableLayout === 1)
+        if (this.TableLayout === 1) {
             this.InitColsActiveLayout1(g, tp);
-        else
+        } else {
             this.InitColsActiveLayout0(g, tp);
+        }
     }
-    
+
     InitColsActiveLayout1(g: TRaceColGrid, tp: number): void {
         g.ColsActive.Clear();
-        g.AddColumn("col_BaseID");
+        g.AddColumn('col_BaseID');
 
         let cp: TRaceColProp;
 
-        g.AddColumn("col_SNR");
+        g.AddColumn('col_SNR');
 
-        g.AddColumn("col_Bib");
-        g.AddColumn("col_NC");
-        g.AddColumn("col_MRank");
+        g.AddColumn('col_Bib');
+        g.AddColumn('col_NC');
+        g.AddColumn('col_MRank');
 
-        cp = g.AddColumn("col_QU");
+        cp = g.AddColumn('col_QU');
         cp.OnFinishEdit = this.EditQU;
         cp.ReadOnly = false;
 
-        cp = g.AddColumn("col_DG");
+        cp = g.AddColumn('col_DG');
         cp.OnFinishEdit = this.EditDG;
         cp.ReadOnly = false;
 
-        cp = g.AddColumn("col_ST");
+        cp = g.AddColumn('col_ST');
         cp.OnFinishEdit = this.EditST;
         cp.ReadOnly = false;
 
         if (tp >= 0 && tp <= this.BO.BOParams.ITCount) {
-            const s: string = "col_IT" + tp.toString();
+            const s: string = 'col_IT' + tp.toString();
             cp = g.AddColumn(s);
             if (cp != null) {
                 cp.OnFinishEdit2 = this.EditIT;
                 cp.ReadOnly = false;
             }
-            g.AddColumn(s + "B");
-            // g.AddColumn(s + "BFT");
-            g.AddColumn(s + "BPL");
-            g.AddColumn(s + "Rank");
-            g.AddColumn(s + "PosR");
-            g.AddColumn(s + "PLZ");
+            g.AddColumn(s + 'B');
+            // g.AddColumn(s + 'BFT');
+            g.AddColumn(s + 'BPL');
+            g.AddColumn(s + 'Rank');
+            g.AddColumn(s + 'PosR');
+            g.AddColumn(s + 'PLZ');
         }
 
-        cp = g.AddColumn("col_FT");
+        cp = g.AddColumn('col_FT');
         cp.OnFinishEdit = this.EditFT;
         cp.ReadOnly = false;
 
-        g.AddColumn("col_ORank");
-        g.AddColumn("col_Rank");
-        g.AddColumn("col_PosR");
-        g.AddColumn("col_PLZ");
+        g.AddColumn('col_ORank');
+        g.AddColumn('col_Rank');
+        g.AddColumn('col_PosR');
+        g.AddColumn('col_PLZ');
     }
 
     InitColsActiveLayout0(g: TRaceColGrid, tp: number) {
@@ -150,10 +156,11 @@ export class TRaceBO extends TBaseColBO<
         }
         g.AddColumn('col_PosR');
     }
-      
+
     private Changed(): void {
-        if (this.OnChange != null)
+        if (this.OnChange != null) {
             this.OnChange(this);
+        }
     }
 
     EditSNR(cr: TRaceRowCollectionItem, value: string): string {
@@ -173,10 +180,11 @@ export class TRaceBO extends TBaseColBO<
     }
 
     EditQU(cr: TRaceRowCollectionItem, value: string): string {
-        if (value.indexOf(",") > -1)
+        if (value.indexOf(',') > -1) {
             cr.QU.FromString(value);
-        else
+        } else {
             cr.QU.Parse(value);
+        }
         const result = cr.QU.toString();
         cr.Modified = true;
         // Penalty-Indexer:
@@ -210,36 +218,43 @@ export class TRaceBO extends TBaseColBO<
         let cr1: TRaceRowCollectionItem;
         for (let i1 = 0; i1 < cl.Count; i1++) {
             cr1 = cl.Items[i1];
-            if (cr === cr1)
+            if (cr === cr1) {
                 continue;
-            else if (cr1.MRank > 0)
+            } else if (cr1.MRank > 0) {
                 maxRank++;
+            }
         }
 
         let result: string;
 
         // limit new value
-        if (newRank < 0)
+        if (newRank < 0) {
             newRank = 0;
-        if (newRank > maxRank + 1)
+        }
+        if (newRank > maxRank + 1) {
             newRank = maxRank + 1;
-        if (newRank > cl.Count)
+        }
+        if (newRank > cl.Count) {
             newRank = cl.Count;
+        }
 
-        if (oldRank === newRank)
+        if (oldRank === newRank) {
             result = TUtils.IntToStr(cr.MRank);
-        else {
+        } else {
             for (let i2 = 0; i2 < cl.Count; i2++) {
                 cr1 = cl.Items[i2];
-                if (cr1 === cr)
+                if (cr1 === cr) {
                     continue;
+                }
                 const temp: number = cr1.MRank;
                 // remove
-                if ((oldRank > 0) && (oldRank < temp))
+                if ((oldRank > 0) && (oldRank < temp)) {
                     cr1.MRank = temp - 1;
+                }
                 // insert
-                if ((newRank > 0) && (newRank <= cr1.MRank))
+                if ((newRank > 0) && (newRank <= cr1.MRank)) {
                     cr1.MRank = cr1.MRank + 1;
+                }
             }
             cr.MRank = newRank;
             result = TUtils.IntToStr(cr.MRank);

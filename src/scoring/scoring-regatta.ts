@@ -1,7 +1,7 @@
-import { TEntryList } from "./scoring-entry-list";
-import { TRaceList } from "./scoring-race-list";
-import { TScoringManager } from "./scoring-manager";
-import { TEntry } from "./scoring-entry";
+import { TEntryList } from './scoring-entry-list';
+import { TRaceList } from './scoring-race-list';
+import { TScoringManager } from './scoring-manager';
+import { TEntry } from './scoring-entry';
 
 export class TRegatta {
     static IsInFinalPhase = false;
@@ -9,7 +9,7 @@ export class TRegatta {
     Entries: TEntryList;
     Races: TRaceList;
 
-    Name = "";
+    Name = '';
 
     constructor(public ScoringManager: TScoringManager) {
         this.Entries = new TEntryList();
@@ -19,26 +19,26 @@ export class TRegatta {
     ScoreRegatta(): void {
         try {
             this.ScoringManager.scoreRegatta(this, this.Races);
-        }
-        catch (ex) {
-            console.log("error in scoreRegatta " + ex.Message);
+        } catch (ex) {
+            console.log('error in scoreRegatta ' + ex.Message);
         }
     }
 
     compareTo(that: TRegatta): number {
-        if (!that)
+        if (!that) {
             return - 1;
-        if (this === that)
+        }
+        if (this === that) {
             return 0;
+        }
 
-        // return this.Name.compareTo(that.Name);            
-
-        if (this.Name < that.Name)
+        if (this.Name < that.Name) {
             return -1;
-        else if (this.Name > that.Name)
+        } else if (this.Name > that.Name) {
             return 1;
-        else
+        } else {
             return 0;
+        }
     }
 
     toString(): string {

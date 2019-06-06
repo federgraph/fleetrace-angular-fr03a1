@@ -16,7 +16,7 @@ export class SaveComponent implements OnInit {
 
   option = 0;
 
-  //save options
+  // save options
   readonly soStatic = 0;
   readonly soClipboard = 1;
   readonly soSession = 2;
@@ -34,7 +34,7 @@ export class SaveComponent implements OnInit {
   ];
 
   TestOutput: string;
-  Info: string = "info";
+  Info: string = 'info';
 
   eventDataKey = 'fr-event-data';
   keyString = 'key "fr-event-data"';
@@ -44,7 +44,7 @@ export class SaveComponent implements OnInit {
   stagedStringArray: string[];
 
   constructor(
-    public BOManager: TBOManager, 
+    public BOManager: TBOManager,
     public snackBar: MatSnackBar,
     private apiService: ApiService) {
   }
@@ -53,13 +53,13 @@ export class SaveComponent implements OnInit {
   }
 
   clear() {
-    this.TestOutput = "";
-    this.Info = "pre text cleared";
+    this.TestOutput = '';
+    this.Info = 'pre text cleared';
   }
 
   clearLocalStorage() {
     localStorage.clear();
-    this.Info = "localStorage cleared";
+    this.Info = 'localStorage cleared';
   }
 
   removeKey() {
@@ -84,8 +84,8 @@ export class SaveComponent implements OnInit {
   }
 
   stage() {
-    this.TestOutput = "";
-    this.Info = "";
+    this.TestOutput = '';
+    this.Info = '';
 
     switch (this.option) {
       case this.soStatic:
@@ -132,58 +132,55 @@ export class SaveComponent implements OnInit {
   save() {
     switch (this.option) {
       case this.soStatic:
-        this.Info = "Nothing happend - you selected noop.";
-        this.TestOutput = "";
+        this.Info = 'Nothing happend - you selected noop.';
+        this.TestOutput = '';
         break;
 
       case this.soClipboard:
-        if (this.TestOutput !== "") {
+        if (this.TestOutput !== '') {
           this.copyToClipboard(this.TestOutput);
           this.Info = 'staged text copied to clipboard.';
           this.openSnackBar('copied to clipboard');
-        }
-        else {
-          this.Info = "nothing staged for copying to clipboard";
-          this.TestOutput = "";
+        } else {
+          this.Info = 'nothing staged for copying to clipboard';
+          this.TestOutput = '';
         }
         break;
 
       case this.soSession:
-        if (this.stagedCompactText !== "") {
+        if (this.stagedCompactText !== '') {
           sessionStorage.setItem(this.eventDataKey, this.stagedCompactText);
           this.Info = 'compact text saved to session storage.';
-          this.openSnackBar("saved to browser's session storage");
-        }
-        else {
-          this.Info = "nothing staged for saving to localStorage";
-          this.TestOutput = "";
+          this.openSnackBar('saved to browser\'s session storage');
+        } else {
+          this.Info = 'nothing staged for saving to localStorage';
+          this.TestOutput = '';
         }
         break;
 
       case this.soLocal:
-        if (this.stagedCompactText !== "") {
+        if (this.stagedCompactText !== '') {
           localStorage.setItem(this.eventDataKey, this.stagedCompactText);
           this.Info = 'compact text saved to local storage.';
-          this.openSnackBar("'saved to browser's local storage");
-        }
-        else {
-          this.Info = "nothing staged for saving to localStorage";
-          this.TestOutput = "";
+          this.openSnackBar('saved to browser\'s local storage');
+        } else {
+          this.Info = 'nothing staged for saving to localStorage';
+          this.TestOutput = '';
         }
         break;
 
       case this.soAjax:
-        this.Info = "saving to api service...";
+        this.Info = 'saving to api service...';
         this.stagedJson = this.getJson();
-        this.apiService.push2(this.stagedJson).subscribe(data => this.TestOutput = data.retvalue);    
+        this.apiService.push2(this.stagedJson).subscribe(data => this.TestOutput = data.retvalue);
         break;
 
       case this.soDB:
-        this.Info = "saving to firebase NoSQL DB not implemented";
+        this.Info = 'saving to firebase NoSQL DB not implemented';
         break;
 
       default:
-        this.Info = "invalid selection";
+        this.Info = 'invalid selection';
         break;
     }
 
@@ -194,11 +191,11 @@ export class SaveComponent implements OnInit {
   }
 
   copyToClipboard(value: string) {
-    const dummy = document.createElement("textarea");
+    const dummy = document.createElement('textarea');
     document.body.appendChild(dummy);
     dummy.value = value;
     dummy.select();
-    document.execCommand("copy");
+    document.execCommand('copy');
     document.body.removeChild(dummy);
   }
 

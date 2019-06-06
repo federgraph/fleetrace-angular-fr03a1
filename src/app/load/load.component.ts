@@ -12,7 +12,7 @@ export class LoadComponent implements OnInit {
 
   option = 0;
 
-  //load options
+  // load options
   readonly loStatic = 0;
   readonly loSession = 1;
   readonly loLocal = 2;
@@ -32,7 +32,7 @@ export class LoadComponent implements OnInit {
   EventName = 'imported data';
   EventData = '';
 
-  Info: string = "info";
+  Info: string = 'info';
 
   ok: boolean = false;
 
@@ -47,93 +47,92 @@ export class LoadComponent implements OnInit {
   }
 
   clear() {
-    this.TestOutput = "";
-    this.Info = "pre text cleared";
+    this.TestOutput = '';
+    this.Info = 'pre text cleared';
   }
 
   load() {
     this.ok = false;
-    this.Info = "";
-    this.TestOutput = "";
-    this.EventData = "";
+    this.Info = '';
+    this.TestOutput = '';
+    this.EventData = '';
 
 
-    let t: string = "";
+    let t: string = '';
 
     switch (this.option) {
 
-      case this.loStatic: 
-        this.EventData = TTestData.DefaultExample;         
+      case this.loStatic:
+        this.EventData = TTestData.DefaultExample;
         this.ok = true;
-        this.TestOutput = this.EventData;    
+        this.TestOutput = this.EventData;
         this.Info = 'default example retrieved from static variable.';
-      break;
+        break;
 
-      case this.loSession:        
+      case this.loSession:
         t = sessionStorage.getItem(this.eventDataKey);
 
-        if (t === undefined)
+        if (t === undefined) {
           this.Info = this.keyString + ' not found in sessionStorage, item undefined';
-        else if (t === null)
+        } else if (t === null) {
           this.Info = this.keyString + ' not found in sessionStorage, item is null.';
-        else if (t === "")
+        } else if (t === '') {
           this.Info = this.keyString + ' has no data, item is empty';
-        else {
+        } else {
           this.ok = true;
           this.EventData = t;
-          this.TestOutput = this.EventData;    
+          this.TestOutput = this.EventData;
           this.Info = this.keyString + ' retrieved from session storage';
           this.openSnackBar(this.Info);
         }
-      break;
+        break;
 
-      case this.loLocal:        
+      case this.loLocal:
         t = localStorage.getItem(this.eventDataKey);
 
-        if (t === undefined)
+        if (t === undefined) {
           this.Info = this.keyString + ' not found in localStorage, item undefined';
-        else if (t === null)
+        } else if (t === null) {
           this.Info = this.keyString + ' not found in localStorage, item is null.';
-        else if (t === "")
-          this.Info = this.keyString + ' has no data, item ""';
-        else {
+        } else if (t === '') {
+          this.Info = this.keyString + ' has no data, item';
+        } else {
           this.ok = true;
           this.EventData = t;
-          this.TestOutput = this.EventData;    
+          this.TestOutput = this.EventData;
           this.Info = this.keyString + ' retrieved from local storage';
           this.openSnackBar(this.Info);
         }
-      break;
+        break;
 
-      case this.loAjax: 
-        this.Info = "loading event data from localhost:3000 not implemented";
-      break;
+      case this.loAjax:
+        this.Info = 'loading event data from localhost:3000 not implemented';
+        break;
 
-      case this.loDB: 
-        this.Info = "loading event data from firebase NoSQL DB not implemented";
-      break;
+      case this.loDB:
+        this.Info = 'loading event data from firebase NoSQL DB not implemented';
+        break;
 
       default:
-        this.Info = "invalid selection";
-      break;
+        this.Info = 'invalid selection';
+        break;
     }
 
   }
 
   read() {
     if (this.ok && this.TestOutput !== '') {
-      const ed = new IEventDataItem;
+      const ed = new IEventDataItem();
       ed.EventName = this.EventName;
       ed.EventData = this.TestOutput;
       this.dataLoaded.emit(ed);
-    }
-    else {
+    } else {
       this.Info = 'nothing to read, load data first';
-    }  
+    }
   }
 
   openSnackBar(msg: string) {
-    this.snackBar.open(msg, null, {duration: 1500 });
-  }  
+    this.snackBar.open(msg, null, { duration: 1500 });
+  }
 
 }

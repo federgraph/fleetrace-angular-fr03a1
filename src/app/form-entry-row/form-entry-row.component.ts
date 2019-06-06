@@ -32,7 +32,7 @@ export class FormEntryRowComponent implements OnInit {
       entry: this.fb.group(new EntryRow())
     });
 
-   this.form.get('entry.SNR').setValidators([Validators.required, Validators.min(1), Validators.max(10000)]);
+    this.form.get('entry.SNR').setValidators([Validators.required, Validators.min(1), Validators.max(10000)]);
   }
 
   delete() {
@@ -78,14 +78,15 @@ export class FormEntryRowComponent implements OnInit {
   reset() {
     this.formData = new EntryRow();
     const snr = this.form.get('entry.SNR').value;
-    if (snr && snr > 0)
+    if (snr && snr > 0) {
       this.formData.SNR = snr;
+    }
     this.rebuildForm();
   }
 
   rebuildForm() {
     this.form.reset({
-       entry: this.formData
+      entry: this.formData
     });
   }
 

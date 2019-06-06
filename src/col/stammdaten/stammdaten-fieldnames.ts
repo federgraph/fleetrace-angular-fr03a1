@@ -1,27 +1,27 @@
 export class FieldNames {
     // NameSchema_N0
-    static readonly N0_FN = "FN";
-    static readonly N0_LN = "LN";
-    static readonly N0_SN = "SN";
-    static readonly N0_NC = "NC";
-    static readonly N0_GR = "GR";
-    static readonly N0_PB = "PB";
+    static readonly N0_FN = 'FN';
+    static readonly N0_LN = 'LN';
+    static readonly N0_SN = 'SN';
+    static readonly N0_NC = 'NC';
+    static readonly N0_GR = 'GR';
+    static readonly N0_PB = 'PB';
 
     // NameSchema_N1
-    static readonly N1_FN = "FirstName";
-    static readonly N1_LN = "LastName";
-    static readonly N1_SN = "ShortName";
-    static readonly N1_NC = "NOC";
-    static readonly N1_GR = "Gender";
-    static readonly N1_PB = "PersonalBest";
+    static readonly N1_FN = 'FirstName';
+    static readonly N1_LN = 'LastName';
+    static readonly N1_SN = 'ShortName';
+    static readonly N1_NC = 'NOC';
+    static readonly N1_GR = 'Gender';
+    static readonly N1_PB = 'PersonalBest';
 
     // NameSchema_N2
-    static readonly N2_FN = "N1";
-    static readonly N2_LN = "N2";
-    static readonly N2_SN = "N3";
-    static readonly N2_NC = "N4";
-    static readonly N2_GR = "N5";
-    static readonly N2_PB = "N6";
+    static readonly N2_FN = 'N1';
+    static readonly N2_LN = 'N2';
+    static readonly N2_SN = 'N3';
+    static readonly N2_NC = 'N4';
+    static readonly N2_GR = 'N5';
+    static readonly N2_PB = 'N6';
 
     // actual mapping
     public static FN = FieldNames.N0_FN;
@@ -75,10 +75,11 @@ export class FieldNames {
 
 
     static GetStandardFieldCaption(index: number, NameSchema: number): string {
-        let result = "";
+        let result = '';
 
-        if (index === 0)
-            result = "SNR";
+        if (index === 0) {
+            result = 'SNR';
+        }
 
         switch (NameSchema) {
             case 0:
@@ -115,8 +116,9 @@ export class FieldNames {
                 break;
         }
 
-        if (result === "")
-            result = "N" + index.toString();
+        if (result === '') {
+            result = 'N' + index.toString();
+        }
         return result;
     }
 

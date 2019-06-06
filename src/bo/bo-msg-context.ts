@@ -3,9 +3,9 @@ export class MsgContext {
     static BridgeLocked = false;
     static SwitchSender: object = null;
 
-    protected FMsgIn: string = "";
+    protected FMsgIn: string = '';
     MsgInCount: number = 0;
-    protected FMsgOut: string = "";
+    protected FMsgOut: string = '';
     MsgOutCount: number = 0;
     protected MsgOffset: number = 0;
 
@@ -13,9 +13,9 @@ export class MsgContext {
     }
 
     Clear(): void {
-        this.FMsgIn = "";
+        this.FMsgIn = '';
         this.MsgInCount = 0;
-        this.FMsgOut = "";
+        this.FMsgOut = '';
         this.MsgOutCount = 0;
     }
 
@@ -28,8 +28,9 @@ export class MsgContext {
     set MsgIn(value: string) {
         this.FMsgIn = value;
         this.MsgInCount++;
-        if (this.MsgInCount === -1)
+        if (this.MsgInCount === -1) {
             this.MsgInCount = 1;
+        }
         this.Update(this.MsgOffset + 3);
     }
 
@@ -40,8 +41,9 @@ export class MsgContext {
     set MsgOut(value: string) {
         this.FMsgOut = value;
         this.MsgOutCount++;
-        if (this.MsgOutCount === -1)
+        if (this.MsgOutCount === -1) {
             this.MsgOutCount = 1;
+        }
         this.Update(this.MsgOffset + 5);
     }
 

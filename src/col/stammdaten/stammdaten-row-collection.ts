@@ -1,12 +1,12 @@
-import { TStringList } from "../../util/fb-strings";
-import { FieldNames } from "./stammdaten-fieldnames";
-import { TStammdatenNode } from "./stammdaten-node";
-import { TBaseRowCollection } from "../../grid/col-grid";
-import { TStammdatenColGrid, TStammdatenColProps } from "./stammdaten-grid";
-import { TStammdatenBO } from "./stammdaten-bo";
-import { TStammdatenRowCollectionItem } from "./stammdaten-row-collection-item";
-import { TStammdatenColProp } from "./stammdaten-col-prop";
-import { TBO } from "../../fr/fr-bo";
+import { TStringList } from '../../util/fb-strings';
+import { FieldNames } from './stammdaten-fieldnames';
+import { TStammdatenNode } from './stammdaten-node';
+import { TBaseRowCollection } from '../../grid/col-grid';
+import { TStammdatenColGrid, TStammdatenColProps } from './stammdaten-grid';
+import { TStammdatenBO } from './stammdaten-bo';
+import { TStammdatenRowCollectionItem } from './stammdaten-row-collection-item';
+import { TStammdatenColProp } from './stammdaten-col-prop';
+import { TBO } from '../../fr/fr-bo';
 
 export class TStammdatenRowCollection extends TBaseRowCollection<
     TStammdatenColGrid,
@@ -25,7 +25,7 @@ export class TStammdatenRowCollection extends TBaseRowCollection<
 
     constructor(BO: TBO, n: TStammdatenNode) {
         super(n, BO);
-        this.FieldMap = "SN";
+        this.FieldMap = 'SN';
     }
 
     NewItem(): TStammdatenRowCollectionItem {
@@ -37,68 +37,73 @@ export class TStammdatenRowCollection extends TBaseRowCollection<
     FindKey(SNR: number): TStammdatenRowCollectionItem {
         for (let i = 0; i < this.Count; i++) {
             const o: TStammdatenRowCollectionItem = this.Items[i];
-            if (o != null && o.SNR === SNR)
+            if (o != null && o.SNR === SNR) {
                 return o;
+            }
         }
         return null;
     }
 
     /**
-     * Computes the disply name field according to the mapping specified in EP.FieldMap. 
+     * Computes the disply name field according to the mapping specified in EP.FieldMap.
      * Only content from N1..N6 can be used in the mapping to compute DN.
-     * 
-     * An underscore (_) or "Space" will give a single Space character.
+     *
+     * An underscore (_) or 'Space' will give a single Space character.
      * A simple dash (-) will produce a dash padded by one space, before and after.
-     * "Slash" will produce a forward slash padded by on space, before and after.
-     * "Komma will produce a comma, followed by one space."
+     * 'Slash' will produce a forward slash padded by on space, before and after.
+     * 'Komma will produce a comma, followed by one space.'
      */
     CalcDisplayName(cr: TStammdatenRowCollectionItem): void {
-        if (this.MapList.Count < 1)
+        if (this.MapList.Count < 1) {
             return;
+        }
 
         let s: string;
         let t: string;
 
-        t = "";
+        t = '';
         for (let i = 0; i < this.MapList.Count; i++) {
             s = this.MapList.SL[i];
-            if (s === FieldNames.FN || s === "FN")
+            if (s === FieldNames.FN || s === 'FN') {
                 t += cr.FN;
-            else if (s === FieldNames.LN || s === "LN")
+            } else if (s === FieldNames.LN || s === 'LN') {
                 t += cr.LN;
-            else if (s === FieldNames.SN || s === "SN")
+            } else if (s === FieldNames.SN || s === 'SN') {
                 t += cr.SN;
-            else if (s === FieldNames.NC || s === "NC")
+            } else if (s === FieldNames.NC || s === 'NC') {
                 t += cr.NC;
-            else if (s === FieldNames.GR || s === "GR")
+            } else if (s === FieldNames.GR || s === 'GR') {
                 t += cr.GR;
-            else if (s === FieldNames.PB || s === "PB")
+            } else if (s === FieldNames.PB || s === 'PB') {
                 t += cr.PB;
-            else if (s === "_" || s === "Space")
-                t += " ";
-            else if (s === "-")
-                t += " - ";
-            else if (s === "Slash")
-                t += " / ";
-            else if (s === "Komma")
-                t += ", ";
-            else
+            } else if (s === '_' || s === 'Space') {
+                t += ' ';
+            } else if (s === '-') {
+                t += ' - ';
+            } else if (s === 'Slash') {
+                t += ' / ';
+            } else if (s === 'Komma') {
+                t += ', ';
+            } else {
                 t += s;
+            }
         }
         cr.DN = t;
     }
 
     get FieldMap(): string {
         let s: string = this.MapList.CommaText;
-        if (s === "")
-            s = "SN";
+        if (s === '') {
+            s = 'SN';
+        }
         return s;
     }
     set FieldMap(value: string) {
-        if (value && value !== "")
+        if (value && value !== '') {
             this.MapList.CommaText = value;
-        else
-            this.MapList.CommaText = "SN";
+        } else {
+            this.MapList.CommaText = 'SN';
+        }
 
         this.forEach((cr: TStammdatenRowCollectionItem) => {
             this.CalcDisplayName(cr);
@@ -111,11 +116,12 @@ export class TStammdatenRowCollection extends TBaseRowCollection<
         // e.g 'EP.FieldCaptions=FN1' maps 'FN1' as Caption of col_FN at index 1)
         if (index > 0 && index <= this.FieldCaptionList.Count) {
             const s: string = this.FieldCaptionList.SL[index - 1];
-            if (s && s !== "")
+            if (s && s !== '') {
                 return s;
+            }
         }
         switch (index) {
-            case 0: return "SNR";
+            case 0: return 'SNR';
             case 1: return FieldNames.FN;
             case 2: return FieldNames.LN;
             case 3: return FieldNames.SN;
@@ -123,7 +129,7 @@ export class TStammdatenRowCollection extends TBaseRowCollection<
             case 5: return FieldNames.GR;
             case 6: return FieldNames.PB;
         }
-        return "N" + index.toString();
+        return 'N' + index.toString();
     }
 
     get FieldCaptions(): string {

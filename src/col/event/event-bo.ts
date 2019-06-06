@@ -1,11 +1,11 @@
-﻿import { TEventColGrid, TEventColProps } from "./event-grid";
-import { TEventRowCollectionItem, TEventRowCollection, TEventNode, TEventColProp } from "./event-row-collection";
-import { TBaseColBO } from "../../grid/col-grid";
-import { TEventRaceEntry } from "./event-race-entry";
-import { TUtils } from "../../util/fb-classes";
-import { TStammdatenRowCollection } from "../stammdaten/stammdaten-row-collection";
-import { TStammdatenRowCollectionItem } from "../stammdaten/stammdaten-row-collection-item";
-import { TBO } from "../../fr/fr-bo";
+﻿import { TEventColGrid, TEventColProps } from './event-grid';
+import { TEventRowCollectionItem, TEventRowCollection, TEventNode, TEventColProp } from './event-row-collection';
+import { TBaseColBO } from '../../grid/col-grid';
+import { TEventRaceEntry } from './event-race-entry';
+import { TUtils } from '../../util/fb-classes';
+import { TStammdatenRowCollection } from '../stammdaten/stammdaten-row-collection';
+import { TStammdatenRowCollectionItem } from '../stammdaten/stammdaten-row-collection-item';
+import { TBO } from '../../fr/fr-bo';
 
 export class TEventBO extends TBaseColBO<
     TEventColGrid,
@@ -15,8 +15,7 @@ export class TEventBO extends TBaseColBO<
     TEventRowCollectionItem,
     TEventColProps,
     TEventColProp
-    >
-{
+    > {
     FL: Array<TEventRowCollectionItem>;
     private FRelaxedInputMode: boolean = false;
     NameFieldCount: number;
@@ -29,7 +28,7 @@ export class TEventBO extends TBaseColBO<
         super();
         this.FL = new Array<TEventRowCollectionItem>();
         this.NameFieldCount = 2;
-        this.NameFieldOrder = "041256";
+        this.NameFieldOrder = '041256';
     }
 
     private get RaceCount(): number {
@@ -40,12 +39,13 @@ export class TEventBO extends TBaseColBO<
         return this.FRelaxedInputMode;
     }
     set RelaxedInputMode(value: boolean) {
-        if (value)
+        if (value) {
             this.FRelaxedInputMode = true;
-        else {
+        } else {
             const ev: TEventNode = this.BO.EventNode;
-            if (ev.ErrorList.IsPreconditionForStrictInputMode(ev))
+            if (ev.ErrorList.IsPreconditionForStrictInputMode(ev)) {
                 this.FRelaxedInputMode = false; // strict mode on
+            }
         }
     }
 
@@ -56,42 +56,42 @@ export class TEventBO extends TBaseColBO<
     InitColsActiveLayout(g: TEventColGrid, aLayout: number): void {
         let cp: TEventColProp;
         g.ColsActive.Clear();
-        g.AddColumn("col_BaseID");
+        g.AddColumn('col_BaseID');
 
-        cp = g.AddColumn("col_SNR");
+        cp = g.AddColumn('col_SNR');
         cp.OnFinishEdit = this.EditSNR;
         cp.ReadOnly = false;
 
-        cp = g.AddColumn("col_Bib");
+        cp = g.AddColumn('col_Bib');
         cp.OnFinishEdit = this.EditBib;
         cp.ReadOnly = false;
 
         switch (aLayout) {
             case 1:
-                g.AddColumn("col_DN");
-                g.AddColumn("col_NC");
+                g.AddColumn('col_DN');
+                g.AddColumn('col_NC');
                 break;
 
             case 2:
-                g.AddColumn("col_FN");
-                g.AddColumn("col_LN");
-                g.AddColumn("col_NC");
+                g.AddColumn('col_FN');
+                g.AddColumn('col_LN');
+                g.AddColumn('col_NC');
                 break;
 
             case 3:
-                g.AddColumn("col_FN");
-                g.AddColumn("col_LN");
-                g.AddColumn("col_SN");
-                g.AddColumn("col_NC");
+                g.AddColumn('col_FN');
+                g.AddColumn('col_LN');
+                g.AddColumn('col_SN');
+                g.AddColumn('col_NC');
                 break;
 
             default:
                 let s: string;
                 for (let i = 1; i <= this.NameFieldCount; i++) {
                     s = this.getNameFieldID(i);
-                    if (s !== "") {
+                    if (s !== '') {
                         cp = g.AddColumn(s);
-                        if (s === "col_NC") {
+                        if (s === 'col_NC') {
                             cp.OnFinishEdit = this.EditNC;
                             cp.ReadOnly = false;
                         }
@@ -102,56 +102,61 @@ export class TEventBO extends TBaseColBO<
 
         const rc: number = this.RaceCount;
         for (let r = 1; r <= rc; r++) {
-            cp = g.AddColumn("col_R" + r.toString());
+            cp = g.AddColumn('col_R' + r.toString());
             cp.OnFinishEdit2 = this.EditRaceValue;
             cp.ReadOnly = false;
         }
 
-        g.AddColumn("col_GPoints");
-        if (this.BO.EventNode.WebLayout === 0)
-            g.AddColumn("col_GRank");
+        g.AddColumn('col_GPoints');
+        if (this.BO.EventNode.WebLayout === 0) {
+            g.AddColumn('col_GRank');
+        }
 
-        if (this.BO.EventProps.ShowPosRColumn)
-            g.AddColumn("col_GPosR");
+        if (this.BO.EventProps.ShowPosRColumn) {
+            g.AddColumn('col_GPosR');
+        }
 
-        if (this.BO.EventProps.ShowPLZColumn)
-            g.AddColumn("col_PLZ");
+        if (this.BO.EventProps.ShowPLZColumn) {
+            g.AddColumn('col_PLZ');
+        }
 
-        if (this.BO.EventProps.ShowCupColumn) // if (aLayout > 0)
-            g.AddColumn("col_Cup");
+        if (this.BO.EventProps.ShowCupColumn) { // if (aLayout > 0)
+            g.AddColumn('col_Cup');
+        }
     }
 
     private getNameFieldID(Index: number): string {
         let c: string;
 
-        if (Index < 1 || Index > 6)
-            return "";
+        if (Index < 1 || Index > 6) {
+            return '';
+        }
 
-        if (Index <= this.NameFieldOrder.length)
+        if (Index <= this.NameFieldOrder.length) {
             c = this.NameFieldOrder[Index - 1];
-        else {
+        } else {
             const s: string = Index.toString();
             c = s[0];
         }
 
         switch (c) {
             case '0':
-                return "col_DN";
+                return 'col_DN';
             case '1':
-                return "col_FN";
+                return 'col_FN';
             case '2':
-                return "col_LN";
+                return 'col_LN';
             case '3':
-                return "col_SN";
+                return 'col_SN';
             case '4':
-                return "col_NC";
+                return 'col_NC';
             case '5':
-                return "col_GR";
+                return 'col_GR';
             case '6':
-                return "col_PB";
+                return 'col_PB';
         }
 
-        return "";
+        return '';
     }
 
     EditSNR(cr: TEventRowCollectionItem, value: string): string {
@@ -192,31 +197,21 @@ export class TEventBO extends TBaseColBO<
             let i: number;
             try {
                 i = Number.parseInt(ColName.substring(5), 10);
-            }
-            catch
-            {
+            } catch {
                 i = -1;
             }
 
-            if ((i < 1) || (i > this.RaceCount))
-                return "";
-
-            if (value === "$") {
-                this.BO.SetIsRacing(i, !this.BO.GetIsRacing(i));
-                cr.Modified = true;
+            if ((i < 1) || (i > this.RaceCount)) {
+                return '';
             }
 
-            // else if (Value === "§")
-            // {
-            //    RelaxedInputMode = ! RelaxedInputMode;
-            //    BO.RNode[i].IsTied := ! BO.RNode[i].IsTied;
-            // }
-
-            else if (TUtils.StrToIntDef(value, -1) > -1)
+            if (value === '$') {
+                this.BO.SetIsRacing(i, !this.BO.GetIsRacing(i));
+                cr.Modified = true;
+            } else if (TUtils.StrToIntDef(value, -1) > -1) {
                 result = this.EditOTime(cr, value, i);
-
+            } else if (value.length === 1 && this.IsFleetInputChar(value[0])) {
             // Fleet Assignment, easy edit
-            else if (value.length === 1 && this.IsFleetInputChar(value[0])) {
                 const re1: TEventRaceEntry = cr.Race[i];
                 const c: string = value[0];
                 switch (c) {
@@ -226,27 +221,19 @@ export class TEventBO extends TBaseColBO<
                     case 'g': re1.Fleet = 4; break; // green
                     case 'm': re1.Fleet = 0; break; // medal
                 }
-            }
-
+            } else if (value.length > 1 && value[0] === 'F') {
             // Fleet Assignment, general method
-            else if (value.length > 1 && value[0] === 'F') {
                 const re2: TEventRaceEntry = cr.Race[i];
                 re2.RaceValue = value; // do not broadcast Fleet Assignments
                 // cr.Modified = true;
                 // Value = re.RaceValue;
-            }
-
-            else if (value === "x") {
+            } else if (value === 'x') {
                 cr.Race[i].IsRacing = false;
                 // cr.Modified = true; //use CalcBtn
-            }
-
-            else if (value === "-x") {
+            } else if (value === '-x') {
                 cr.Race[i].IsRacing = true;
                 // cr.Modified = true; //use CalcBtn
-            }
-
-            else {
+            } else {
                 const oldQU: number = cr.Race[i].QU;
                 const oldQUString: string = cr.Race[i].Penalty.toString();
 
@@ -273,9 +260,9 @@ export class TEventBO extends TBaseColBO<
 
         if (cr != null) {
             cl = cr.Collection;
+        } else {
+            return '';
         }
-        else
-            return "";
 
         const re: TEventRaceEntry = cr.Race[RaceIndex];
 
@@ -288,15 +275,14 @@ export class TEventBO extends TBaseColBO<
             newRank = TUtils.StrToIntDef(value, oldRank);
             if ((newRank >= 0) && (newRank <= cl.Count) && (newRank !== oldRank)) {
                 re.OTime = newRank;
-                if (this.BO.RNode[RaceIndex].Collection.Items[cr.IndexOfRow])
+                if (this.BO.RNode[RaceIndex].Collection.Items[cr.IndexOfRow]) {
                     this.BO.RNode[RaceIndex].Collection.Items[cr.IndexOfRow].MRank = newRank;
+                }
                 cr.Modified = true;
             }
             result = re.OTime.toString();
-        }
-
-        // mode b: maintain contiguous rank from 1 to maxrank
-        else {
+        } else {
+            // mode b: maintain contiguous rank from 1 to maxrank
             oldRank = re.OTime;
             result = this.CheckOTime(cl, cr, RaceIndex, value);
             newRank = re.OTime;
@@ -320,8 +306,7 @@ export class TEventBO extends TBaseColBO<
             cl.FillFleetList(this.FL, r, f);
             result = this.CheckOTimeForFleet(this.FL, cr, r, value);
             this.FL.length = 0;
-        }
-        else {
+        } else {
             result = this.CheckOTimeForAll(cl, cr, r, value);
         }
         return result;
@@ -346,38 +331,43 @@ export class TEventBO extends TBaseColBO<
         oldRank = er.OTime;
         newRank = TUtils.StrToIntDef(value, er.OTime);
         maxRank = 0;
-        for (let i1 = 0; i1 < cl.length; i1++) {
-            cr1 = cl[i1];
+        for (cr1 of cl) {
             er1 = cr1.Race[r];
-            if (cr === cr1)
+            if (cr === cr1) {
                 continue;
-            else if (er1.OTime > 0)
+            } else if (er1.OTime > 0) {
                 maxRank++;
+            }
         }
 
         // limit new value
-        if (newRank < 0)
+        if (newRank < 0) {
             newRank = 0;
-        if (newRank > maxRank + 1)
+        }
+        if (newRank > maxRank + 1) {
             newRank = maxRank + 1;
-        if (newRank > cl.length)
+        }
+        if (newRank > cl.length) {
             newRank = cl.length;
+        }
 
-        if (oldRank === newRank)
+        if (oldRank === newRank) {
             result = er.OTime.toString();
-        else {
-            for (let i2 = 0; i2 < cl.length; i2++) {
-                cr1 = cl[i2];
+        } else {
+            for (cr1 of cl) {
                 er1 = cr1.Race[r];
-                if (cr1 === cr)
+                if (cr1 === cr) {
                     continue;
+                }
                 const temp: number = er1.OTime;
                 // remove
-                if ((oldRank > 0) && (oldRank < temp))
+                if ((oldRank > 0) && (oldRank < temp)) {
                     er1.OTime = temp - 1;
+                }
                 // insert
-                if ((newRank > 0) && (newRank <= er1.OTime))
+                if ((newRank > 0) && (newRank <= er1.OTime)) {
                     er1.OTime = er1.OTime + 1;
+                }
             }
             cr.Race[r].OTime = newRank;
             result = er.OTime.toString();
@@ -407,35 +397,42 @@ export class TEventBO extends TBaseColBO<
         for (let i1 = 0; i1 < cl.Count; i1++) {
             cr1 = cl.Items[i1];
             er1 = cr1.Race[r];
-            if (cr === cr1)
+            if (cr === cr1) {
                 continue;
-            else if (er1.OTime > 0)
+            } else if (er1.OTime > 0) {
                 maxRank++;
+            }
         }
 
         // limit new value
-        if (newRank < 0)
+        if (newRank < 0) {
             newRank = 0;
-        if (newRank > maxRank + 1)
+        }
+        if (newRank > maxRank + 1) {
             newRank = maxRank + 1;
-        if (newRank > cl.Count)
+        }
+        if (newRank > cl.Count) {
             newRank = cl.Count;
+        }
 
-        if (oldRank === newRank)
+        if (oldRank === newRank) {
             result = er.OTime.toString();
-        else {
+        } else {
             for (let i = 0; i < cl.Count; i++) {
                 cr1 = cl.Items[i];
                 er1 = cr1.Race[r];
-                if (cr1 === cr)
+                if (cr1 === cr) {
                     continue;
+                }
                 const temp = er1.OTime;
                 // remove
-                if ((oldRank > 0) && (oldRank < temp))
+                if ((oldRank > 0) && (oldRank < temp)) {
                     er1.OTime = temp - 1;
+                }
                 // insert
-                if ((newRank > 0) && (newRank <= er1.OTime))
+                if ((newRank > 0) && (newRank <= er1.OTime)) {
                     er1.OTime = er1.OTime + 1;
+            }
             }
             cr.Race[r].OTime = newRank;
             result = er.OTime.toString();

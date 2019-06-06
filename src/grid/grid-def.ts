@@ -1,15 +1,15 @@
-import { TStringList } from "../util/fb-strings";
+import { TStringList } from '../util/fb-strings';
 
 export class TTableCell {
     th: boolean = false;
     td: boolean = false;
-    align: string = "";
-    color: string = "";
-    text: string = "";
-  }
-  
+    align: string = '';
+    color: string = '';
+    text: string = '';
+}
+
 export class TTableRow {
-    align: string = "";
+    align: string = '';
     Cols: Array<TTableCell> = [];
 }
 
@@ -23,11 +23,11 @@ export class TColCaptionBag {
 
     constructor() {
         this.FSL = new TStringList();
-        this.IsPersistent = false;      
+        this.IsPersistent = false;
     }
-    
+
     private getCount(): number {
-        return this.FSL.Count;        
+        return this.FSL.Count;
     }
     private getText(): string {
         return this.FSL.Text;
@@ -45,10 +45,11 @@ export class TColCaptionBag {
         let s: string;
         for (let i = 0; i < this.FSL.SL.length; i++) {
             s = this.FSL.SL[i];
-            if (s.startsWith(k))
+            if (s.startsWith(k)) {
                 return this.FSL.ValueFromIndex(i);
-        }        
-        return "";
+            }
+        }
+        return '';
     }
 
     setCaption(key: string, value: string) {
@@ -56,12 +57,13 @@ export class TColCaptionBag {
         let s: string;
         for (let i = 0; i < this.FSL.SL.length; i++) {
             s = this.FSL.SL[i];
-            if (s.startsWith(k))
+            if (s.startsWith(k)) {
                 return this.FSL.SL[i] = k + value;
-        }                
-        this.IsPersistent = true;      
+            }
+        }
+        this.IsPersistent = true;
     }
-    
+
     get Count(): number { return this.getCount(); }
     get Text(): string { return this.getText(); }
     set Text(value: string) { this.setText(value); }
@@ -95,12 +97,12 @@ export enum TShiftState {
     ssRight
 }
 export type TNotifyEvent = (sender: object) => void;
-export type TKeyEvent = (Sender: object, Key: Number, Shift: TShiftState) => void;
+export type TKeyEvent = (Sender: object, Key: number, Shift: TShiftState) => void;
 
 export enum TColAlignment {
-  taLeftJustify,
-  taRightJustify,
-  taCenter
+    taLeftJustify,
+    taRightJustify,
+    taCenter
 }
 
 export type TColor = number;
@@ -113,11 +115,11 @@ export enum TColType {
 }
 
 export class TDisplayOrderItem {
-    CellString: string = "";
+    CellString: string = '';
     RowIndex: number = 0;
     equals(that: TDisplayOrderItem): boolean {
         return (this.RowIndex === that.RowIndex && this.CellString === that.CellString);
-    }    
+    }
 }
 
 export class TDisplayOrderList {
@@ -135,24 +137,23 @@ export class TDisplayOrderList {
     Clear() {
         this.Items = [];
     }
-    
+
     AddNumber(s: string, i: number): void {
         const cr = new TDisplayOrderItem();
         cr.CellString = s;
         cr.RowIndex = i;
         this.Items.push(cr);
     }
-    
+
     GetDisplayIndex(i: number): number {
-        if (i >= 0 && i < this.Items.length)
-        {
-          if (this.Descending)
-            return this.Items[this.Items.length-1-i].RowIndex;
-          else
-            return this.Items[i].RowIndex;
+        if (i >= 0 && i < this.Items.length) {
+            if (this.Descending) {
+                return this.Items[this.Items.length - 1 - i].RowIndex;
+            } else {
+                return this.Items[i].RowIndex;
+            }
         }
-        else
-          return i;
+        return i;
     }
 
     Sort() {
@@ -160,21 +161,21 @@ export class TDisplayOrderList {
     }
 
     CompareDisplayOrederItems(left: TDisplayOrderItem, right: TDisplayOrderItem): number {
-        if (left.CellString < right.CellString)
-          return -1;
-        else if (left.CellString === right.CellString)
-          return 0;
-        else
-            return 1;
-    }    
-    
+        if (left.CellString < right.CellString) {
+            return -1;
+        } else if (left.CellString === right.CellString) {
+            return 0;
+        }
+        return 1;
+    }
+
     toString() {
-        let s = "";
+        let s = '';
         const crlf = '\r\n';
-        for(let i = 0; i < this.Count; i++) {
+        for (let i = 0; i < this.Count; i++) {
             s += `${i} ${this.Items[i].CellString}${crlf}`;
         }
         return s;
     }
-  
-  }
+
+}

@@ -30,17 +30,15 @@ export class FormEventParamsQuickComponent implements OnInit {
   raceDelta(delta: number) {
     if (delta < 0 && this.RaceCount > 1) {
       this.RaceCount--;
-    }
-    else if (delta > 0 && this.RaceCount < 21) {
+    } else if (delta > 0 && this.RaceCount < 21) {
       this.RaceCount++;
-    }    
+    }
   }
 
   itDelta(delta: number) {
     if (delta < 0 && this.ITCount > 0) {
       this.ITCount--;
-    }
-    else if (delta > 0 && this.ITCount < 24) {
+    } else if (delta > 0 && this.ITCount < 24) {
       this.ITCount++;
     }
   }
@@ -48,14 +46,13 @@ export class FormEventParamsQuickComponent implements OnInit {
   slDelta(delta: number) {
     if (delta < 0 && this.StartlistCount > 2) {
       this.StartlistCount--;
-    }
-    else if (delta > 0 && this.StartlistCount < 200) {
+    } else if (delta > 0 && this.StartlistCount < 200) {
       this.StartlistCount++;
     }
   }
-  
+
   reset() {
-    this.RaceCount= 2;
+    this.RaceCount = 2;
     this.ITCount = 0;
     this.StartlistCount = 8;
   }
@@ -69,16 +66,17 @@ export class FormEventParamsQuickComponent implements OnInit {
 
   submit() {
     const ep = new EventParams();
-    
-    if (this.newEvent)
+
+    if (this.newEvent) {
       ep.createOption = 0;
-    else
+    } else {
       ep.createOption = 1;
+    }
 
     ep.raceCount = this.RaceCount;
     ep.itCount = this.ITCount;
     ep.startlistCount = this.StartlistCount;
-    
+
     this.paramsChanged.emit(ep);
   }
 

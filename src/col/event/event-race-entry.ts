@@ -1,11 +1,11 @@
-﻿import { TUtils } from "../../util/fb-classes";
-import { TFinishError } from "./event-enums";
-import { TPenaltyISAF } from "../../calc/penalty-isaf";
-import { TEnumSet } from "../../util/fb-enumset";
-import { TEventNode } from "./event-row-collection";
+﻿import { TUtils } from '../../util/fb-classes';
+import { TFinishError } from './event-enums';
+import { TPenaltyISAF } from '../../calc/penalty-isaf';
+import { TEnumSet } from '../../util/fb-enumset';
+import { TEventNode } from './event-row-collection';
 
 export class TEventRaceEntryInspection {
-    Penalty = "";
+    Penalty = '';
     CTime = 0;
     IsRacing = true;
     Fleet = 0;
@@ -15,7 +15,7 @@ export class TEventRaceEntryInspection {
     Rank = 0;
     PosR = 0;
     PLZ = 0;
-    FinishErrors = "";
+    FinishErrors = '';
 }
 
 export class TEventRaceEntry {
@@ -31,7 +31,7 @@ export class TEventRaceEntry {
     PosR = 0;
     PLZ = 0;
     FinishErrors: TEnumSet = new TEnumSet(TFinishError.error_Contiguous_OTime);
-    
+
     constructor(private EventNode: TEventNode) {
         this.Clear();
     }
@@ -52,26 +52,33 @@ export class TEventRaceEntry {
         o.PLZ = this.PLZ;
 
         o.FinishErrors = this.FinishErrors.toString();
-    
+
         return o;
     }
 
     Sanitize() {
-        if (this.Rank === undefined)
-          this.Rank = -1;
-        if (this.PosR === undefined)
-          this.PosR = -1;
-        if (this.PLZ === undefined)
-          this.PLZ = -1;
-          if (this.DG === undefined)
-          this.DG = -1;
-        if (this.Drop === undefined)
-          this.Drop = false;
-        if (this.Fleet === undefined)
-          this.Fleet = -1;
-        if (this.CTime === undefined)
-          this.CTime = 0;
-          
+        if (this.Rank === undefined) {
+            this.Rank = -1;
+        }
+        if (this.PosR === undefined) {
+            this.PosR = -1;
+        }
+        if (this.PLZ === undefined) {
+            this.PLZ = -1;
+        }
+        if (this.DG === undefined) {
+            this.DG = -1;
+        }
+        if (this.Drop === undefined) {
+            this.Drop = false;
+        }
+        if (this.Fleet === undefined) {
+            this.Fleet = -1;
+        }
+        if (this.CTime === undefined) {
+            this.CTime = 0;
+        }
+
     }
     Clear(): void {
         this.IsRacing = true;
@@ -107,7 +114,8 @@ export class TEventRaceEntry {
             case 0:
                 sPoints = this.Points; // Default
                 break;
-            case 1: sPoints = this.OTime.toString(); // FinishPos
+            case 1:
+                sPoints = this.OTime.toString(); // FinishPos
                 break;
             case 2:
                 sPoints = this.Points; // Points
@@ -119,36 +127,36 @@ export class TEventRaceEntry {
         let result: string = sPoints;
 
         const sQU: string = this.Penalty.toString();
-        if (sQU !== "")
-            result = result + "/" + sQU;
+        if (sQU !== '') {
+            result = result + '/' + sQU;
+        }
 
-        if (this.Drop)
-            result = "[" + result + "]";
+        if (this.Drop) {
+            result = '[' + result + ']';
+        }
 
-        if (!this.IsRacing)
-            result = "(" + result + ")";
+        if (!this.IsRacing) {
+            result = '(' + result + ')';
+        }
 
         return result;
     }
     set RaceValue(value: string) {
         /* use special value 0 to delete a FinishPosition, instead of -1,
           so that the sum of points is not affected*/
-        if (value === "0")
+        if (value === '0') {
             this.OTime = 0;
-        else if (TUtils.StrToIntDef(value, -1) > 0)
+        } else if (TUtils.StrToIntDef(value, -1) > 0) {
             this.OTime = Number.parseInt(value, 10);
-
-        else if (value.length > 1 && value[0] === 'F')
+        } else if (value.length > 1 && value[0] === 'F') {
             this.Fleet = this.ParseFleet(value);
-
-
-        else if (value === "x")
+        } else if (value === 'x') {
             this.IsRacing = false;
-        else if (value === "-x")
+        } else if (value === '-x') {
             this.IsRacing = true;
-
-        else
+        } else {
             this.Penalty.Parse(value);
+        }
     }
 
     get QU(): number {
@@ -179,10 +187,10 @@ export class TEventRaceEntry {
     }
 
     get Layout(): number {
-        if (this.EventNode != null)
+        if (this.EventNode != null) {
             return this.EventNode.ShowPoints;
-        else
-            return 0;
+        }
+        return 0;
     }
 
     ParseFleet(value: string): number {

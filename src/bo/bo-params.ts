@@ -21,7 +21,7 @@ export class TBOParams {
 
     FieldCount = 6;
 
-    DivisionName = "*";
+    DivisionName = '*';
 
     constructor() {
         this.MaxStartlistCount = 256;
@@ -63,20 +63,26 @@ export class TBOParams {
     }
 
     ForceWithinLimits(): void {
-        if (this.RaceCount < this.MinRaceCount)
+        if (this.RaceCount < this.MinRaceCount) {
             this.RaceCount = this.MinRaceCount;
-        if (this.RaceCount > this.MaxRaceCount)
+        }
+        if (this.RaceCount > this.MaxRaceCount) {
             this.RaceCount = this.MaxRaceCount;
+        }
 
-        if (this.ITCount < this.MinITCount)
+        if (this.ITCount < this.MinITCount) {
             this.ITCount = this.MinITCount;
-        if (this.ITCount > this.MaxITCount)
+        }
+        if (this.ITCount > this.MaxITCount) {
             this.ITCount = this.MaxITCount;
+        }
 
-        if (this.StartlistCount < this.MinStartlistCount)
+        if (this.StartlistCount < this.MinStartlistCount) {
             this.StartlistCount = this.MinStartlistCount;
-        if (this.StartlistCount > this.MaxStartlistCount)
+        }
+        if (this.StartlistCount > this.MaxStartlistCount) {
             this.StartlistCount = this.MaxStartlistCount;
+        }
     }
 
     IsWithinLimits(): boolean {
@@ -91,17 +97,17 @@ export class TBOParams {
 
     get DivisionID(): number {
         switch (this.DivisionName) {
-            case "Europe": return 1;
-            case "Laser": return 2;
-            case "Finn": return 3;
-            case "470women": return 4;
-            case "470men": return 5;
-            case "49er": return 6;
-            case "Tornado": return 7;
-            case "Yngling": return 8;
-            case "Star": return 9;
-            case "MistralWomen": return 10;
-            case "MistralMen": return 11;
+            case 'Europe': return 1;
+            case 'Laser': return 2;
+            case 'Finn': return 3;
+            case '470women': return 4;
+            case '470men': return 5;
+            case '49er': return 6;
+            case 'Tornado': return 7;
+            case 'Yngling': return 8;
+            case 'Star': return 9;
+            case 'MistralWomen': return 10;
+            case 'MistralMen': return 11;
             default: return 0;
         }
 

@@ -1,20 +1,20 @@
-﻿import { TBaseRowCollection, TBaseNode, TBaseColProp, TBaseRowCollectionItem } from "../../grid/col-grid";
-import { TEventColGrid, TEventColProps } from "./event-grid";
-import { TEventBO } from "./event-bo";
-import { StringBuilder } from "../../util/fb-strings";
-import { TBO } from "../../fr/fr-bo";
-import { TNotifyEvent, TColAlignment, TColType, TColor } from "../../grid/grid-def";
-import { TColorMode, TEntryError, TFinishError, FleetColor } from "./event-enums";
-import { TStammdatenRowCollection } from "../stammdaten/stammdaten-row-collection";
-import { TOTimeErrorList } from "../../fr/fr-error-list";
-import { TEventRaceEntry } from "./event-race-entry";
-import { TUtils } from "../../util/fb-classes";
-import { FieldNames } from "../stammdaten/stammdaten-fieldnames";
-import { TColorRec, ColorConst } from "../../grid/grid-color";
-import { TStammdatenRowCollectionItem } from "../stammdaten/stammdaten-row-collection-item";
-import { TProps } from "../../util/fb-props";
-import { TCellProp } from "../../grid/grid-cell-prop";
-import { TEnumSet } from "../../util/fb-enumset";
+﻿import { TBaseRowCollection, TBaseNode, TBaseColProp, TBaseRowCollectionItem } from '../../grid/col-grid';
+import { TEventColGrid, TEventColProps } from './event-grid';
+import { TEventBO } from './event-bo';
+import { StringBuilder } from '../../util/fb-strings';
+import { TBO } from '../../fr/fr-bo';
+import { TNotifyEvent, TColAlignment, TColType, TColor } from '../../grid/grid-def';
+import { TColorMode, TEntryError, TFinishError, FleetColor } from './event-enums';
+import { TStammdatenRowCollection } from '../stammdaten/stammdaten-row-collection';
+import { TOTimeErrorList } from '../../fr/fr-error-list';
+import { TEventRaceEntry } from './event-race-entry';
+import { TUtils } from '../../util/fb-classes';
+import { FieldNames } from '../stammdaten/stammdaten-fieldnames';
+import { TColorRec, ColorConst } from '../../grid/grid-color';
+import { TStammdatenRowCollectionItem } from '../stammdaten/stammdaten-row-collection-item';
+import { TProps } from '../../util/fb-props';
+import { TCellProp } from '../../grid/grid-cell-prop';
+import { TEnumSet } from '../../util/fb-enumset';
 
 export class TEventRowCollectionItem extends TBaseRowCollectionItem<
     TEventColGrid,
@@ -24,8 +24,7 @@ export class TEventRowCollectionItem extends TBaseRowCollectionItem<
     TEventRowCollectionItem,
     TEventColProps,
     TEventColProp
-    >
-{
+    > {
     SNR: number = 0;
     Bib: number = 0;
 
@@ -52,10 +51,10 @@ export class TEventRowCollectionItem extends TBaseRowCollectionItem<
     }
 
     protected GetIndex(): number {
-        if (this.Collection != null)
+        if (this.Collection != null) {
             return this.Collection.Items.indexOf(this);
-        else
-            return -1;
+        }
+        return -1;
     }
 
     private GetSDItem(): TStammdatenRowCollectionItem {
@@ -66,18 +65,18 @@ export class TEventRowCollectionItem extends TBaseRowCollectionItem<
         if (o != null) {
             this.SNR = o.SNR;
             this.Bib = o.Bib;
-            for (let i = 0; i < this.Race.length; i++)
+            for (let i = 0; i < this.Race.length; i++) {
                 this.Race[i].Assign(o.Race[i]);
+            }
         }
     }
 
     ClearList(): void {
         super.ClearList();
-        //this.SNR = 0;
         this.Bib = this.BaseID;
-        this.SNR = 1000 + this.Bib;        
+        this.SNR = 1000 + this.Bib;
     }
-    
+
     ClearResult(): void {
         let ere: TEventRaceEntry;
         super.ClearResult();
@@ -95,26 +94,28 @@ export class TEventRowCollectionItem extends TBaseRowCollectionItem<
         if (this.ru.UseFleets) {
             if (TEventColProp.IsRaceNumID(NumID)) {
                 r = TEventColProp.RaceIndex(NumID);
-                if (this.ru.ColorMode === TColorMode.ColorMode_Error)
+                if (this.ru.ColorMode === TColorMode.ColorMode_Error) {
                     cellProp.GroupColor = this.FleetColorBold(r, TColorRec.Black);
+                }
             }
         }
     }
 
     ColumnToColorDef(cp: TEventColProp, aColor: TColor): TColor {
         const ColorMode: TColorMode = this.ru.ColorMode;
-        if (ColorMode === TColorMode.ColorMode_None)
+        if (ColorMode === TColorMode.ColorMode_None) {
             return TColorRec.White;
-        else {
+        } else {
             const NumID: number = cp.NumID;
-            if (NumID === TEventColProp.NumID_Bib)
+            if (NumID === TEventColProp.NidBib) {
                 return this.BibColor(aColor);
-            else if (NumID === TEventColProp.NumID_SNR)
+            } else if (NumID === TEventColProp.NidSNR) {
                 return this.SNRColor(aColor);
-            else if (TEventColProp.IsRaceNumID(NumID))
+            } else if (TEventColProp.IsRaceNumID(NumID)) {
                 return this.RaceColor(NumID, aColor);
-            else
+            } else {
                 return aColor;
+            }
         }
     }
 
@@ -143,59 +144,61 @@ export class TEventRowCollectionItem extends TBaseRowCollectionItem<
     }
 
     private BibColor(aColor: TColor): TColor {
-        if (this.EntryErrors.IsMember(TEntryError.error_Duplicate_Bib))
+        if (this.EntryErrors.IsMember(TEntryError.error_Duplicate_Bib)) {
             return TColorRec.Aqua;
-        else if (this.EntryErrors.IsMember(TEntryError.error_OutOfRange_Bib))
+        } else if (this.EntryErrors.IsMember(TEntryError.error_OutOfRange_Bib)) {
             return TColorRec.Aqua;
-        else
-            return aColor;
+        }
+        return aColor;
     }
 
     private SNRColor(aColor: TColor): TColor {
-        if (this.EntryErrors.IsMember(TEntryError.error_Duplicate_SNR))
+        if (this.EntryErrors.IsMember(TEntryError.error_Duplicate_SNR)) {
             return TColorRec.Aqua;
-        else if (this.EntryErrors.IsMember(TEntryError.error_OutOfRange_SNR))
+        } else if (this.EntryErrors.IsMember(TEntryError.error_OutOfRange_SNR)) {
             return TColorRec.Aqua;
-        else
-            return aColor;
+        }
+        return aColor;
     }
 
     private RaceErrorColor(r: number, aColor: TColor): TColor {
-        if (this.Race[r].FinishErrors.IsMember(TFinishError.error_Duplicate_OTime))
+        if (this.Race[r].FinishErrors.IsMember(TFinishError.error_Duplicate_OTime)) {
             return ColorConst.clHellRot;
-        else if (this.Race[r].FinishErrors.IsMember(TFinishError.error_Contiguous_OTime))
+        } else if (this.Race[r].FinishErrors.IsMember(TFinishError.error_Contiguous_OTime)) {
             return TColorRec.Aqua;
-        else if (this.Race[r].FinishErrors.IsMember(TFinishError.error_OutOfRange_OTime_Max))
+        } else if (this.Race[r].FinishErrors.IsMember(TFinishError.error_OutOfRange_OTime_Max)) {
             return TColorRec.Olive;
-        else if (this.Race[r].FinishErrors.IsMember(TFinishError.error_OutOfRange_OTime_Min))
+        } else if (this.Race[r].FinishErrors.IsMember(TFinishError.error_OutOfRange_OTime_Min)) {
             return TColorRec.Olive;
-        else
-            return aColor;
+        }
+        return aColor;
     }
 
     private RaceColor(NumID: number, aColor: TColor): TColor {
         let result: TColor = aColor;
         const r: number = TEventColProp.RaceIndex(NumID);
         if (r > 0) {
-            if (!this.BO.GetIsRacing(r))
+            if (!this.BO.GetIsRacing(r)) {
                 result = ColorConst.clBtnFace;
-            else if (this.ru.ColorMode === TColorMode.ColorMode_Error)
+            } else if (this.ru.ColorMode === TColorMode.ColorMode_Error) {
                 result = this.RaceErrorColor(r, aColor);
-            else if (this.ru.ColorMode === TColorMode.ColorMode_Fleet)
+            } else if (this.ru.ColorMode === TColorMode.ColorMode_Fleet) {
                 result = this.FleetColor(r, aColor);
+            }
         }
         return result;
     }
 
     getRaceValue(Index: number): string {
-        if ((Index >= 0) && (Index < this.Race.length))
+        if ((Index >= 0) && (Index < this.Race.length)) {
             return this.Race[Index].RaceValue;
-        else
-            return "";
+        }
+        return '';
     }
     setRaceValue(Index: number, value: string) {
-        if ((Index >= 0) && (Index < this.Race.length))
+        if ((Index >= 0) && (Index < this.Race.length)) {
             this.Race[Index].RaceValue = value;
+        }
     }
 
 
@@ -208,66 +211,66 @@ export class TEventRowCollectionItem extends TBaseRowCollectionItem<
 
     get FN(): string {
         const sd: TStammdatenRowCollectionItem = this.GetSDItem();
-        if (sd != null)
+        if (sd != null) {
             return sd.FN;
-        else
-            return "";
+        }
+        return '';
     }
 
     get LN(): string {
         const sd: TStammdatenRowCollectionItem = this.GetSDItem();
-        if (sd != null)
+        if (sd != null) {
             return sd.LN;
-        else
-            return "";
+        }
+        return '';
     }
 
     get SN(): string {
         const sd: TStammdatenRowCollectionItem = this.GetSDItem();
-        if (sd != null)
+        if (sd != null) {
             return sd.SN;
-        else
-            return "";
+        }
+        return '';
     }
 
     get NC(): string {
         const sd: TStammdatenRowCollectionItem = this.GetSDItem();
-        if (sd != null)
+        if (sd != null) {
             return sd.NC;
-        else
-            return "";
+        }
+        return '';
     }
 
     get GR(): string {
         const sd: TStammdatenRowCollectionItem = this.GetSDItem();
-        if (sd != null)
+        if (sd != null) {
             return sd.GR;
-        else
-            return "";
+        }
+        return '';
     }
 
     get PB(): string {
         const sd: TStammdatenRowCollectionItem = this.GetSDItem();
-        if (sd != null)
+        if (sd != null) {
             return sd.PB;
-        else
-            return "";
+        }
+        return '';
     }
 
     get DN(): string {
         const sd: TStammdatenRowCollectionItem = this.GetSDItem();
-        if (sd != null)
+        if (sd != null) {
             return sd.DN;
-        else
-            return "";
+        }
+        return '';
     }
 
     get Props(): TProps {
         const sd: TStammdatenRowCollectionItem = this.GetSDItem();
-        if (sd != null)
+        if (sd != null) {
             return sd.Props;
-        else
-            return null;
+        }
+        return null;
     }
 
     get GPoints(): string { return this.Race[0].Points; }
@@ -286,24 +289,23 @@ export class TEventColProp extends TBaseColProp<
     TEventRowCollectionItem,
     TEventColProps,
     TEventColProp
-    >
-{
+    > {
 
-    static readonly NumID_SNR = 1;
-    static readonly NumID_Bib = 2;
-    static readonly NumID_GPoints = 3;
-    static readonly NumID_GRank = 4;
-    static readonly NumID_GPosR = 5;
-    static readonly NumID_PLZ = 6;
-    static readonly NumID_Cup = 7;
+    static readonly NidSNR = 1;
+    static readonly NidBib = 2;
+    static readonly NidGPoints = 3;
+    static readonly NidGRank = 4;
+    static readonly NmidGPosR = 5;
+    static readonly NidPLZ = 6;
+    static readonly NidCup = 7;
 
-    static readonly NumID_DN = 10;
-    static readonly NumID_NF1 = 11;
-    static readonly NumID_NF2 = 12;
-    static readonly NumID_NF3 = 13;
-    static readonly NumID_NF4 = 14;
-    static readonly NumID_NF5 = 15;
-    static readonly NumID_NF6 = 16;
+    static readonly NidDN = 10;
+    static readonly NidNF1 = 11;
+    static readonly NidNF2 = 12;
+    static readonly NidNF3 = 13;
+    static readonly NidNF4 = 14;
+    static readonly NidNF5 = 15;
+    static readonly NidNF6 = 16;
 
     static NumID_Race(index: number): number {
         return 10000 + index * 1000;
@@ -314,7 +316,7 @@ export class TEventColProp extends TBaseColProp<
     static IsRaceNumID(numID: number): boolean {
         return numID > 10000;
     }
-    
+
     constructor(
         cl: TEventColProps,
         public BO: TBO,
@@ -325,30 +327,29 @@ export class TEventColProp extends TBaseColProp<
     public GetSortKeyRace(cr: TEventRowCollectionItem, value: string, ColName: string): string {
         let v = value;
         const i: number = TUtils.StrToIntDef(ColName.substring(5, ColName.length), -1);
-        if (i > 0) // && (i <= RaceCount)
-        {
+        if (i > 0) { // && (i <= RaceCount)
             const ere: TEventRaceEntry = cr.Race[i];
-            if (cr.Race[i].OTime > 0)
+            if (cr.Race[i].OTime > 0) {
                 v = TUtils.IntToStr(ere.OTime + ere.Fleet * 2000);
-            else
+            } else {
                 v = TUtils.IntToStr(999 + cr.BaseID + ere.Fleet * 2000);
+            }
         }
         return v;
     }
 
     public GetSortKeyPoints(cr: TEventRowCollectionItem, value: string, ColName: string): string {
         let v: string = value;
-        if (cr.ru.ShowPoints === TEventNode.Layout_Finish)
+        if (cr.ru.ShowPoints === TEventNode.LayoutFinish) {
             v = this.GetSortKeyRace(cr, value, ColName);
-        else // default: if (cr.ru.ShowPoints == TEventNode.Layout_Points)
-        {
+        } else { // default: if (cr.ru.ShowPoints == TEventNode.Layout_Points)
             const i: number = TUtils.StrToIntDef(ColName.substring(5), -1);
-            if (i > 0) // && (i <= RaceCount)
-            {
-                if (cr.Race[i].CTime > 0)
+            if (i > 0) { // && (i <= RaceCount)
+                if (cr.Race[i].CTime > 0) {
                     v = TUtils.IntToStr(cr.Race[i].CTime);
-                else
+                } else {
                     v = TUtils.IntToStr(99 + cr.BaseID);
+                }
             }
         }
         return v;
@@ -372,91 +373,91 @@ export class TEventColProp extends TBaseColProp<
 
         // SNR
         cp = ColsAvail.Add();
-        cp.NameID = "col_SNR";
-        cp.Caption = "SNR";
+        cp.NameID = 'col_SNR';
+        cp.Caption = 'SNR';
         cp.Width = 50;
         cp.Sortable = true;
         cp.Alignment = TColAlignment.taRightJustify;
-        cp.NumID = TEventColProp.NumID_SNR;
+        cp.NumID = TEventColProp.NidSNR;
 
         // Bib
         cp = ColsAvail.Add();
-        cp.NameID = "col_Bib";
-        cp.Caption = "Bib";
+        cp.NameID = 'col_Bib';
+        cp.Caption = 'Bib';
         cp.Width = 35;
         cp.Sortable = true;
         cp.Alignment = TColAlignment.taRightJustify;
-        cp.NumID = TEventColProp.NumID_Bib;
+        cp.NumID = TEventColProp.NidBib;
 
         // FN
         cp = ColsAvail.Add();
-        cp.NameID = "col_FN";
+        cp.NameID = 'col_FN';
         cp.Caption = this.GetFieldCaptionDef(scl, 1, FieldNames.FN);
         cp.Width = 80;
         cp.Sortable = true;
         cp.Alignment = TColAlignment.taLeftJustify;
         cp.ColType = TColType.colTypeString;
-        cp.NumID = TEventColProp.NumID_NF1;
+        cp.NumID = TEventColProp.NidNF1;
 
         // LN
         cp = ColsAvail.Add();
-        cp.NameID = "col_LN";
+        cp.NameID = 'col_LN';
         cp.Caption = this.GetFieldCaptionDef(scl, 2, FieldNames.LN);
         cp.Width = 80;
         cp.Sortable = true;
         cp.Alignment = TColAlignment.taLeftJustify;
         cp.ColType = TColType.colTypeString;
-        cp.NumID = TEventColProp.NumID_NF2;
+        cp.NumID = TEventColProp.NidNF2;
 
         // SN
         cp = ColsAvail.Add();
-        cp.NameID = "col_SN";
+        cp.NameID = 'col_SN';
         cp.Caption = this.GetFieldCaptionDef(scl, 3, FieldNames.SN);
         cp.Width = 80;
         cp.Sortable = true;
         cp.Alignment = TColAlignment.taLeftJustify;
         cp.ColType = TColType.colTypeString;
-        cp.NumID = TEventColProp.NumID_NF3;
+        cp.NumID = TEventColProp.NidNF3;
 
         // NC
         cp = ColsAvail.Add();
-        cp.NameID = "col_NC";
+        cp.NameID = 'col_NC';
         cp.Caption = this.GetFieldCaptionDef(scl, 4, FieldNames.NC);
         cp.Width = 70;
         cp.Sortable = true;
         cp.Alignment = TColAlignment.taLeftJustify;
         cp.ColType = TColType.colTypeString;
-        cp.NumID = TEventColProp.NumID_NF4;
+        cp.NumID = TEventColProp.NidNF4;
 
         // GR
         cp = ColsAvail.Add();
-        cp.NameID = "col_GR";
+        cp.NameID = 'col_GR';
         cp.Caption = this.GetFieldCaptionDef(scl, 5, FieldNames.GR);
         cp.Width = 80;
         cp.Sortable = true;
         cp.Alignment = TColAlignment.taLeftJustify;
         cp.ColType = TColType.colTypeString;
-        cp.NumID = TEventColProp.NumID_NF5;
+        cp.NumID = TEventColProp.NidNF5;
 
         // PB
         cp = ColsAvail.Add();
-        cp.NameID = "col_PB";
+        cp.NameID = 'col_PB';
         cp.Caption = this.GetFieldCaptionDef(scl, 6, FieldNames.PB);
         cp.Width = 80;
         cp.Sortable = true;
         cp.Alignment = TColAlignment.taLeftJustify;
         cp.ColType = TColType.colTypeString;
-        cp.NumID = TEventColProp.NumID_NF6;
+        cp.NumID = TEventColProp.NidNF6;
 
         // DN
         cp = ColsAvail.Add();
-        cp.NameID = "col_DN";
-        cp.Caption = "DN";
+        cp.NameID = 'col_DN';
+        cp.Caption = 'DN';
         cp.Width = 180;
         cp.Sortable = true;
         cp.Alignment = TColAlignment.taLeftJustify;
         cp.ColType = TColType.colTypeString;
-        cp.NumID = TEventColProp.NumID_DN;
+        cp.NumID = TEventColProp.NidDN;
 
         // Race[0] wird nicht angezeigt, nur Race[1]..Race[RCount-1]
         // bzw. Race[1]..Race[RaceCount]
@@ -464,8 +465,8 @@ export class TEventColProp extends TBaseColProp<
         for (let i = 1; i <= rc; i++) {
             // Ri
             cp = ColsAvail.Add();
-            cp.NameID = "col_R" + i.toString();
-            cp.Caption = "R" + i.toString();
+            cp.NameID = 'col_R' + i.toString();
+            cp.Caption = 'R' + i.toString();
             cp.Width = 60;
             cp.Sortable = true;
             cp.Alignment = TColAlignment.taRightJustify;
@@ -476,112 +477,104 @@ export class TEventColProp extends TBaseColProp<
 
         // GPoints
         cp = ColsAvail.Add();
-        cp.NameID = "col_GPoints";
-        cp.Caption = "Pts"; //"GPoints";
+        cp.NameID = 'col_GPoints';
+        cp.Caption = 'Pts'; // 'GPoints';
         cp.Width = 50;
         cp.Sortable = true;
         cp.Alignment = TColAlignment.taRightJustify;
         cp.ColType = TColType.colTypeRank;
         cp.OnGetSortKey2 = this.GetSortKeyGPosR;
-        cp.NumID = TEventColProp.NumID_GPoints;
+        cp.NumID = TEventColProp.NidGPoints;
 
         // GRank
         cp = ColsAvail.Add();
-        cp.NameID = "col_GRank";
-        cp.Caption = "Rk"; //"GRank";
+        cp.NameID = 'col_GRank';
+        cp.Caption = 'Rk'; // 'GRank';
         cp.Width = 50;
         cp.Sortable = true;
         cp.Alignment = TColAlignment.taRightJustify;
         cp.ColType = TColType.colTypeRank;
-        cp.NumID = TEventColProp.NumID_GRank;
+        cp.NumID = TEventColProp.NidGRank;
 
         // GPosR
         cp = ColsAvail.Add();
-        cp.NameID = "col_GPosR";
-        cp.Caption = "uP"; //"GPosR";
+        cp.NameID = 'col_GPosR';
+        cp.Caption = 'uP'; // 'GPosR';
         cp.Width = 50;
         cp.Sortable = true;
         cp.Alignment = TColAlignment.taRightJustify;
         cp.ColType = TColType.colTypeRank;
-        cp.NumID = TEventColProp.NumID_GPosR;
+        cp.NumID = TEventColProp.NmidGPosR;
 
         // PLZ
         cp = ColsAvail.Add();
-        cp.NameID = "col_PLZ";
-        cp.Caption = "PLZ";
+        cp.NameID = 'col_PLZ';
+        cp.Caption = 'PLZ';
         cp.Width = 30;
         cp.Sortable = true;
         cp.Alignment = TColAlignment.taRightJustify;
         cp.ColType = TColType.colTypeRank;
-        cp.NumID = TEventColProp.NumID_PLZ;
+        cp.NumID = TEventColProp.NidPLZ;
 
         // Cup
         cp = ColsAvail.Add();
-        cp.NameID = "col_Cup";
-        cp.Caption = "Cup";
+        cp.NameID = 'col_Cup';
+        cp.Caption = 'Cup';
         cp.Width = 45;
         cp.Sortable = true;
         cp.Alignment = TColAlignment.taRightJustify;
         cp.ColType = TColType.colTypeRank;
-        cp.NumID = TEventColProp.NumID_Cup;
+        cp.NumID = TEventColProp.NidCup;
 
     }
 
     public GetTextDefault(cr: TEventRowCollectionItem, value: string): string {
         let v = super.GetTextDefault(cr, value);
 
-        if (this.NumID === TEventColProp.NumID_SNR)
+        if (this.NumID === TEventColProp.NidSNR) {
             v = cr.SNR.toString();
-
-        else if (this.NumID === TEventColProp.NumID_Bib)
+        } else if (this.NumID === TEventColProp.NidBib) {
             v = cr.Bib.toString();
-
-        else if (this.NumID === TEventColProp.NumID_DN)
+        } else if (this.NumID === TEventColProp.NidDN) {
             v = cr.DN;
-
-        else if (this.NumID === TEventColProp.NumID_NF4)
+        } else if (this.NumID === TEventColProp.NidNF4) {
             v = cr.NC;
-
-        else if (this.NumID === TEventColProp.NumID_GPoints)
+        } else if (this.NumID === TEventColProp.NidGPoints) {
             v = cr.GPoints;
-
-        else if (this.NumID === TEventColProp.NumID_GRank)
+        } else if (this.NumID === TEventColProp.NidGRank) {
             v = cr.GRank.toString();
-
-        else if (this.NumID === TEventColProp.NumID_GPosR)
+        } else if (this.NumID === TEventColProp.NmidGPosR) {
             v = cr.GPosR.toString();
-
-        else if (this.NumID === TEventColProp.NumID_PLZ)
+        } else if (this.NumID === TEventColProp.NidPLZ) {
             v = TUtils.IntToStr(cr.PLZ + 1);
-
-        else if (this.NumID === TEventColProp.NumID_Cup)
+        } else if (this.NumID === TEventColProp.NidCup) {
             v = cr.RA.toFixed(2);
-
-        // Race[0] wird nicht angezeigt
-        else if (TEventColProp.IsRaceNumID(this.NumID)) {
+        } else if (TEventColProp.IsRaceNumID(this.NumID)) {
+            // Race[0] wird nicht angezeigt
             const i: number = TEventColProp.RaceIndex(this.NumID);
             v = cr.Race[i].RaceValue;
-        }
-
-        else if (this.NumID === TEventColProp.NumID_NF1)
+        } else if (this.NumID === TEventColProp.NidNF1) {
             v = cr.FN;
-        else if (this.NumID === TEventColProp.NumID_NF2)
+        } else if (this.NumID === TEventColProp.NidNF2) {
             v = cr.LN;
-        else if (this.NumID === TEventColProp.NumID_NF3)
+        } else if (this.NumID === TEventColProp.NidNF3) {
             v = cr.SN;
-        else if (this.NumID === TEventColProp.NumID_NF5)
+        } else if (this.NumID === TEventColProp.NidNF5) {
             v = cr.GR;
-        else if (this.NumID === TEventColProp.NumID_NF6)
+        } else if (this.NumID === TEventColProp.NidNF6) {
             v = cr.PB;
-
+        }
         return v;
     }
 
     IsGroupCol(): boolean {
-        if (this.BO.EventNode.UseFleets)
-            if (this.BO.EventNode.ColorMode === TColorMode.ColorMode_Error)
-                if (TEventColProp.IsRaceNumID(this.NumID))
+        if (this.BO.EventNode.UseFleets) {
+            if (this.BO.EventNode.ColorMode === TColorMode.ColorMode_Error) {
+                if (TEventColProp.IsRaceNumID(this.NumID)) {
                     return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -595,8 +588,7 @@ export class TEventRowCollection extends TBaseRowCollection<
     TEventRowCollectionItem,
     TEventColProps,
     TEventColProp
-    >
-{
+    > {
     constructor(
         Node: TEventNode,
         BO: TBO,
@@ -611,13 +603,13 @@ export class TEventRowCollection extends TBaseRowCollection<
     }
 
     GetHashString(): string {
-        const sb: StringBuilder = new StringBuilder("");
+        const sb: StringBuilder = new StringBuilder('');
         let cr: TEventRowCollectionItem;
         for (let i = 0; i < this.Count; i++) {
             cr = this.Items[i];
-            if (i === 0)
+            if (i === 0) {
                 sb.AppendNumber(cr.GRank);
-            else {
+            } else {
                 sb.AppendString('-');
                 sb.AppendNumber(cr.GRank);
             }
@@ -628,19 +620,21 @@ export class TEventRowCollection extends TBaseRowCollection<
     FindKey(SNR: number): TEventRowCollectionItem {
         for (let i = 0; i < this.Count; i++) {
             const o: TEventRowCollectionItem = this.Items[i];
-            if (o && o.SNR === SNR)
+            if (o && o.SNR === SNR) {
                 return o;
+            }
         }
         return null;
     }
 
     get RCount(): number {
-        if (this.Count > 0)
+        if (this.Count > 0) {
             return this.GetItem(0).RCount;
-        else if (this.Node)
+        } else if (this.Node) {
             return this.Node.RaceCount + 1;
-        else
+        } else {
             return -1;
+        }
     }
 
     FleetCount(r: number): number {
@@ -648,8 +642,9 @@ export class TEventRowCollection extends TBaseRowCollection<
         let fc = 0;
         for (let i = 0; i < this.Count; i++) {
             temp = this.Items[i].Race[r].Fleet;
-            if (temp > fc)
+            if (temp > fc) {
                 fc = temp;
+            }
         }
         return fc;
     }
@@ -660,29 +655,30 @@ export class TEventRowCollection extends TBaseRowCollection<
             let cr: TEventRowCollectionItem;
             for (let i = 0; i < this.Count; i++) {
                 cr = this.Items[i];
-                if (cr.Race[r].Fleet === f)
+                if (cr.Race[r].Fleet === f) {
                     FL.push(cr);
+                }
             }
         }
     }
 
-    ResetRace(r: number) {    
-      let cr: TEventRowCollectionItem;
-      let f: number;
-      let ere: TEventRaceEntry;
-    
-      if (r > 0 && r < this.RCount) {
-        for (let i = 0; i < this.Count; i++) {        
-          cr = this.Items[i];
-          ere = cr.Race[r];
-          f = ere.Fleet;
-          ere.Clear();
-          ere.Fleet = f;
+    ResetRace(r: number) {
+        let cr: TEventRowCollectionItem;
+        let f: number;
+        let ere: TEventRaceEntry;
+
+        if (r > 0 && r < this.RCount) {
+            for (let i = 0; i < this.Count; i++) {
+                cr = this.Items[i];
+                ere = cr.Race[r];
+                f = ere.Fleet;
+                ere.Clear();
+                ere.Fleet = f;
+            }
+            this.Node.Modified = true;
         }
-        this.Node.Modified = true;
     }
-}
-        
+
 }
 
 export class TEventNode extends TBaseNode<
@@ -693,10 +689,9 @@ export class TEventNode extends TBaseNode<
     TEventRowCollectionItem,
     TEventColProps,
     TEventColProp
-    >
-{
-    static readonly Layout_Points = 0;
-    static readonly Layout_Finish = 1;
+    > {
+    static readonly LayoutPoints = 0;
+    static readonly LayoutFinish = 1;
 
     private FOnCalc: TNotifyEvent = null;
     private FShowPoints = 1;
@@ -773,16 +768,18 @@ export class TEventNode extends TBaseNode<
     CopyFleet(r: number): void {
         this.UseFleets = true;
         this.Collection.forEach((cr: TEventRowCollectionItem) => {
-            if (r > 1 && r < this.RCount)
+            if (r > 1 && r < this.RCount) {
                 cr.Race[r].Fleet = cr.Race[r - 1].Fleet;
+            }
         });
     }
 
     DisableFleet(r: number, f: number, b: boolean): void {
         if (r > 0 && r < this.RCount && this.UseFleets) {
             this.Collection.forEach((cr: TEventRowCollectionItem) => {
-                if (cr.Race[r].Fleet === f)
+                if (cr.Race[r].Fleet === f) {
                     cr.Race[r].IsRacing = b;
+                }
             });
         }
     }
@@ -792,10 +789,10 @@ export class TEventNode extends TBaseNode<
     }
 
     get FirstFinalRace(): number {
-        if (this.FFirstFinalRace === 0)
+        if (this.FFirstFinalRace === 0) {
             return this.RCount;
-        else
-            return this.FFirstFinalRace;
+        }
+        return this.FFirstFinalRace;
     }
     set FirstFinalRace(value: number) {
         this.FFirstFinalRace = value;
@@ -806,10 +803,11 @@ export class TEventNode extends TBaseNode<
         let fc = 0;
         if (r > 0 && r < this.RCount && this.TargetFleetSize > 0) {
             const cl: TEventRowCollection = this.Collection;
-            fc = cl.Count / this.TargetFleetSize; // cl.Count div TargetFleetSize; 
+            fc = cl.Count / this.TargetFleetSize; // cl.Count div TargetFleetSize;
             if (this.TargetFleetSize > 0 && cl.Count > 0) {
-                while (this.TargetFleetSize * fc < cl.Count)
+                while (this.TargetFleetSize * fc < cl.Count) {
                     fc++;
+                }
             }
         }
         return fc;
@@ -819,8 +817,9 @@ export class TEventNode extends TBaseNode<
         let result = 0;
         if (r > 0 && r < this.RCount) {
             this.Collection.forEach((cr: TEventRowCollectionItem) => {
-                if (cr.Race[r].Fleet > result)
+                if (cr.Race[r].Fleet > result) {
                     result = cr.Race[r].Fleet;
+                }
             });
         }
         return result;
@@ -830,8 +829,9 @@ export class TEventNode extends TBaseNode<
         const result = 0;
         if (r > 0 && r < this.RCount) {
             this.Collection.forEach((cr: TEventRowCollectionItem) => {
-                if (cr.Race[r].Fleet === f)
+                if (cr.Race[r].Fleet === f) {
                     L.push(cr);
+                }
             });
         }
         return result;
@@ -841,8 +841,9 @@ export class TEventNode extends TBaseNode<
         this.PartialCalcLastRace = r;
         this.BO.CalcEV.Calc(this);
         this.Modified = false;
-        if (this.OnCalc != null)
+        if (this.OnCalc != null) {
             this.OnCalc(this);
+        }
         this.ErrorList.CheckAll(this);
         this.PartialCalcLastRace = 0;
     }
@@ -864,14 +865,15 @@ export class TEventNode extends TBaseNode<
             // upPhase = not Odd(i div fc);
             upPhase = ((i / fc) % 2) >= 0;
 
-            if (upPhase)
+            if (upPhase) {
                 f = c + 1;
-            else
+            } else {
                 f = fc - c;
+            }
 
-            if (r === 1)
+            if (r === 1) {
                 cr.Race[r].Fleet = f;
-            else if (r > 1 && r < this.RCount) {
+            } else if (r > 1 && r < this.RCount) {
                 cr = cl.Items[cr.PLZ];
                 cr.Race[r].Fleet = f;
             }
@@ -905,8 +907,9 @@ export class TEventNode extends TBaseNode<
                         ere.Fleet = f;
                         f++;
                     }
-                    if (f === fc + 2)
+                    if (f === fc + 2) {
                         break;
+                    }
                 }
             }
         }
@@ -916,30 +919,33 @@ export class TEventNode extends TBaseNode<
         this.BO.CalcEV.Calc(this);
         this.Modified = false;
         this.ErrorList.CheckAll(this);
-        if (this.OnCalc != null)
+        if (this.OnCalc != null) {
             this.OnCalc(this);
+        }
     }
 
     FindBib(b: number): TEventRowCollectionItem {
-      let cr: TEventRowCollectionItem;    
-      for (let i = 0; i < this.Collection.Count; i++) {      
-        cr = this.Collection.Items[i];
-        if (cr.Bib === b)
-          return cr;
-      }
-      return null;
+        let cr: TEventRowCollectionItem;
+        for (let i = 0; i < this.Collection.Count; i++) {
+            cr = this.Collection.Items[i];
+            if (cr.Bib === b) {
+                return cr;
+            }
+        }
+        return null;
     }
 
     FindSNR(b: number): TEventRowCollectionItem {
-        let cr: TEventRowCollectionItem;    
-        for (let i = 0; i < this.Collection.Count; i++) {      
-          cr = this.Collection.Items[i];
-          if (cr.SNR === b)
-            return cr;
+        let cr: TEventRowCollectionItem;
+        for (let i = 0; i < this.Collection.Count; i++) {
+            cr = this.Collection.Items[i];
+            if (cr.SNR === b) {
+                return cr;
+            }
         }
         return null;
-      }
-        
+    }
+
     get OnCalc(): TNotifyEvent {
         return this.FOnCalc;
     }
@@ -949,10 +955,10 @@ export class TEventNode extends TBaseNode<
     }
 
     get ShowPoints(): number {
-        if (this.WebLayout > 0)
+        if (this.WebLayout > 0) {
             return this.WebLayout;
-        else
-            return this.FShowPoints;
+        }
+        return this.FShowPoints;
     }
     set ShowPoints(value: number) {
         this.FShowPoints = value;
@@ -965,10 +971,10 @@ export class TEventNode extends TBaseNode<
     }
 
     get RaceCount(): number {
-        if (this.BO != null)
+        if (this.BO != null) {
             return this.BO.BOParams.RaceCount;
-        else
-            return -1;
+        }
+        return -1;
     }
 
 }

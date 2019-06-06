@@ -3,14 +3,14 @@
     itCount: number = 2;
     startlistCount: number = 8;
  }
- 
+
 export class ApiConnectionStatus {
    connected: boolean = false;
    websockets: boolean = false;
 }
 
 export class ApiRetValue {
-    retvalue: string = "ok";
+    retvalue: string = 'ok';
 }
 
 export class EventFormData {
@@ -19,29 +19,29 @@ export class EventFormData {
     startlistCount: number = 8;
     scoringSystem: number = 0;
 }
-  
+
 export class EventParams {
     createOption: number = 0;
     raceCount: number = 2;
     itCount: number = 2;
-    startlistCount: number = 8;    
+    startlistCount: number = 8;
 }
 
 export class EventProps {
-    eventName: string = "";
-    scoringSystem: number = 0;    
+    eventName: string = '';
+    scoringSystem: number = 0;
     schemaCode: number = 0;
     isTimed: boolean = true;
 }
 
 export class EntryRow {
     SNR: number = 1001;
-    N1: string = "";
-    N2: string = "";
-    N3: string = "";
-    N4: string = "";
-    N5: string = "";
-    N6: string = "";
+    N1: string = '';
+    N2: string = '';
+    N3: string = '';
+    N4: string = '';
+    N5: string = '';
+    N6: string = '';
 }
 
 export const ScoringSystemStrings = ['Low Point', 'Bonus Point', 'Bonus Point DSV'];
@@ -53,9 +53,9 @@ export class EventParamJson {
 
     RaceCount: number = 2;
     ITCount: number = 0;
-    StartlistCount: number = 2;    
+    StartlistCount: number = 2;
 
-    private SL: string[] = [];    
+    private SL: string[] = [];
 
     toArray(): string[] {
         this.SL = [];
@@ -67,7 +67,7 @@ export class EventParamJson {
 
     WriteLn(key: string, value: any): void {
         this.SL.push(`${EventParamJson.prefix}.${key}=${value}`);
-    }    
+    }
 }
 
 export class EventPropJson {
@@ -90,7 +90,7 @@ export class EventPropJson {
     FirstFinalRace = 20;
     IsTimed = false;
     UseCompactFormat = true;
-    
+
     private SL: string[] = [];
 
     toArray(): string[] {
@@ -115,8 +115,9 @@ export class EventPropJson {
     }
 
     WriteLn(key: string, value: any): void {
-        if (value)
+        if (value) {
             this.SL.push(`${EventPropJson.prefix}.${key}=${value}`);
+        }
     }
 }
 
@@ -125,7 +126,7 @@ export class EventParamsJson {
 }
 
 export class EventPropsJson {
-    EventProps: string[] = [];    
+    EventProps: string[] = [];
 }
 
 export class NameTableJson {
@@ -154,7 +155,7 @@ export class PenaltyInfoJson {
 
 export class EventDataJson {
     EventParams: string[] = [];
-    EventProps: string[] = [];    
+    EventProps: string[] = [];
     NameTable: string[] = [];
     StartList: string[] = [];
     FleetList: string[] = [];

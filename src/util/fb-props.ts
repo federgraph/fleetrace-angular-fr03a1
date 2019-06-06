@@ -1,23 +1,24 @@
 ﻿export class TProp {
-    Key: string = "";
-    Value: string = "";
+    Key: string = '';
+    Value: string = '';
 }
 
-export class TProps {   
+export class TProps {
     [key: string]: any;
 
     FCount: number = 0;
 
     GetProp(Index: number, prop: TProp): TProp {
-        prop.Key = "N" + Index;
+        prop.Key = 'N' + Index;
         prop.Value = this[prop.Key];
         return prop;
     }
 
     SetProp(Index: number, prop: TProp): void {
-        prop.Key = "N" + Index;
-        if (!prop.Key)
+        prop.Key = 'N' + Index;
+        if (!prop.Key) {
             this.FCount++;
+        }
         this[prop.Key] = prop.Value;
     }
 

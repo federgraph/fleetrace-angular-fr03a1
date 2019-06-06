@@ -1,11 +1,11 @@
-import { TBaseColProps, TColGrid } from "../../grid/col-grid";
-import { TRaceNode } from "./race-node";
-import { TRaceRowCollection } from "./race-row-collection";
-import { TRaceRowCollectionItem } from "./race-row-collection-item";
-import { TRaceColProp } from "./race-col-prop";
-import { TSimpleHashGrid } from "../../grid/grid-cells";
-import { TBO } from "../../fr/fr-bo";
-import { TRaceBO } from "./race-bo";
+import { TBaseColProps, TColGrid } from '../../grid/col-grid';
+import { TRaceNode } from './race-node';
+import { TRaceRowCollection } from './race-row-collection';
+import { TRaceRowCollectionItem } from './race-row-collection-item';
+import { TRaceColProp } from './race-col-prop';
+import { TSimpleHashGrid } from '../../grid/grid-cells';
+import { TBO } from '../../fr/fr-bo';
+import { TRaceBO } from './race-bo';
 
 export class TRaceColProps extends TBaseColProps<
     TRaceColGrid,
@@ -14,19 +14,18 @@ export class TRaceColProps extends TBaseColProps<
     TRaceRowCollection,
     TRaceRowCollectionItem,
     TRaceColProps,
-    TRaceColProp>
-{
+    TRaceColProp> {
     constructor(
-        public AOwner: TRaceColGrid, 
-        public BO: TBO, 
+        public AOwner: TRaceColGrid,
+        public BO: TBO,
     ) {
         super(BO);
-    }        
+    }
 
     NewItem(): TRaceColProp {
         return new TRaceColProp(this, this.BO);
     }
-    
+
 }
 
 export class TRaceColGrid extends TColGrid<
@@ -36,8 +35,7 @@ export class TRaceColGrid extends TColGrid<
     TRaceRowCollection,
     TRaceRowCollectionItem,
     TRaceColProps,
-    TRaceColProp>
-{
+    TRaceColProp> {
     constructor(
         public BO: TBO,
     ) {
@@ -54,22 +52,24 @@ export class TRaceColGrid extends TColGrid<
         const cl = this.GetBaseRowCollection();
 
         // init RowCount, clear visible cells
-        if (cl != null && cl.Count > 0)
+        if (cl != null && cl.Count > 0) {
             this.Grid.RowCount = cl.FilteredCount + this.FirstRowIndex;
-        else
+        } else {
             this.Grid.RowCount = this.FirstRowIndex;
+        }
 
         this.Grid.ColCount = this.ColsActive.Count;
 
-        for (let i = this.HeaderRowIndex; i < this.Grid.RowCount + this.HeaderRowIndex; i++)
+        for (let i = this.HeaderRowIndex; i < this.Grid.RowCount + this.HeaderRowIndex; i++) {
             this.Grid.ClearRow(i);
+        }
 
         // init width of columns, show captions
         this.ShowHeader();
 
         this.Grid.SetupGrid(this);
     }
-    
+
 }
 
 export class TSimpleRaceGrid extends TSimpleHashGrid<
@@ -79,6 +79,5 @@ export class TSimpleRaceGrid extends TSimpleHashGrid<
     TRaceRowCollection,
     TRaceRowCollectionItem,
     TRaceColProps,
-    TRaceColProp>
-{
+    TRaceColProp> {
 }

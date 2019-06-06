@@ -1,45 +1,45 @@
 ﻿export class TProxyProps {
-    static readonly p_FRProxy = "FRProxy";
-    static readonly p_Gezeitet = "Gezeitet";
+    static readonly pFRProxy = 'FRProxy';
+    static readonly pGezeitet = 'Gezeitet';
 
-    static readonly p_EventProps = "EventProps";
+    static readonly pEventProps = 'EventProps';
 
-    static readonly p_RaceProps = "RaceProps";
-    static readonly p_RCount = "RCount";
+    static readonly pRaceProps = 'RaceProps';
+    static readonly pRCount = 'RCount';
 
-    static readonly p_Race = "Race";
-    static readonly p_IsRacing = "IsRacing";
-    static readonly p_Index = "Index";
-    static readonly p_FResult = "FResult";
-    static readonly p_OTime = "OTime";
-    static readonly p_QU = "QU";
-    static readonly p_Penalty_Points = "P_Points";
-    static readonly p_Penalty_Note = "P_Note";
-    static readonly p_Penalty_Percent = "P_Percent";
-    static readonly p_Penalty_Time = "P_Time";
+    static readonly pRace = 'Race';
+    static readonly pIsRacing = 'IsRacing';
+    static readonly pIndex = 'Index';
+    static readonly pFResult = 'FResult';
+    static readonly pOTime = 'OTime';
+    static readonly pQU = 'QU';
+    static readonly pPenaltyPoints = 'P_Points';
+    static readonly pPenaltyNote = 'P_Note';
+    static readonly pPenaltyPercent = 'P_Percent';
+    static readonly pPenaltyTime = 'P_Time';
 
-    static readonly p_Entry = "Entry";
-    static readonly p_CPoints = "CPoints";
-    static readonly p_Rank = "Rank";
-    static readonly p_PosR = "PosR";
-    static readonly p_PLZ = "PLZ";
-    static readonly p_Drop = "Drop";
-    static readonly p_SNR = "SNR";
-    static readonly p_IsGezeitet = "IsGezeitet";
-    static readonly p_IsTied = "IsTied";
+    static readonly pEntry = 'Entry';
+    static readonly pCPoints = 'CPoints';
+    static readonly pRank = 'Rank';
+    static readonly pPosR = 'PosR';
+    static readonly pPLZ = 'PLZ';
+    static readonly pDrop = 'Drop';
+    static readonly pSNR = 'SNR';
+    static readonly pIsGezeitet = 'IsGezeitet';
+    static readonly pIsTied = 'IsTied';
 
-    static readonly p_ScoringSystem = "ScoringSystem";
-    static readonly p_ScoringSystem2 = "ScoringSystem2";
-    static readonly p_ThrowoutScheme = "ThrowoutScheme";
-    static readonly p_Throwouts = "Throwouts";
-    static readonly p_FirstIs75 = "FirstIs75";
-    static readonly p_ReorderRAF = "ReorderRAF";
-    static readonly p_DivisionName = "DivisionName";
+    static readonly pScoringSystem = 'ScoringSystem';
+    static readonly pScoringSystem2 = 'ScoringSystem2';
+    static readonly pThrowoutScheme = 'ThrowoutScheme';
+    static readonly pThrowouts = 'Throwouts';
+    static readonly pFirstIs75 = 'FirstIs75';
+    static readonly pReorderRAF = 'ReorderRAF';
+    static readonly pDivisionName = 'DivisionName';
 
-    static readonly p_Fleet = "Fleet";
-    static readonly p_UseFleets = "UseFleets";
-    static readonly p_TargetFleetSize = "TargetFleetSize";
-    static readonly p_FirstFinalRace = "FirstFinalRace";
+    static readonly pFleet = 'Fleet';
+    static readonly pUseFleets = 'UseFleets';
+    static readonly pTargetFleetSize = 'TargetFleetSize';
+    static readonly pFirstFinalRace = 'FirstFinalRace';
 }
 
 /**
@@ -115,34 +115,45 @@ export class TFRProxy extends TProxyProps {
     }
 
     equals(p: TFRProxy): boolean {
-        if (this.RCount !== p.RCount)
+        if (this.RCount !== p.RCount) {
             return false;
-        if (!this.EventProps.equals(p.EventProps))
+        }
+        if (!this.EventProps.equals(p.EventProps)) {
             return false;
-        if (this.Gezeitet !== p.Gezeitet)
+        }
+        if (this.Gezeitet !== p.Gezeitet) {
             return false;
-        if (this.FResult !== p.FResult)
+        }
+        if (this.FResult !== p.FResult) {
             return false;
-        if (this.UseFleets !== p.UseFleets)
+        }
+        if (this.UseFleets !== p.UseFleets) {
             return false;
-        if (this.TargetFleetSize !== p.TargetFleetSize)
+        }
+        if (this.TargetFleetSize !== p.TargetFleetSize) {
             return false;
-        if (this.FirstFinalRace !== p.FirstFinalRace)
+        }
+        if (this.FirstFinalRace !== p.FirstFinalRace) {
             return false;
+        }
 
-        if (!this.EntryInfoCollection.equals(p.EntryInfoCollection))
+        if (!this.EntryInfoCollection.equals(p.EntryInfoCollection)) {
             return false;
-        for (let i = 0; i < this.RCount; i++)
-            if (this.IsRacing[i] !== p.IsRacing[i])
+        }
+        for (let i = 0; i < this.RCount; i++) {
+            if (this.IsRacing[i] !== p.IsRacing[i]) {
                 return false;
+            }
+        }
         return true;
     }
 
     get RCount(): number { return this.IsRacing.length; }
     set RCount(value: number) {
         this.IsRacing = new Array<boolean>(value);
-        for (let i = 1; i < value; i++)
+        for (let i = 1; i < value; i++) {
             this.IsRacing[i] = true;
+        }
     }
 
 }
@@ -158,7 +169,7 @@ export class TJSEventProps extends TProxyProps {
     Throwouts: number = 1;
     FirstIs75: boolean = false;
     ReorderRAF: boolean = true;
-    DivisionName: string = "*";
+    DivisionName: string = '*';
 
     constructor() {
         super();
@@ -172,7 +183,7 @@ export class TJSEventProps extends TProxyProps {
         this.Throwouts = 0;
         this.FirstIs75 = false;
         this.ReorderRAF = true;
-        this.DivisionName = "*";
+        this.DivisionName = '*';
     }
 
     Assign(ep: TJSEventProps): void {
@@ -186,20 +197,27 @@ export class TJSEventProps extends TProxyProps {
     }
 
     equals(ep: TJSEventProps): boolean {
-        if (this.ScoringSystem !== ep.ScoringSystem)
+        if (this.ScoringSystem !== ep.ScoringSystem) {
             return false;
-        if (this.ScoringSystem2 !== ep.ScoringSystem2)
+        }
+        if (this.ScoringSystem2 !== ep.ScoringSystem2) {
             return false;
-        if (this.ThrowoutScheme !== ep.ThrowoutScheme)
+        }
+        if (this.ThrowoutScheme !== ep.ThrowoutScheme) {
             return false;
-        if (this.Throwouts !== ep.Throwouts)
+        }
+        if (this.Throwouts !== ep.Throwouts) {
             return false;
-        if (this.FirstIs75 !== ep.FirstIs75)
+        }
+        if (this.FirstIs75 !== ep.FirstIs75) {
             return false;
-        if (this.ReorderRAF !== ep.ReorderRAF)
+        }
+        if (this.ReorderRAF !== ep.ReorderRAF) {
             return false;
-        if (this.DivisionName !== ep.DivisionName)
+        }
+        if (this.DivisionName !== ep.DivisionName) {
             return false;
+        }
         return true;
     }
 
@@ -209,10 +227,10 @@ export class TRaceInfo extends TProxyProps {
     // Input
     OTime: number = 0; // int; Original Time/FinishPosition
     QU: number = 0; // int; Encoded Penalty Type ('QUit Packet')
-    Penalty_Points: number = 0.0; // double
-    Penalty_Note: string = "";
-    Penalty_Percent: number = 0; // int
-    Penalty_TimePenalty: number = 0; // long
+    PenaltyPoints: number = 0.0; // double
+    PenaltyNote: string = '';
+    PenaltyPercent: number = 0; // int
+    PenaltyTimePenalty: number = 0; // long
 
     // Output
     CPoints: number = 0.0; // double; Calculated Points
@@ -229,10 +247,10 @@ export class TRaceInfo extends TProxyProps {
         // Input
         this.OTime = ri.OTime;
         this.QU = ri.QU;
-        this.Penalty_Points = ri.Penalty_Points;
-        this.Penalty_Note = ri.Penalty_Note;
-        this.Penalty_Percent = ri.Penalty_Percent;
-        this.Penalty_TimePenalty = ri.Penalty_TimePenalty;
+        this.PenaltyPoints = ri.PenaltyPoints;
+        this.PenaltyNote = ri.PenaltyNote;
+        this.PenaltyPercent = ri.PenaltyPercent;
+        this.PenaltyTimePenalty = ri.PenaltyTimePenalty;
         this.Fleet = ri.Fleet;
         this.IsRacing = ri.IsRacing;
 
@@ -245,41 +263,52 @@ export class TRaceInfo extends TProxyProps {
     }
 
     equals(ri: TRaceInfo): boolean {
-        if (this.OTime !== ri.OTime)
+        if (this.OTime !== ri.OTime) {
             return false;
-        if (this.QU !== ri.QU)
+        }
+        if (this.QU !== ri.QU) {
             return false;
-        if (Math.abs(this.Penalty_Points - ri.Penalty_Points) > 0.00001)
+        }
+        if (Math.abs(this.PenaltyPoints - ri.PenaltyPoints) > 0.00001) {
             return false;
-        if (this.Penalty_Note !== ri.Penalty_Note)
+        }
+        if (this.PenaltyNote !== ri.PenaltyNote) {
             return false;
-        if (this.Penalty_Percent !== ri.Penalty_Percent)
+        }
+        if (this.PenaltyPercent !== ri.PenaltyPercent) {
             return false;
-        if (this.Penalty_TimePenalty !== ri.Penalty_TimePenalty)
+        }
+        if (this.PenaltyTimePenalty !== ri.PenaltyTimePenalty) {
             return false;
-        if (this.Fleet !== ri.Fleet)
+        }
+        if (this.Fleet !== ri.Fleet) {
             return false;
-        if (this.IsRacing !== ri.IsRacing)
+        }
+        if (this.IsRacing !== ri.IsRacing) {
             return false;
-
+        }
 
         // Output
-        if (Math.abs(this.CPoints - ri.CPoints) > 0.00001)
+        if (Math.abs(this.CPoints - ri.CPoints) > 0.00001) {
             return false;
-        if (this.Rank !== ri.Rank)
+        }
+        if (this.Rank !== ri.Rank) {
             return false;
-        if (this.PosR !== ri.PosR)
+        }
+        if (this.PosR !== ri.PosR) {
             return false;
-        if (this.PLZ !== ri.PLZ)
+        }
+        if (this.PLZ !== ri.PLZ) {
             return false;
-        if (this.Drop !== ri.Drop)
+        }
+        if (this.Drop !== ri.Drop) {
             return false;
-
+        }
         return true;
     }
 
     string_FormatG(value: number): string {
-        return value.toPrecision(8); // string.Format(info, "{0:G}", value)            
+        return value.toPrecision(8); // string.Format(info, '{0:G}', value)
     }
 
     Convert_ToDouble(value: string): number {
@@ -320,19 +349,25 @@ export class TEntryInfo extends TProxyProps {
     }
 
     equals(ei: TEntryInfo): boolean {
-        if (this.Index !== ei.Index)
+        if (this.Index !== ei.Index) {
             return false;
-        if (this.SNR !== ei.SNR)
+        }
+        if (this.SNR !== ei.SNR) {
             return false;
-        if (this.IsGezeitet !== ei.IsGezeitet)
+        }
+        if (this.IsGezeitet !== ei.IsGezeitet) {
             return false;
-        if (this.IsTied !== ei.IsTied)
+        }
+        if (this.IsTied !== ei.IsTied) {
             return false;
-        if (this.RCount !== ei.RCount)
+        }
+        if (this.RCount !== ei.RCount) {
             return false;
+        }
         for (let i = 0; i < ei.RCount; i++) {
-            if (!this.RaceList[i].equals(ei.RaceList[i]))
+            if (!this.RaceList[i].equals(ei.RaceList[i])) {
                 return false;
+            }
         }
         return true;
     }
@@ -360,10 +395,10 @@ export class TEntryInfoCollection {
     }
 
     getEntryInfo(i: number): TEntryInfo {
-        if (i < this.EntryList.length)
+        if (i < this.EntryList.length) {
             return this.EntryList[i];
-        else
-            return null;
+        }
+        return null;
     }
 
     Clear(): void {
@@ -371,22 +406,23 @@ export class TEntryInfoCollection {
     }
 
     equals(eic: TEntryInfoCollection): boolean {
-        if (this.Count !== eic.Count)
+        if (this.Count !== eic.Count) {
             return false;
+        }
         for (let i = 0; i < this.EntryList.length; i++) {
             const ei: TEntryInfo = this.EntryList[i];
-            if (!ei.equals(eic.EntryList[i]))
+            if (!ei.equals(eic.EntryList[i])) {
                 return false;
+            }
         }
         return true;
     }
 
     FindKey(SNR: number): TEntryInfo {
-        let ei: TEntryInfo;
-        for (let i = 0; i < this.EntryList.length; i++) {
-            ei = this.EntryList[i];
-            if (ei.SNR === SNR)
+        for (const ei of this.EntryList) {
+            if (ei.SNR === SNR) {
                 return ei;
+            }
         }
         return null;
     }

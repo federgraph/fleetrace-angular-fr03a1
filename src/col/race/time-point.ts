@@ -1,4 +1,4 @@
-import { TPTime, TQTime } from "../../calc/time";
+import { TPTime, TQTime } from '../../calc/time';
 
 export class TTimePoint {
     private FOTime: TPTime = new TPTime();
@@ -22,8 +22,7 @@ export class TTimePoint {
             this.Rank = o.Rank;
             this.PosR = o.PosR;
             this.PLZ = o.PLZ;
-        }
-        else if (source instanceof TTimePointEntry) {
+        } else if (source instanceof TTimePointEntry) {
             const e: TTimePointEntry = source as TTimePointEntry;
             this.OTime.Parse(e.OTime);
             this.Behind.Parse(e.Behind);
@@ -51,32 +50,36 @@ export class TTimePoint {
         return this.FOTime;
     }
     set OTime(value: TPTime) {
-        if (value != null)
+        if (value != null) {
             this.FOTime.Assign(value);
+        }
     }
 
     get Behind(): TPTime {
         return this.FBehind;
     }
     set Behind(value: TPTime) {
-        if (value != null)
+        if (value != null) {
             this.FBehind.Assign(value);
+        }
     }
 
     get BFT(): TQTime {
         return this.FBFT;
     }
     set BFT(value: TQTime) {
-        if (value != null)
+        if (value != null) {
             this.FBFT.Assign(value);
+        }
     }
 
     get BPL(): TQTime {
         return this.FBPL;
     }
     set BPL(value: TQTime) {
-        if (value != null)
+        if (value != null) {
             this.FBPL.Assign(value);
+        }
     }
 }
 
@@ -101,8 +104,7 @@ export class TTimePointEntry {
             this.Rank = e.Rank;
             this.PosR = e.PosR;
             this.PLZ = e.PLZ;
-        }
-        else if (source instanceof TTimePoint) {
+        } else if (source instanceof TTimePoint) {
             const o: TTimePoint = source as TTimePoint;
             this.OTime = o.OTime.toString();
             this.Behind = o.Behind.toString();

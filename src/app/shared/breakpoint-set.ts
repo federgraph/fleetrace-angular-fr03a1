@@ -77,12 +77,19 @@ export class BreakpointSet {
   }
 
   get id(): string {
-    if (this.XSmall) return 'xs';
-    else if (this.Small) return 'sm';
-    else if (this.Medium) return 'md';
-    else if (this.Large) return 'lg';
-    else if (this.XLarge) return 'xl';
-    else return "md";
+    if (this.XSmall) {
+      return 'xs';
+    } else if (this.Small) {
+      return 'sm';
+    } else if (this.Medium) {
+      return 'md';
+    } else if (this.Large) {
+      return 'lg';
+    } else if (this.XLarge) {
+      return 'xl';
+    } else {
+      return 'md';
+    }
   }
 }
 

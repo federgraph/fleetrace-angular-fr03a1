@@ -1,15 +1,15 @@
-import { TBO } from "../fr/fr-bo";
-import { TIniImage } from "../fr/fr-ini-image";
-import { TStringList } from "../util/fb-strings";
-import { TCalcEventProxy } from "./calc-event-proxy";
-import { TCalcEventProxy01 } from "./calc-rs-01";
-import { TCalcEventProxy11 } from "./calc-rs-03";
-import { TUniquaPoints } from "./calc-uniqua-points";
-import { TEventNode } from "../col/event/event-row-collection";
+import { TBO } from '../fr/fr-bo';
+import { TIniImage } from '../fr/fr-ini-image';
+import { TStringList } from '../util/fb-strings';
+import { TCalcEventProxy } from './calc-event-proxy';
+import { TCalcEventProxy01 } from './calc-rs-01';
+import { TCalcEventProxy11 } from './calc-rs-03';
+import { TUniquaPoints } from './calc-uniqua-points';
+import { TEventNode } from '../col/event/event-row-collection';
 
 export class TCalcEvent {
-    static readonly ScoringProvider_SimpleTest = 1;
-    static readonly ScoringProvider_Inline = 2;
+    static readonly ScoringProviderSimpleTest = 1;
+    static readonly ScoringProviderInline = 2;
 
     static readonly DefaultScoringProviderID = 2;
 
@@ -22,16 +22,16 @@ export class TCalcEvent {
     constructor(
         private IniImage: TIniImage,
         private BO: TBO,
-        aProviderID: number) 
-    {
-        if (aProviderID === 0)
+        aProviderID: number) {
+        if (aProviderID === 0) {
             this.ProviderID = TCalcEvent.DefaultScoringProviderID;
+        }
 
         this.InitModule(aProviderID);
 
         this.UniquaPoints = new TUniquaPoints(BO);
     }
-    
+
     protected get ProviderID(): number {
         return this.FProviderID;
     }
@@ -59,8 +59,9 @@ export class TCalcEvent {
         return this.FProviderID;
     }
     set ModuleType(value: number) {
-        if (value !== this.FProviderID)
+        if (value !== this.FProviderID) {
             this.InitModule(value);
+    }
     }
 
     get ScoringResult(): boolean {
@@ -68,7 +69,7 @@ export class TCalcEvent {
     }
 
     get ScoringExceptionMessage(): string {
-        return "";
+        return '';
     }
 
     InitModule(aProviderID: number): void {
@@ -77,47 +78,47 @@ export class TCalcEvent {
                 this.ProviderID = aProviderID;
                 this.FProxy = null;
                 switch (aProviderID) {
-                    case TCalcEvent.ScoringProvider_SimpleTest:
+                    case TCalcEvent.ScoringProviderSimpleTest:
                         this.FProxy = new TCalcEventProxy01();
                         break;
 
-                    case TCalcEvent.ScoringProvider_Inline:
+                    case TCalcEvent.ScoringProviderInline:
                         this.FProxy = new TCalcEventProxy11(this.BO);
                         break;
 
                     default:
-                        this.ProviderID = TCalcEvent.ScoringProvider_SimpleTest;
+                        this.ProviderID = TCalcEvent.ScoringProviderSimpleTest;
                         this.FProxy = new TCalcEventProxy01();
                         break;
                 }
-            }
-            catch(ex)
-            {
+            } catch (ex) {
                 console.log(ex.Message);
                 TCalcEventProxy.ScoringResult = -1;
-                TCalcEventProxy.ScoringExceptionLocation = "TCalcEvent.InitModule";
+                TCalcEventProxy.ScoringExceptionLocation = 'TCalcEvent.InitModule';
                 TCalcEventProxy.ScoringExceptionMessage = ex.Message;
-                this.ProviderID = TCalcEvent.ScoringProvider_SimpleTest;
+                this.ProviderID = TCalcEvent.ScoringProviderSimpleTest;
                 this.FProxy = new TCalcEventProxy01();
             }
+
             // #if Desktop
             // EventNode is ungleich null, wenn mit GUI ScoringProvider geändert wird.
             // Alles ist noch null, wenn BOContainer oder BO erzeugt wird,
             // dann muß GUI-Update aber auch hier nicht angestoßen werden.
-            if (this.BO != null)
+            if (this.BO != null) {
                 if (this.BO.EventNode != null) {
                     this.BO.EventNode.Modified = true;
                     // TMain.DrawNotifier.ScheduleFullUpdate(
                     // 	null, new DrawNotifierEventArgs(DrawNotifierEventArgs.DrawTargetEvent));
                 }
+            }
             // #endif
         }
     }
 
     get UsesProxy(): boolean {
         switch (this.ModuleType) {
-            case TCalcEvent.ScoringProvider_SimpleTest: return false;
-            case TCalcEvent.ScoringProvider_Inline: return false;
+            case TCalcEvent.ScoringProviderSimpleTest: return false;
+            case TCalcEvent.ScoringProviderInline: return false;
             default: return false;
         }
 

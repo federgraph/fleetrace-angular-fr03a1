@@ -1,8 +1,8 @@
-﻿import { TStringList } from "../util/fb-strings";
+﻿import { TStringList } from '../util/fb-strings';
 import { TLineParser, TUtils, TStringContainer } from '../util/fb-classes';
-import { TMsgToken } from "./bo-msg-token";
-import { TBO } from "../fr/fr-bo";
-import { FieldNames } from "../col/stammdaten/stammdaten-fieldnames";
+import { TMsgToken } from './bo-msg-token';
+import { TBO } from '../fr/fr-bo';
+import { FieldNames } from '../col/stammdaten/stammdaten-fieldnames';
 
 export enum TCommandPathError {
     Error_None,
@@ -38,23 +38,23 @@ export class TMsgParser extends TLineParser {
 
     private FIsValid: boolean = false;
     private FLastError: TCommandPathError = TCommandPathError.Error_None;
-    private FInput: string = "";
+     private FInput: string = '';
     private FMsgType: TMsgType = TMsgType.None;
-    private FKey: string = "";
-    private FValue: string = "";
-    private sToken = "";
-    private sRest: string = "";
+    private FKey: string = '';
+    private FValue: string = '';
+    private sToken = '';
+    private sRest: string = '';
 
-    sAthlete: string = "";
-    sPos: string = "";
-    sMsgID: string = "";
+    sAthlete: string = '';
+    sPos: string = '';
+    sMsgID: string = '';
 
-    sDivision: string = "";
+    sDivision: string = '';
     iRace: number = 0;
-    sRunID: string = "";
-    sBib: string = "";
-    sCommand: string = "";
-    sValue: string = "";
+    sRunID: string = '';
+    sBib: string = '';
+    sCommand: string = '';
+    sValue: string = '';
 
     constructor(public BO: TBO) {
         super();
@@ -93,12 +93,14 @@ export class TMsgParser extends TLineParser {
         let s: string;
         for (let i = 0; i < this.SLCompare.Count; i++) {
             s = this.SLCompare.Items(i);
-            if (t === s || t === this.MsgToken.LongToken(s))
+            if (t === s || t === this.MsgToken.LongToken(s)) {
                 return s;
+            }
         }
-        if (this.IsProp(t))
+        if (this.IsProp(t)) {
             return t;
-        return "";
+        }
+        return '';
     }
 
     protected ParseLeaf(): boolean {
@@ -126,8 +128,9 @@ export class TMsgParser extends TLineParser {
         this.SLCompare.Add('*');
         this.sDivision = this.CompareToken(this.sToken);
         const result = this.sDivision !== '';
-        if (!result)
+        if (!result) {
             this.FLastError = TCommandPathError.Error_TokenB;
+        }
         return result;
     }
 
@@ -137,42 +140,45 @@ export class TMsgParser extends TLineParser {
         this.SLCompare.Add(this.MsgToken.cTokenRace + '1');
         this.sRunID = this.CompareToken(this.sToken);
         const result = this.sRunID !== '';
-        if (!result)
+        if (!result) {
             this.FLastError = TCommandPathError.Error_RunID;
+        }
         return result;
     }
 
     protected ParseCommand(): boolean {
         this.SLCompare.Clear();
 
-        this.SLCompare.Add("XX");
-        this.SLCompare.Add("IsRacing");
+        this.SLCompare.Add('XX');
+        this.SLCompare.Add('IsRacing');
 
-        this.SLCompare.Add("FM");
-        this.SLCompare.Add("QU");
-        this.SLCompare.Add("ST");
-        if (this.BO != null)
-            for (let i = 0; i <= this.BO.BOParams.ITCount; i++)
-                this.SLCompare.Add("IT" + i.toString());
-        this.SLCompare.Add("FT");
-        this.SLCompare.Add("DG");
-        this.SLCompare.Add("Rank");
-        this.SLCompare.Add("RV");
+        this.SLCompare.Add('FM');
+        this.SLCompare.Add('QU');
+        this.SLCompare.Add('ST');
+        if (this.BO != null) {
+            for (let i = 0; i <= this.BO.BOParams.ITCount; i++) {
+                this.SLCompare.Add('IT' + i.toString());
+            }
+        }
+        this.SLCompare.Add('FT');
+        this.SLCompare.Add('DG');
+        this.SLCompare.Add('Rank');
+        this.SLCompare.Add('RV');
 
-        if (this.sPos !== "") {
-            this.SLCompare.Add("SNR");
-            this.SLCompare.Add("Bib");
+        if (this.sPos !== '') {
+            this.SLCompare.Add('SNR');
+            this.SLCompare.Add('Bib');
         }
 
-        if (this.sAthlete !== "") {
-            this.SLCompare.Add("SNR");
+        if (this.sAthlete !== '') {
+            this.SLCompare.Add('SNR');
 
-            this.SLCompare.Add("FN");
-            this.SLCompare.Add("LN");
-            this.SLCompare.Add("SN");
-            this.SLCompare.Add("NC");
-            this.SLCompare.Add("GR");
-            this.SLCompare.Add("PB");
+            this.SLCompare.Add('FN');
+            this.SLCompare.Add('LN');
+            this.SLCompare.Add('SN');
+            this.SLCompare.Add('NC');
+            this.SLCompare.Add('GR');
+            this.SLCompare.Add('PB');
 
             this.SLCompare.Add(FieldNames.FN);
             this.SLCompare.Add(FieldNames.LN);
@@ -181,14 +187,15 @@ export class TMsgParser extends TLineParser {
             this.SLCompare.Add(FieldNames.GR);
             this.SLCompare.Add(FieldNames.PB);
 
-            for (let j = 1; j <= this.BO.BOParams.FieldCount; j++)
-                this.SLCompare.Add("N" + j.toString());
+            for (let j = 1; j <= this.BO.BOParams.FieldCount; j++) {
+                this.SLCompare.Add('N' + j.toString());
+            }
         }
 
-        this.SLCompare.Add("Count");
+        this.SLCompare.Add('Count');
 
         this.sCommand = this.CompareToken(this.sRest);
-        return (this.sCommand !== "");
+        return (this.sCommand !== '');
     }
 
     protected ParseAthlete(): boolean {
@@ -197,13 +204,13 @@ export class TMsgParser extends TLineParser {
         if (temp > -1) {
             this.sAthlete = this.sToken;
             result = true;
-        }
-        else {
+        } else {
             this.sAthlete = '';
             result = false;
         }
-        if (!result)
+        if (!result) {
             this.FLastError = TCommandPathError.Error_Athlete;
+        }
         return result;
     }
 
@@ -214,13 +221,13 @@ export class TMsgParser extends TLineParser {
             this.sRunID = this.MsgToken.cTokenRace + this.sToken;
             this.iRace = TUtils.StrToIntDef(this.sToken, 0);
             result = true;
-        }
-        else {
+        } else {
             this.sRunID = '';
             result = false;
         }
-        if (!result)
+        if (!result) {
             this.FLastError = TCommandPathError.Error_TokenZ;
+        }
         return result;
     }
 
@@ -230,13 +237,13 @@ export class TMsgParser extends TLineParser {
         if (temp > -1) {
             this.sBib = this.sToken;
             result = true;
-        }
-        else {
+        } else {
             this.sBib = '';
             result = false;
         }
-        if (!result)
+        if (!result) {
             this.FLastError = TCommandPathError.Error_Bib;
+        }
         return result;
     }
 
@@ -246,13 +253,13 @@ export class TMsgParser extends TLineParser {
         if (temp > -1) {
             this.sPos = this.sToken;
             result = true;
-        }
-        else {
+        } else {
             this.sPos = '';
             result = false;
         }
-        if (!result)
+        if (!result) {
             this.FLastError = TCommandPathError.Error_Pos;
+        }
         return result;
     }
 
@@ -262,13 +269,13 @@ export class TMsgParser extends TLineParser {
         if (temp > -1) {
             this.sMsgID = this.sToken;
             result = true;
-        }
-        else {
+        } else {
             this.sMsgID = '';
             result = false;
         }
-        if (!result)
+        if (!result) {
             this.FLastError = TCommandPathError.Error_MsgID;
+        }
 
         return result;
     }
@@ -281,11 +288,11 @@ export class TMsgParser extends TLineParser {
         return true;
         // ###
         /*
-        return ((FValue === "dnf")
-          || (FValue === "dsq")
-          || (FValue === "dns")
-          || (FValue === "ok")
-          || (FValue === "*"));
+        return ((FValue === 'dnf')
+          || (FValue === 'dsq')
+          || (FValue === 'dns')
+          || (FValue === 'ok')
+          || (FValue === '*'));
         */
     }
 
@@ -293,42 +300,38 @@ export class TMsgParser extends TLineParser {
         this.sValue = '';
         let result = false;
 
-        if (this.sCommand === "XX")
+        if (this.sCommand === 'XX') {
             result = true;
-
-        else if (this.sCommand === "QU")
+        } else if (this.sCommand === 'QU') {
             result = this.ParseStatusValue();
-
-        else if (this.IsTimeCommand())
+        } else if (this.IsTimeCommand()) {
             result = this.ParseTimeValue();
-
-        else if ((this.sCommand === "DG")
-            || (this.sCommand === "Bib")
-            || (this.sCommand === "SNR")
-            || (this.sCommand === "Count")
-            || (this.sCommand === "Rank")
-            || (this.sCommand === "FM")
-        )
+        } else if ((this.sCommand === 'DG')
+            || (this.sCommand === 'Bib')
+            || (this.sCommand === 'SNR')
+            || (this.sCommand === 'Count')
+            || (this.sCommand === 'Rank')
+            || (this.sCommand === 'FM')
+        ) {
             result = this.ParsePositiveIntegerValue();
-
-        else if (this.IsAthleteCommand())
+        } else if (this.IsAthleteCommand()) {
             result = true;
-
-        else if (this.sCommand === "IsRacing")
+        } else if (this.sCommand === 'IsRacing') {
             result = this.ParseBooleanValue();
-
-        else if (this.sCommand === "RV")
+        } else if (this.sCommand === 'RV') {
             result = true; // ParseRaceValue()
+        }
 
-        if (result)
+        if (result) {
             this.sValue = this.FValue;
+        }
 
         return result;
     }
 
     protected ParseBooleanValue(): boolean {
         const s: string = this.FValue.toLowerCase();
-        return ((s === "false") || (s === "true"));
+        return ((s === 'false') || (s === 'true'));
     }
 
     protected ParsePositiveIntegerValue(): boolean {
@@ -348,12 +351,12 @@ export class TMsgParser extends TLineParser {
             || (this.sCommand === FieldNames.GR)
             || (this.sCommand === FieldNames.PB)
 
-            || (this.sCommand === "FN")
-            || (this.sCommand === "LN")
-            || (this.sCommand === "SN")
-            || (this.sCommand === "NC")
-            || (this.sCommand === "GR")
-            || (this.sCommand === "PB")
+            || (this.sCommand === 'FN')
+            || (this.sCommand === 'LN')
+            || (this.sCommand === 'SN')
+            || (this.sCommand === 'NC')
+            || (this.sCommand === 'GR')
+            || (this.sCommand === 'PB')
 
             || this.IsProp(this.sCommand)
 
@@ -362,17 +365,25 @@ export class TMsgParser extends TLineParser {
     }
 
     protected IsNameCommand(Token: string): boolean {
-        if (Token == null) return false;
-        if (Token.length < 2) return false;
-        if (!Token.startsWith("N")) return false;
-        if (TUtils.StrToIntDef(Token.substring(1), -1) === -1) return false;
+        if (Token == null) {
+            return false;
+        }
+        if (Token.length < 2) {
+            return false;
+        }
+        if (!Token.startsWith('N')) {
+            return false;
+        }
+        if (TUtils.StrToIntDef(Token.substring(1), -1) === -1) {
+            return false;
+        }
         return true;
     }
 
     private IsTimeCommand(): boolean {
-        return ((this.sCommand === "ST")
-            || (this.sCommand.substring(0, 2) === "IT")
-            || (this.sCommand === "FT"));
+        return ((this.sCommand === 'ST')
+            || (this.sCommand.substring(0, 2) === 'IT')
+            || (this.sCommand === 'FT'));
     }
 
     protected IsRunID(): boolean {
@@ -394,54 +405,61 @@ export class TMsgParser extends TLineParser {
         this.FInput = sKey + '=' + sValue;
         this.sRest = sKey;
 
-        if (this.TestTokenName(this.MsgToken.cTokenA))
+        if (this.TestTokenName(this.MsgToken.cTokenA)) {
             this.NextToken();
+        }
 
-        if (!this.ParseDivision())
+        if (!this.ParseDivision()) {
             return false;
+        }
 
-        if (this.TestTokenName('Msg'))
-            if (!this.ParseMsgID())
+        if (this.TestTokenName('Msg')) {
+            if (!this.ParseMsgID()) {
                 return false;
+            }
+        }
 
-        if (this.ParseLeaf())
+        if (this.ParseLeaf()) {
             return true;
+        }
 
         if (this.TestTokenName(this.MsgToken.cTokenID)) {
-            if (!this.ParseAthlete())
+            if (!this.ParseAthlete()) {
                 return false;
-        }
-        else {
-            if (this.TestTokenName(this.MsgToken.cTokenRace)) {
-                if (!this.ParseRace())
-                    return false;
             }
-            // RunID
-            else if (!this.ParseRunID())
+        } else {
+            if (this.TestTokenName(this.MsgToken.cTokenRace)) {
+                if (!this.ParseRace()) {
+                    return false;
+                }
+            } else if (!this.ParseRunID()) {
+                // RunID
                 return false;
+            }
 
             if (this.TestTokenName('STL')) {
                 this.NextToken();
 
                 // property Startlist.Count
-                if (this.ParseLeaf())
+                if (this.ParseLeaf()) {
                     return true;
+                }
 
                 // Pos
-                if (!this.ParsePos())
+                if (!this.ParsePos()) {
                     return false;
-            }
-
-            else if (this.IsRunID()) {
+                }
+            } else if (this.IsRunID()) {
                 if (this.TestTokenName('Pos')) {
                     // Pos
-                    if (!this.ParsePos())
+                    if (!this.ParsePos()) {
                         return false;
-                }
-                else {
+                    }
+                } else {
                     // Bib
-                    if (!this.ParseBib())
+                    if (!this.ParseBib()) {
                         return false;
+                    }
                 }
             }
         }
@@ -466,9 +484,9 @@ export class TMsgParser extends TLineParser {
         this.FValue = '';
         this.FMsgType = TMsgType.None;
 
-        this.sToken = "";
-        this.sRest = "";
-        this.sMsgID = "";
+        this.sToken = '';
+        this.sRest = '';
+        this.sMsgID = '';
         this.iRace = 0;
     }
 
@@ -476,19 +494,20 @@ export class TMsgParser extends TLineParser {
         this.SL.Clear();
 
         let temp: string;
-        const i = s.indexOf("=");
+        const i = s.indexOf('=');
         if (i > -1) {
             let s1: string = s.substring(0, i);
             s1 = s1.trim();
             let s2: string = s.substring(i + 1);
             s2 = s2.trim();
-            temp = s1 + "=" + s2;
+            temp = s1 + '=' + s2;
+        } else {
+            temp = s.replace(' ', '');
         }
-        else
-            temp = s.replace(" ", "");
 
-        if (temp.indexOf("=") === -1)
-            temp = temp + "=";
+        if (temp.indexOf('=') === -1) {
+            temp = temp + '=';
+        }
         this.SL.Add(temp);
         this.FKey = this.SL.KeyFromIndex(0);
         this.FValue = this.SL.ValueFromIndex(0);

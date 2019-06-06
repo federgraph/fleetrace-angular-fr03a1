@@ -1,11 +1,11 @@
-import { TBaseRowCollectionItem } from "../../grid/col-grid";
-import { TStammdatenColGrid, TStammdatenColProps } from "./stammdaten-grid";
-import { TStammdatenBO } from "./stammdaten-bo";
-import { TStammdatenNode } from "./stammdaten-node";
-import { TStammdatenRowCollection } from "./stammdaten-row-collection";
-import { TStammdatenColProp } from "./stammdaten-col-prop";
-import { TProps, TProp } from "../../util/fb-props";
-import { TBO } from "../../fr/fr-bo";
+import { TBaseRowCollectionItem } from '../../grid/col-grid';
+import { TStammdatenColGrid, TStammdatenColProps } from './stammdaten-grid';
+import { TStammdatenBO } from './stammdaten-bo';
+import { TStammdatenNode } from './stammdaten-node';
+import { TStammdatenRowCollection } from './stammdaten-row-collection';
+import { TStammdatenColProp } from './stammdaten-col-prop';
+import { TProps, TProp } from '../../util/fb-props';
+import { TBO } from '../../fr/fr-bo';
 
 export class TStammdatenRowCollectionItem extends TBaseRowCollectionItem<
     TStammdatenColGrid,
@@ -18,13 +18,13 @@ export class TStammdatenRowCollectionItem extends TBaseRowCollectionItem<
     > {
     SNR: number;
 
-    private FFN = "";
-    private FLN = "";
-    private FSN = "";
-    private FNC = "";
-    private FGR = "";
-    private FPB = "";
-    private FDN = "";
+    private FFN = '';
+    private FLN = '';
+    private FSN = '';
+    private FNC = '';
+    private FGR = '';
+    private FPB = '';
+    private FDN = '';
 
     Props: TProps = new TProps();
 
@@ -37,10 +37,10 @@ export class TStammdatenRowCollectionItem extends TBaseRowCollectionItem<
     }
 
     protected GetIndex(): number {
-        if (this.Collection != null)
+        if (this.Collection != null) {
             return this.Collection.Items.indexOf(this);
-        else
-            return -1;
+        }
+        return -1;
     }
 
     Assign(e: TStammdatenRowCollectionItem): void {
@@ -58,13 +58,13 @@ export class TStammdatenRowCollectionItem extends TBaseRowCollectionItem<
     }
 
     ClearList() {
-        this.FFN = "";
-        this.FLN = "";
-        this.FSN = "";
-        this.FNC = "";
-        this.FGR = "";
-        this.FPB = "";
-        this.FDN = "";    
+        this.FFN = '';
+        this.FLN = '';
+        this.FSN = '';
+        this.FNC = '';
+        this.FGR = '';
+        this.FPB = '';
+        this.FDN = '';
     }
 
     get FN(): string {
@@ -142,7 +142,7 @@ export class TStammdatenRowCollectionItem extends TBaseRowCollectionItem<
                     break;
                 }
         }
-        return "";
+        return '';
     }
     setItem(index: number, value: string) {
         switch (index) {
@@ -156,7 +156,7 @@ export class TStammdatenRowCollectionItem extends TBaseRowCollectionItem<
                 {
                     if (index > 0 && index <= this.FieldCount) {
                         const p = new TProp();
-                        p.Key = "N" + index.toString();
+                        p.Key = 'N' + index.toString();
                         p.Value = value;
                         this.Props.SetProp(index, p);
                     }
@@ -168,9 +168,10 @@ export class TStammdatenRowCollectionItem extends TBaseRowCollectionItem<
 
 
     GetFieldUsed(f: number): boolean {
-        for(let i = 0; i < this.Collection.Count; i++) {
-            if (this.Collection.Items[i].getItem(f) !== "")
+        for (let i = 0; i < this.Collection.Count; i++) {
+            if (this.Collection.Items[i].getItem(f) !== '') {
                 return true;
+            }
         }
         return false;
     }

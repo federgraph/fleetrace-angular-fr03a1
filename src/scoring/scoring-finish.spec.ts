@@ -1,8 +1,8 @@
-import { TFinishPosition } from "./scoring-finish-position";
-import { Constants, TRSPenalty } from "./scoring-penalty";
-import { TFinish } from "./scoring-finish";
-import { TRace } from "./scoring-race";
-import { TEntry } from "./scoring-entry";
+import { TFinishPosition } from './scoring-finish-position';
+import { Constants, TRSPenalty } from './scoring-penalty';
+import { TFinish } from './scoring-finish';
+import { TRace } from './scoring-race';
+import { TEntry } from './scoring-entry';
 
 describe('scoring-finish', () => {
 
@@ -37,7 +37,7 @@ describe('scoring-finish', () => {
         expect(fp.isValidFinish()).toBe(false);
         expect(fp.isFinisher()).toBe(false);
         expect(fp.intValue()).toBe(Constants.NOF);
-        expect(fp.toString()).toBe("No Finish");        
+        expect(fp.toString()).toBe('No Finish');
     });
 
     it('test construction of TFinish(r, e, fp, p)', () => {
@@ -58,7 +58,7 @@ describe('scoring-finish', () => {
         expect(fp.isValidFinish()).toBe(true);
         expect(fp.isFinisher()).toBe(true);
         expect(fp.intValue()).toBe(2);
-        expect(fp.toString()).toBe("2");        
+        expect(fp.toString()).toBe('2');
     });
 
 

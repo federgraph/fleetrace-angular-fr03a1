@@ -10,8 +10,8 @@ import { IEventDataItem, TEventDataAsset } from '../shared/test-data';
 export class FeaturedEventComponent {
 
   Counter: number = 0;
-  Info: string = "info";
-  Error: string = "";
+  Info: string = 'info';
+  Error: string = '';
   HasError: boolean = false;
   CurrentEventData: IEventDataItem;
 
@@ -19,7 +19,7 @@ export class FeaturedEventComponent {
 
   FeaturedUrl = '/api/event-data';
 
-  constructor(private httpClient: HttpClient) { 
+  constructor(private httpClient: HttpClient) {
     this.CurrentEventData = new TEventDataAsset();
   }
 
@@ -43,25 +43,24 @@ export class FeaturedEventComponent {
     this.CurrentEventData.EventName = 'Featured Event';
     this.loadEventDataItem(this.FeaturedUrl);
   }
-  
+
   loadEventDataItem(fn: string): void {
-    this.httpClient.get(fn, {responseType: 'text'}).subscribe(    
-      data => this.onEventDataItemAvailable(data), 
+    this.httpClient.get(fn, {responseType: 'text'}).subscribe(
+      data => this.onEventDataItemAvailable(data),
       (err: HttpErrorResponse) => {
         console.log('Error detected in loadEventDataItem.');
         this.Error = 'Got error, see console log for more detailed info.';
         this.HasError = true;
       }
-    );    
+    );
   }
 
   onEventDataItemAvailable(data: string) {
-    if (data !== "") {
+    if (data !== '') {
       this.CurrentEventData.EventData = data;
       this.dataAvailable.emit(this.CurrentEventData);
-    }
-    else {
-      console.log("featured-event: cannot load event data item.");
+    } else {
+      console.log('featured-event: cannot load event data item.');
     }
   }
 

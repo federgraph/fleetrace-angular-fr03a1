@@ -1,16 +1,18 @@
-import { IScoringModel } from "./scoring-model";
-import { TRacePoints } from "./scoring-race-points";
-import { TRace } from "./scoring-race";
-import { TRacePointsList } from "./scoring-race-points-list";
-import { TFinish } from "./scoring-finish";
-import { Constants, TRSPenalty } from "./scoring-penalty";
-import { TRaceList } from "./scoring-race-list";
-import { TEntryList } from "./scoring-entry-list";
-import { TSeriesPointsList } from "./scoring-series-points-list";
-import { TSeriesPoints } from "./scoring-series-points";
-import { TEntry } from "./scoring-entry";
+import { IScoringModel } from './scoring-model';
+import { TRacePoints } from './scoring-race-points';
+import { TRace } from './scoring-race';
+import { TRacePointsList } from './scoring-race-points-list';
+import { TFinish } from './scoring-finish';
+import { Constants, TRSPenalty } from './scoring-penalty';
+import { TRaceList } from './scoring-race-list';
+import { TEntryList } from './scoring-entry-list';
+import { TSeriesPointsList } from './scoring-series-points-list';
+import { TSeriesPoints } from './scoring-series-points';
+import { TEntry } from './scoring-entry';
 
-/**ISAF LowPoint scoring system*/
+/**
+ * ISAF LowPoint scoring system
+ */
 export class TScoringLowPoint implements IScoringModel {
 
     static readonly TLE_DNF = 0;
@@ -20,9 +22,9 @@ export class TScoringLowPoint implements IScoringModel {
 
     static readonly TIE_RRS_DEFAULT: number = 1;
     static readonly TIE_RRS_A82_ONLY: number = 2;
-    
+
     protected static readonly TIEBREAK_INCREMENT: number = 0.0001;
-    
+
     FirstIs75 = false;
     ReorderRAF = true;
     HasFleets: boolean = false;
@@ -31,9 +33,9 @@ export class TScoringLowPoint implements IScoringModel {
     TiebreakerMode: number = TScoringLowPoint.TIE_RRS_DEFAULT;
 
     /**
-     * option per RRS2001 A9 for different penalties for "long" series
+     * option per RRS2001 A9 for different penalties for 'long' series
      * If true, the penalties as per A9 will be applied
-    */
+     */
     IsLongSeries = false;
 
     FixedNumberOfThrowouts = 0;
@@ -41,7 +43,7 @@ export class TScoringLowPoint implements IScoringModel {
     /**
      * Default percentage penalty for failure to check-in
      */
-    CheckinPercent = 20;    
+    CheckinPercent = 20;
     TimeLimitPenalty: number;
 
     constructor() {
@@ -52,7 +54,7 @@ export class TScoringLowPoint implements IScoringModel {
         return 0;
     }
     getName(): string {
-        return "Low Point";
+        return 'Low Point';
     }
 
     setAttributes(value: IScoringModel) {
@@ -64,9 +66,7 @@ export class TScoringLowPoint implements IScoringModel {
             this.FixedNumberOfThrowouts = that.FixedNumberOfThrowouts;
             this.FirstIs75 = that.FirstIs75;
             this.ReorderRAF = that.ReorderRAF;
-        }
-        catch
-        {
+        } catch {
         }
     }
 
@@ -84,7 +84,7 @@ export class TScoringLowPoint implements IScoringModel {
 
     /**
      * trivial implementation, doesn't really sort at all
-    */
+     */
     compareTo(that: TScoringLowPoint): number {
         return 0; // this.toString().compareTo(obj.toString());
     }
@@ -95,33 +95,39 @@ export class TScoringLowPoint implements IScoringModel {
     equals(that: TScoringLowPoint): boolean {
         // if (!(obj instanceof TScoringLowPoint))
         //     return false;
-        if (! that)
+        if (! that) {
             return false;
-        if (this === that)
+        }
+        if (this === that) {
             return true;
+        }
 
         // let that: TScoringLowPoint = obj as TScoringLowPoint;
 
-        if (!(this.toString() === that.toString()))
+        if (!(this.toString() === that.toString())) {
             return false;
-        if (this.CheckinPercent !== that.CheckinPercent)
+        }
+        if (this.CheckinPercent !== that.CheckinPercent) {
             return false;
-        if (this.TimeLimitPenalty !== that.TimeLimitPenalty)
+        }
+        if (this.TimeLimitPenalty !== that.TimeLimitPenalty) {
             return false;
+        }
 
         return this.FixedNumberOfThrowouts === that.FixedNumberOfThrowouts;
         // return this.Throwouts.equals(that.Throwouts);
     }
 
     toString(): string {
-        return "ScoringLowPoint";
+        return 'ScoringLowPoint';
     }
 
     scoreRace(r: TRace, points: TRacePointsList, positionOnly: boolean) {
-        if (r.HasFleets)
+        if (r.HasFleets) {
             this.scoreRace2(r, points, this.FirstIs75, positionOnly);
-        else
+        } else {
             this.scoreRace1(r, points, this.FirstIs75, positionOnly);
+        }
     }
 
     protected scoreRace2(
@@ -133,8 +139,9 @@ export class TScoringLowPoint implements IScoringModel {
         // find the number of fleets in the race
         let fc = 0;
         points.forEach((rp: TRacePoints) => {
-            if (rp.Finish != null && rp.Finish.Fleet > fc)
+            if (rp.Finish != null && rp.Finish.Fleet > fc) {
                 fc = rp.Finish.Fleet;
+            }
         });
 
         const rpl: TRacePointsList = new TRacePointsList();
@@ -146,8 +153,9 @@ export class TScoringLowPoint implements IScoringModel {
                     rpl.Add(rp);
                 }
             });
-            if (rpl.length > 0)
+            if (rpl.length > 0) {
                 this.scoreRace1(race, rpl, this.FirstIs75, positionOnly);
+            }
             rpl.length = 0;
         }
     }
@@ -157,19 +165,19 @@ export class TScoringLowPoint implements IScoringModel {
      * he entries should be assumed to represent a single class within the Race
      * alculateRace can assume that an Entries without a finish in the Race is DNC
      * ut should recognize that the Race may well have finishers not in the Entries.
-     * 
+     *
      * Also assumes that points is pre-populated, just needs to have finish points
      * assigned throws ScoringException if there is a problem with the scoring
-     * 
+     *
      * @param r race to be scored
      * @param points racepointslist in which to store the results
      * @param firstIs75 true if first place should be .75
-     * @param positionOnly 
-    */
+     * @param positionOnly if position only or not
+     */
     protected scoreRace1(
-        r: TRace, 
-        points: TRacePointsList, 
-        firstIs75: boolean, 
+        r: TRace,
+        points: TRacePointsList,
+        firstIs75: boolean,
         positionOnly: boolean
     ) {
         // sort points on finishposition sorted top to bottom by finish
@@ -183,7 +191,7 @@ export class TScoringLowPoint implements IScoringModel {
         let valid: boolean;
         let isdsq: boolean;
         let israf: boolean;
-        // loop thru the race's finishes, for each finish in the list, set the points			
+        // loop thru the race's finishes, for each finish in the list, set the points
         points.forEach((rp: TRacePoints) => {
             const f: TFinish = rp.Finish;
             let basePts: number = pts;
@@ -195,31 +203,33 @@ export class TScoringLowPoint implements IScoringModel {
 
             let isNormalCountup: boolean = (valid) && (!isdsq);
 
-            if (!this.ReorderRAF)
+            if (!this.ReorderRAF) {
                 isNormalCountup = (valid) && (israf || !isdsq);
+            }
 
             if (isNormalCountup) {
                 // RAF does not alter finish places
 
                 // increment points to be assigned to next guy if this
                 // one is a valid finisher and not disqualified
-                if (pts === .75)
+                if (pts === .75) {
                     pts = 1.0;
+                }
                 pts++;
-            }
-            else {
+            } else {
                 rp.Position = f.FinishPosition.intValue(); // has penalty type ecoded
             }
             if (f.hasPenalty()) {
                 basePts = this.getPenaltyPoints(f.Penalty, points, basePts);
             }
             if (!positionOnly) {
-                if (rp.IsMedalRace)
+                if (rp.IsMedalRace) {
                     rp.Points = basePts * 2;
-                else if (!rp.Finish.IsRacing)
+                } else if (!rp.Finish.IsRacing) {
                     rp.Points = 0.0;
-                else
+                } else {
                     rp.Points = basePts;
+                }
             }
         });
 
@@ -231,11 +241,11 @@ export class TScoringLowPoint implements IScoringModel {
                 if (rp.isTied(lastrp)) {
                     // boats are tied if neither has a penalty and the current boat
                     // has a valid corrected time, and its the same as the last corrected time
-                    if (tied.length === 0)
+                    if (tied.length === 0) {
                         tied.push(lastrp);
+                    }
                     tied.push(rp);
-                }
-                else if (tied.length > 0) {
+                } else if (tied.length > 0) {
                     // coming out of set of tied boats, reset their points and clear out
                     this.setTiedPoints(tied);
                     tied.length = 0;
@@ -243,15 +253,16 @@ export class TScoringLowPoint implements IScoringModel {
                 lastrp = rp;
             });
             // if processing tieds at end of loop
-            if (tied.length > 0)
+            if (tied.length > 0) {
                 this.setTiedPoints(tied);
+            }
         }
     }
 
     /**
      * Calculates the overall series points.
      * Assume that each individual race has already been calculated, and that throwouts have already be designated in the points objects
-     * 
+     *
      * @param races list of races involved in the series
      * @param entries to be considered in this series
      * @param points list of points for all races and entries (and maybe more)
@@ -268,8 +279,9 @@ export class TScoringLowPoint implements IScoringModel {
             const ePoints: TRacePointsList = points.findAllPointsForEntry(e); // list of e's finishes
             let tot = 0;
             ePoints.forEach((p: TRacePoints) => {
-                if (!p.IsThrowout)
+                if (!p.IsThrowout) {
                     tot += p.Points;
+                }
             });
             sp.Points = tot;
         });
@@ -285,9 +297,9 @@ export class TScoringLowPoint implements IScoringModel {
         let TiebreakerMode = TScoringLowPoint.TIE_RRS_DEFAULT;
 
         let i = races.length;
-        while (i > 0)
+
         // for (int i = races.Count-1; i >= 0; i--)
-        {
+        while (i > 0) {
             i--;
             r = races[i];
             if (r.IsFinalRace) {
@@ -295,10 +307,11 @@ export class TScoringLowPoint implements IScoringModel {
                     rp = racepoints.findPoints(r, e);
                     if (rp != null) {
                         if (rp.Finish != null) {
-                            if (rp.Finish.Fleet === 0)
+                            if (rp.Finish.Fleet === 0) {
                                 TiebreakerMode = TScoringLowPoint.TIE_RRS_A82_ONLY;
-                            else
+                            } else {
                                 TiebreakerMode = TScoringLowPoint.TIE_RRS_DEFAULT;
+                            }
                         }
                     }
                 });
@@ -306,22 +319,23 @@ export class TScoringLowPoint implements IScoringModel {
             break; // only look into last race
         }
 
-        if (TiebreakerMode === TScoringLowPoint.TIE_RRS_DEFAULT)
+        if (TiebreakerMode === TScoringLowPoint.TIE_RRS_DEFAULT) {
             this.calculateTieBreakersDefault(races, entries, racepoints, seriespoints);
-        else
+        } else {
             this.calculateTieBreakersAlternate(races, entries, racepoints, seriespoints);
+        }
     }
 
     /**
-     * Resolve ties among a group of tied boats.  
+     * Resolve ties among a group of tied boats.
      * A tie that is breakable should have .01 point increments added as appropriate.
-     * Assume that each individual race and series points have calculated, 
+     * Assume that each individual race and series points have calculated,
      * and that throwouts have already been designated in the points objects.
      * @param races races involved
      * @param entriesIn list of tied entries
      * @param points list of points for all races and entries (and maybe more!)
-     * @param series map containing series points for the entries, 
-     * prior to handling ties (and maybe more than just those entries)    
+     * @param series map containing series points for the entries,
+     * prior to handling ties (and maybe more than just those entries)
      */
     calculateTieBreakersDefault(
         races: TRaceList,
@@ -331,13 +345,14 @@ export class TScoringLowPoint implements IScoringModel {
         // EntryList entries = (EntryList) entriesIn.Clone(); //problem
         const entries: TEntryList = entriesIn.CloneEntries();
 
-        if (entries == null)
+        if (entries == null) {
             return;
+        }
 
         // first create a lists of finishes for each of the tied boats.
         // elist is a list of RacePointLists.
         // each elist item is a sorted list of racepoints that are not throwouts
-        // 1 elist item per tied entry, 
+        // 1 elist item per tied entry,
         const eLists: Array<TRacePointsList> = new Array<TRacePointsList>();
         entries.forEach((e: TEntry) => {
             const ePoints: TRacePointsList = points.findAllPointsForEntry(e);
@@ -363,8 +378,7 @@ export class TScoringLowPoint implements IScoringModel {
                 if (c < 0) {
                     bestPoints = leftPoints; // remember the best
                     tiedWithBest.length = 0; // start new group
-                }
-                else if (c === 0) {
+                } else if (c === 0) {
                     tiedWithBest.push(leftPoints); // tie found
                 }
             }
@@ -375,19 +389,19 @@ export class TScoringLowPoint implements IScoringModel {
                 this.compareWhoBeatWhoLast(tiedWithBest, series);
             }
             const inc: number = (tiedWithBest.length + 1) * TScoringLowPoint.TIEBREAK_INCREMENT;
-            
+
             /*eLists.Remove(bestPoints);*/
             const j = eLists.indexOf(bestPoints);
-            if (j > -1)
-                eLists.splice(j, 1);    
-    
+            if (j > -1) {
+                eLists.splice(j, 1);
+            }
 
             // eLists.removeAll(tiedWithBest); //bestPoint may be part of it, but not always
             tiedWithBest.forEach((o: TRacePointsList) => {
                 const i = eLists.indexOf(o);
                 if (i > -1) {
                     // eLists.RemoveAt(i);
-                    eLists.splice(i, 1);                        
+                    eLists.splice(i, 1);
                 }
             });
 
@@ -401,7 +415,9 @@ export class TScoringLowPoint implements IScoringModel {
         entries: TEntryList,
         racepoints: TRacePointsList,
         seriespoints: TSeriesPointsList): void {
-        if (entries == null) return;
+        if (entries == null) {
+            return;
+        }
 
         const rpLists: Array<TRacePointsList> = new Array<TRacePointsList>();
         entries.forEach((e: TEntry) => {
@@ -418,9 +434,11 @@ export class TScoringLowPoint implements IScoringModel {
         // delete throwouts from the list
         for (let i = ePoints.length - 1; i >= 0; i--) {
             const p: TRacePoints = ePoints[i];
-            if (p != null)
-                if (p.IsThrowout)
+            if (p != null) {
+                if (p.IsThrowout) {
                     ePoints.Remove(p);
+                }
+            }
         }
         ePoints.sortPoints();
         return ePoints;
@@ -428,15 +446,15 @@ export class TScoringLowPoint implements IScoringModel {
 
     /**
      * Compares two sets of race points for tie breaker resolution.
-     * RRS2001 A8.1: "If there is a series score tie between two or more boats,
+     * RRS2001 A8.1: 'If there is a series score tie between two or more boats,
      * each boat’s race scores shall be listed in order of best to worst,
-     * and at the first point(s) where there is a difference the tie 
+     * and at the first point(s) where there is a difference the tie
      * shall be broken in favour of the boat(s) with the best score(s).
-     * No excluded scores shall be used."
+     * No excluded scores shall be used.'
      * @param races races involved
      * @param inLeft racepointslist of lefty
      * @param inRight racepointslist of righty
-     * @returns -1 if "lefty" wins tiebreaker, 1 if righty wins, 0 if tied.
+     * @returns -1 if 'lefty' wins tiebreaker, 1 if righty wins, 0 if tied.
      */
     protected comparePointsBestToWorst(
         inLeft: TRacePointsList, inRight: TRacePointsList): number {
@@ -450,29 +468,29 @@ export class TScoringLowPoint implements IScoringModel {
         for (let i = 0; i < left.length; i++) {
             lp = (left[i]).Points;
             rp = (right[i]).Points;
-            if (lp < rp)
+            if (lp < rp) {
                 return - 1;
-            else if (rp < lp)
+            } else if (rp < lp) {
                 return 1;
+            }
         }
         return 0;
     }
 
     /**
-    applying the remaining tiebreakers of RRS2001 A8 to set of boats tied after
-    comparing their list of scores.  This is the new 2002+ formula after ISAF
-    deleted 8.2 and renumbered 8.3 to 8.2
-    
-    RRS2001 modified A8.2 (old 8.3): "If a tie still remains between two or more 
-    boats, they shall be ranked in order of their scores in the last race. 
-    Any remaining ties shall be broken by using the tied boats’ scores in the 
-    next-to-last race and so on until all ties are broken. 
-    These scores shall be used even if some of them are excluded scores."</p>
-    
-    @param stillTied list of boat scores of the group for which A8.1 does not resolve the tie
-    
-    @param series list of series scores
-    */
+     * applying the remaining tiebreakers of RRS2001 A8 to set of boats tied after
+     * comparing their list of scores.  This is the new 2002+ formula after ISAF
+     * deleted 8.2 and renumbered 8.3 to 8.2
+     *
+     * RRS2001 modified A8.2 (old 8.3): 'If a tie still remains between two or more
+     * boats, they shall be ranked in order of their scores in the last race.
+     * Any remaining ties shall be broken by using the tied boats’ scores in the
+     * next-to-last race and so on until all ties are broken.
+     * These scores shall be used even if some of them are excluded scores.'</p>
+     *
+     * @param stillTied list of boat scores of the group for which A8.1 does not resolve the tie
+     * @param series list of series scores
+     */
     protected compareWhoBeatWhoLast(
         stillTied: Array<TRacePointsList>, series: TSeriesPointsList): void {
         const nRaces: number = (stillTied[0] as TRacePointsList).length;
@@ -491,15 +509,16 @@ export class TScoringLowPoint implements IScoringModel {
         // now have beatenCount, can increment an entries score TIEBREAK_INCREMENT for each
         // boat in the list with a higher beaten count
         for (let e = 0; e < nTied; e++) {
-            // this is otherLoop: 
+            // this is otherLoop:
             for (let o = 0; o < nTied; o++) {
                 if ((e !== o) && (beatenCount[e] === beatenCount[o])) {
                     //
                     for (let r = nRaces - 1; r >= 0; r--) {
                         const ePts = stillTied[e][r].Points;
                         const oPts = stillTied[o][r].Points;
-                        if (ePts > oPts)
+                        if (ePts > oPts) {
                             this.incrementSeriesScore(tiedEntries[e], TScoringLowPoint.TIEBREAK_INCREMENT, series);
+                        }
                         if (ePts !== oPts) {
                             // goto otherLoop;
                             gotoFlag = true;
@@ -507,10 +526,11 @@ export class TScoringLowPoint implements IScoringModel {
                         }
                     }
                 }
-                if (gotoFlag)
+                if (gotoFlag) {
                     break;
+                }
             }
-            // otherLoop: ; 
+            // otherLoop: ;
             gotoFlag = false;
         }
     }
@@ -526,12 +546,10 @@ export class TScoringLowPoint implements IScoringModel {
     protected incrementSeriesScores(
         eLists: Array<TRacePointsList>, amount: number, series: TSeriesPointsList): void {
         // add TIEBREAK_INCREMENT to series points of remaining tied boats
-        for (let i = 0; i < eLists.length; i++) {
-            const pl: TRacePointsList = eLists[i];
+        for (const pl of eLists) {
             if (pl.length === 0) {
-                console.log("ScoringMessageInvalidSeries");
-            }
-            else {
+                console.log('ScoringMessageInvalidSeries');
+            } else {
                 // pull entry from 1st element of the (i'th) eList
                 this.incrementSeriesScore(pl[0].Entry, amount, series);
             }
@@ -560,8 +578,9 @@ export class TScoringLowPoint implements IScoringModel {
             nEntries = rpList.length;
         }
 
-        if (this.HasFleets && this.TargetFleetSize > nEntries && (!this.IsFinalRace))
+        if (this.HasFleets && this.TargetFleetSize > nEntries && (!this.IsFinalRace)) {
             nEntries = this.TargetFleetSize;
+        }
 
         // if STP, MAN, RDG, or DIP: return fixed points and be gone
         if (p.hasPenalty(Constants.STP) || p.hasPenalty(Constants.MAN) || p.hasPenalty(Constants.RDG) || p.hasPenalty(Constants.DPI)) {
@@ -576,24 +595,27 @@ export class TScoringLowPoint implements IScoringModel {
          * the number of boats that came to the starting area. A boat that did not come to
          * the starting area (DNC) shall be scored points for the finishing place one more than the
          * number of boats entered in the series.
-         * 
+         *
          * if a DSQ penalty, return DSQ points a be gone (DSQ, DNE, OCS, BFD, UFD, RAF)
          */
         if (p.isDsqPenalty()) {
-            if (rpList == null)
+            if (rpList == null) {
                 return 0;
+            }
             return this.IsLongSeries ? (nEntries - rpList.getNumberWithPenalty(Constants.DNC) + 1) : (nEntries + 1);
         }
 
         // did come to the starting area but did not start
-        if (p.hasPenalty(Constants.DNC))
+        if (p.hasPenalty(Constants.DNC)) {
             return nEntries + 1;
+        }
 
         // any non-finish penalty other than TLE, return entries + 1 and be gone
         // dnf, dns, (dnc already dealt with)
         if (p.isFinishPenalty() && !p.hasPenalty(Constants.TLE)) {
-            if (rpList == null)
+            if (rpList == null) {
                 return 0;
+            }
             return this.IsLongSeries ? (nEntries - rpList.getNumberWithPenalty(Constants.DNC) + 1) : (nEntries + 1);
         }
 
@@ -632,22 +654,22 @@ export class TScoringLowPoint implements IScoringModel {
         if (p.hasPenalty(Constants.ZFP)) {
             basePts = Math.round(this.calcPercent(20, basePts, nEntries, dsqPoints));
         }
-        if (p.hasPenalty(Constants.SCP))
+        if (p.hasPenalty(Constants.SCP)) {
             basePts = Math.round(this.calcPercent(p.Percent, basePts, nEntries, dsqPoints));
+        }
 
         return basePts;
     }
 
     /**
-    returns percent of number of entries, to nearest 10th, .5 going up
-    with a maximum points of those for DNC
-    
-    @param pct the percent to be assigned
-    @param basePts initial number of points
-    @param nEntries number of entries in race
-    @param maxPoints max points to be awarded
-    @returns new points value
-    */
+     * returns percent of number of entries, to nearest 10th, .5 going up
+     * with a maximum points of those for DNC
+     * @param pct the percent to be assigned
+     * @param basePts initial number of points
+     * @param nEntries number of entries in race
+     * @param maxPoints max points to be awarded
+     * @returns new points value
+     */
     protected calcPercent(
         pct: number, // Integer
         basePts: number,
@@ -670,18 +692,19 @@ export class TScoringLowPoint implements IScoringModel {
      */
     protected getNumberThrowouts(pointsList: TRacePointsList): number {
         const nRaces = pointsList.length;
-        if (this.FixedNumberOfThrowouts < nRaces)
+        if (this.FixedNumberOfThrowouts < nRaces) {
             return this.FixedNumberOfThrowouts;
-        else
+        } else {
             return nRaces - 1;
+        }
     }
 
     /**
      * Calculates throwouts...; its also the responsibility of the ScoringSystem to manage the setting of throwout criteria.
      * Assumes that prior throwout flags have been cleared prior to calling this method
-     * 
+     *
      * NOTE: if a boat has more that one race that is equal to their worse race;
-     * this will select their earliest "worst races" as their throwout;
+     * this will select their earliest 'worst races' as their throwout;
      * THIS CAN, IN RARE CASES, under 97 to 2000 rules, be a problem;
      * But situation is clear in 2001-2004 rule
      * @param pointsList list of race points on which to calc throwouts

@@ -1,9 +1,9 @@
-import { IScoringModel } from "./scoring-model";
-import { TRaceList } from "./scoring-race-list";
-import { TRacePointsList } from "./scoring-race-points-list";
-import { TSeriesPointsList } from "./scoring-series-points-list";
-import { TEntryList } from "./scoring-entry-list";
-import { TSeriesPoints } from "./scoring-series-points";
+import { IScoringModel } from './scoring-model';
+import { TRaceList } from './scoring-race-list';
+import { TRacePointsList } from './scoring-race-points-list';
+import { TSeriesPointsList } from './scoring-series-points-list';
+import { TEntryList } from './scoring-entry-list';
+import { TSeriesPoints } from './scoring-series-points';
 
 /**
  * covering class to run tied boats through a tiebreaker
@@ -41,8 +41,7 @@ export class TScoringTiebreaker {
                     tiedBunch.Add(basePoints.Entry);
                 }
                 tiedBunch.Add(newPoints.Entry);
-            }
-            else {
+            } else {
                 // this one not tie, send bunch to tiebreaker resolution
                 if (tiedBunch.Count > 0) {
                     this.breakTies(tiedBunch);

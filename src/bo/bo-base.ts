@@ -4,17 +4,16 @@ import { TBOManager } from './bo-manager';
 import { TBOParams } from './bo-params';
 
 export abstract class TBaseBO {
-    CounterMsgHandled = 0;       
-    BackupDir = "";
-    
+    CounterMsgHandled = 0;
+    BackupDir = '';
+
     constructor(
         public IniImage: TIniImage,
         public BOManager: TBOManager,
-        public BOParams: TBOParams) 
-    {
+        public BOParams: TBOParams) {
     }
-    
-    protected FLoading: boolean = false;    
+
+    protected FLoading: boolean = false;
     get Loading(): boolean { return this.FLoading; }
 
     abstract Calc(): boolean;

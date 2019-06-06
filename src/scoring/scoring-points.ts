@@ -1,9 +1,9 @@
-﻿import { TEntry } from "./scoring-entry";
-import { TScoringUtils } from "./scoring-utils";
+﻿import { TEntry } from './scoring-entry';
+import { TScoringUtils } from './scoring-utils';
 
 
 /**
- * abstract class, 
+ * abstract class,
  * is linked to an Entry,
  * contains position and points information,
  * implemented as RacePoints and SeriesPoints
@@ -25,25 +25,28 @@ export abstract class TPoints {
             // return object.equals(left, right);
             return TScoringUtils.equals(left, right);
             // return left.equals(right);
-        }
-        catch // (System.NullReferenceException /*e*/) 
-        {
+        } catch {
             return (right == null);
         }
     }
 
     equals(that: TPoints): boolean {
-        if (this === that)
+        if (this === that) {
             return true;
-        if (!that)
+        }
+        if (!that) {
             return false;
+        }
 
-        if (this.Points !== that.Points)
+        if (this.Points !== that.Points) {
             return false;
-        if (this.Position !== that.Position)
+        }
+        if (this.Position !== that.Position) {
             return false;
-        if (!this.EqualsWithNull(this.Entry, that.Entry))
+        }
+        if (!this.EqualsWithNull(this.Entry, that.Entry)) {
             return false;
+        }
         return true;
     }
 

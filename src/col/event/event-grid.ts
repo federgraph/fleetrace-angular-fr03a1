@@ -1,8 +1,8 @@
-import { TBaseColProps, TColGrid } from "../../grid/col-grid";
-import { TEventRowCollectionItem, TEventRowCollection, TEventNode, TEventColProp } from "./event-row-collection";
-import { TEventBO } from "./event-bo";
-import { TSimpleHashGrid } from "../../grid/grid-cells";
-import { TBO } from "../../fr/fr-bo";
+import { TBaseColProps, TColGrid } from '../../grid/col-grid';
+import { TEventRowCollectionItem, TEventRowCollection, TEventNode, TEventColProp } from './event-row-collection';
+import { TEventBO } from './event-bo';
+import { TSimpleHashGrid } from '../../grid/grid-cells';
+import { TBO } from '../../fr/fr-bo';
 
 /*
 RCount = BO.BOParams.RaceCount + 1;
@@ -21,8 +21,7 @@ export class TEventColProps extends TBaseColProps<
     TEventRowCollection,
     TEventRowCollectionItem,
     TEventColProps,
-    TEventColProp>
-{
+    TEventColProp> {
     constructor(
         public AOwner: TEventColGrid,
         public BO: TBO,
@@ -42,9 +41,8 @@ export class TEventColGrid extends TColGrid<
     TEventRowCollection,
     TEventRowCollectionItem,
     TEventColProps,
-    TEventColProp>
-{
-    
+    TEventColProp> {
+
     constructor(
         public BO: TBO,
     ) {
@@ -58,20 +56,22 @@ export class TEventColGrid extends TColGrid<
     NewColBO(): TEventBO {
         return new TEventBO(this.BO);
     }
-    
+
     SetupGrid() {
         const cl = this.GetBaseRowCollection();
 
         // init RowCount, clear visible cells
-        if (cl != null && cl.Count > 0)
+        if (cl != null && cl.Count > 0) {
             this.Grid.RowCount = cl.FilteredCount + this.FirstRowIndex;
-        else
+        } else {
             this.Grid.RowCount = this.FirstRowIndex;
+        }
 
         this.Grid.ColCount = this.ColsActive.Count;
 
-        for (let i = this.HeaderRowIndex; i < this.Grid.RowCount + this.HeaderRowIndex; i++)
+        for (let i = this.HeaderRowIndex; i < this.Grid.RowCount + this.HeaderRowIndex; i++) {
             this.Grid.ClearRow(i);
+        }
 
         // init width of columns, show captions
         this.ShowHeader();
@@ -88,6 +88,5 @@ export class TSimpleEventGrid extends TSimpleHashGrid<
     TEventRowCollection,
     TEventRowCollectionItem,
     TEventColProps,
-    TEventColProp>
-{
+    TEventColProp> {
 }

@@ -1,4 +1,4 @@
-import { TUtils } from "../util/fb-classes";
+import { TUtils } from '../util/fb-classes';
 
 export enum TTimeStatus {
     tsNone,
@@ -11,13 +11,13 @@ export enum TTimeStatus {
 export class TimeStatusStruct {
     getItem(status: TTimeStatus) {
         switch (status) {
-            case TTimeStatus.tsNone: return "";
-            case TTimeStatus.tsAuto: return "Auto";
-            case TTimeStatus.tsMan: return "Man";
-            case TTimeStatus.tsTimePresent: return "Time";
-            case TTimeStatus.tsPenalty: return "Pen";
+            case TTimeStatus.tsNone: return '';
+            case TTimeStatus.tsAuto: return 'Auto';
+            case TTimeStatus.tsMan: return 'Man';
+            case TTimeStatus.tsTimePresent: return 'Time';
+            case TTimeStatus.tsPenalty: return 'Pen';
         }
-        return "";
+        return '';
     }
 }
 
@@ -46,10 +46,11 @@ export class TTimeSplit {
     Value = 0;
 
     private FormatNumber2(aNumber: number): string {
-        if (aNumber < 10)
-            return "0" + aNumber.toString();
-        else
+        if (aNumber < 10) {
+            return '0' + aNumber.toString();
+        } else {
             return aNumber.toString();
+        }
     }
 
     private FormatNumber4(aNumber: number): string {
@@ -78,10 +79,11 @@ export class TTimeSplit {
         this.Split(tv);
 
         const result = new TimeStrings();
-        if (tv.minus)
-            result.Sign = "M";
-        else
-            result.Sign = "P";
+        if (tv.minus) {
+            result.Sign = 'M';
+        } else {
+            result.Sign = 'P';
+        }
 
         result.Hour = this.FormatNumber2(tv.h);
         result.Min = this.FormatNumber2(tv.m);
@@ -96,12 +98,13 @@ export class TTimeSplit {
         this.Split(t);
         t.ss = Math.floor(t.ss / 100);
         let result =
-            this.FormatNumber2(t.h) + ":" +
-            this.FormatNumber2(t.m) + ":" +
-            this.FormatNumber2(t.s) + "." +
+            this.FormatNumber2(t.h) + ':' +
+            this.FormatNumber2(t.m) + ':' +
+            this.FormatNumber2(t.s) + '.' +
             this.FormatNumber2(t.ss);
-        if (t.minus)
-            result = "-" + result;
+        if (t.minus) {
+            result = '-' + result;
+        }
         return result;
     }
 
@@ -110,12 +113,13 @@ export class TTimeSplit {
         this.Split(t);
         t.ss = Math.floor(t.ss / 100);
         let result =
-            this.FormatNumber2(t.h) + ":" +
-            this.FormatNumber2(t.m) + ":" +
-            this.FormatNumber2(t.s) + "." +
-            this.FormatNumber2(t.ss) + "0";
-        if (t.minus)
-            result = "-" + result;
+            this.FormatNumber2(t.h) + ':' +
+            this.FormatNumber2(t.m) + ':' +
+            this.FormatNumber2(t.s) + '.' +
+            this.FormatNumber2(t.ss) + '0';
+        if (t.minus) {
+            result = '-' + result;
+        }
         return result;
     }
 
@@ -123,12 +127,13 @@ export class TTimeSplit {
         const t: TimeVar = new TimeVar();
         this.Split(t);
         let result =
-            this.FormatNumber2(t.h) + ":" +
-            this.FormatNumber2(t.m) + ":" +
-            this.FormatNumber2(t.s) + "." +
+            this.FormatNumber2(t.h) + ':' +
+            this.FormatNumber2(t.m) + ':' +
+            this.FormatNumber2(t.s) + '.' +
             this.FormatNumber4(t.ss);
-        if (t.minus)
-            result = "-" + result;
+        if (t.minus) {
+            result = '-' + result;
+        }
         return result;
     }
 
@@ -157,10 +162,10 @@ export class TTimeSplit {
     }
 
     get Sign(): string {
-        if (this.Value < 0)
-            return "M";
-        else
-            return "P";
+        if (this.Value < 0) {
+            return 'M';
+        }
+        return 'P';
     }
 }
 
@@ -171,8 +176,9 @@ export class TNTime {
     private FPrecision = 2;
 
     static StaticIsValidTimeString(TimeStr: string): boolean {
-        if (TimeStr === "")
+        if (TimeStr === '') {
             return false;
+        }
 
         // den letzten Punkt suchen (find last decimal point)
         let dotpos: number = TimeStr.lastIndexOf('.');
@@ -183,16 +189,17 @@ export class TNTime {
 
         // eventuell Punkt ergänzen (ensure decimal point)
         if ((lastcolon === -1) && (dotpos === -1)) {
-            TimeStr = TimeStr + ".0";
+            TimeStr = TimeStr + '.0';
             dotpos = TimeStr.lastIndexOf('.');
         }
 
         // Bemerkung: lastcolon und dotpos werden beide auf die Position des Dezimalpunktes gestellt
         // dotpos wird von hier ab nicht mehr verändert
-        if ((lastcolon === -1) && (dotpos > 0))
+        if ((lastcolon === -1) && (dotpos > 0)) {
             lastcolon = dotpos; // es war ein Komma
-        else if (lastcolon > 0)
+        } else if (lastcolon > 0) {
             dotpos = lastcolon; // war es ein Punkt
+        }
 
         // der Vorkommateil wird von dotpos aus nach links gelesen:
         // Sekunden zuerst, dann Minuten, dann Stunden
@@ -200,30 +207,32 @@ export class TNTime {
         // gegebenenfalls Nullen auffüllen (Sekunden, Minuten, Stunden, alles 2-stellig)
         for (let i = dotpos - 1; i >= 0; i--) {
             const cv: string = TimeStr[i];
-            if (cv === ':') { // ok
-            }
-            else if ((cv >= '0') && (cv <= '9')) { // ok
-            }
-            else
+            if (cv === ':') {
+                // ok
+            } else if ((cv >= '0') && (cv <= '9')) {
+                // ok
+            } else {
                 return false;
+            }
         }
 
         // der Nachkommateil wird von dotpos aus nach rechts gelesen:
         const sNachkomma: string = TimeStr.substring(dotpos + 1, TimeStr.length);
-        for (let j = 0; j < sNachkomma.length; j++) {
-            const cn: string = sNachkomma[j];
-            if ((cn < '0') || (cn > '9'))
+        for (const cn of sNachkomma) {
+            if ((cn < '0') || (cn > '9')) {
                 return false;
+            }
         }
         return true;
     }
-    
+
     /** Will place a zero in front of one-digit numbers */
     private EnsureLeadingZero(value: number): string {
-        if (value < 10)
-            return "0" + value.toString();
-        else
+        if (value < 10) {
+            return '0' + value.toString();
+        } else {
             return value.toString();
+        }
     }
 
     private LeadingZeros(anz: number, sIn: string): string {
@@ -238,36 +247,38 @@ export class TNTime {
         let lastdd: number;
         let sNachkomma: string;
         let sNachkommaChecked: string;
-        if (TimeStr === "") {
-            return "";
+        if (TimeStr === '') {
+            return '';
         }
-        TimeStr2 = "";
+        TimeStr2 = '';
         // ersten Punkt suchen
-        dotpos = TimeStr.indexOf(".");
+        dotpos = TimeStr.indexOf('.');
         lastdd = dotpos;
         // wurde entgegen den Regeln doch ein Komma eingegeben...
-        dotpos = TimeStr.indexOf(",");
+        dotpos = TimeStr.indexOf(',');
 
         if ((lastdd === -1) && (dotpos === -1)) {
-            TimeStr = TimeStr + ".0";
-            dotpos = TimeStr.indexOf(".");
+            TimeStr = TimeStr + '.0';
+            dotpos = TimeStr.indexOf('.');
         }
-        if ((lastdd === -1) && (dotpos > -1))
+        if ((lastdd === -1) && (dotpos > -1)) {
             lastdd = dotpos; // es war ein Komma
-        else if (lastdd > -1)
+        } else if (lastdd > -1) {
             dotpos = lastdd; // war es ein Punkt
+        }
 
         // die Zeichen vor dem Komma/Punkt überprüfen
         for (let i = dotpos; i >= 1; i--) {
             // Zeichen überprüfen
             const c: string = TimeStr[i - 1];
             if (c === ':') {
-                if (lastdd > -1) // gab es schon einen Punkt oder Doppelpunkt
-                    if (lastdd - i < 2) // waren es 2 Zeichen
-                        TimeStr2 = "0" + TimeStr2; // nein, auffüllen
-                lastdd = i; // Position speichern
-            }
-            else if (c >= '0' && c <= '9') {
+                if (lastdd > -1) { // gab es schon einen Punkt oder Doppelpunkt
+                    if (lastdd - i < 2) { // waren es 2 Zeichen
+                        TimeStr2 = '0' + TimeStr2; // nein, auffüllen
+                    }
+                    lastdd = i; // Position speichern
+                }
+            } else if (c >= '0' && c <= '9') {
                 // war es wenigstens eine Zahl
                 TimeStr2 = TimeStr[i - 1] + TimeStr2; // Zeichen übernehmen
             }
@@ -275,18 +286,18 @@ export class TNTime {
         TimeStr2 = this.LeadingZeros(6, TimeStr2); // führende Nullen anfügen
 
         // die Zeichen nach dem Komma/Punkt überprüfen
-        sNachkommaChecked = "";
-        let ncc: string;
-        sNachkomma = TimeStr.substring(dotpos + 1);        
-        for (let j = 0; j < sNachkomma.length; j++) {
-            ncc = sNachkomma[j];
-            if (ncc >= '0' && ncc <= '9')
-                sNachkommaChecked = sNachkommaChecked + sNachkomma[j];
+        sNachkommaChecked = '';
+        sNachkomma = TimeStr.substring(dotpos + 1);
+        for (const ncc of sNachkomma) {
+            if (ncc >= '0' && ncc <= '9') {
+                sNachkommaChecked = sNachkommaChecked + ncc;
+            }
         }
-        if (sNachkommaChecked === "")
-            sNachkommaChecked = "0";
+        if (sNachkommaChecked === '') {
+            sNachkommaChecked = '0';
+        }
 
-        return TimeStr2 + "." + sNachkommaChecked;
+        return TimeStr2 + '.' + sNachkommaChecked;
     }
 
     /**
@@ -317,25 +328,31 @@ export class TNTime {
         hours = Math.floor(TimeVal);
 
         // fehlende führende Bestandteile nicht mit ausgeben
-        temp = "";
-        if (hours > 0)
-            temp = temp + this.EnsureLeadingZero(hours) + ":";
-        if (min + hours > 0)
-            temp = temp + this.EnsureLeadingZero(min) + ":";
-        if (sec + min + hours > 0)
+        temp = '';
+        if (hours > 0) {
+            temp = temp + this.EnsureLeadingZero(hours) + ':';
+        }
+        if (min + hours > 0) {
+            temp = temp + this.EnsureLeadingZero(min) + ':';
+        }
+        if (sec + min + hours > 0) {
             temp = temp + this.EnsureLeadingZero(sec);
-        else
-            temp = temp + "00"; // Sekunden immer ausgeben, niemals nur mit Punkt beginnen
+        } else {
+            temp = temp + '00'; // Sekunden immer ausgeben, niemals nur mit Punkt beginnen
+        }
 
         // Nachkommastellen estmal komplett anhängen,
         // davon wird am Ende nur bis zur gewünschten Stelle gelesen
-        temp = temp + "." + this.LeadingZeros(4, msec.toString());
+        temp = temp + '.' + this.LeadingZeros(4, msec.toString());
 
         // führende Null wird nicht ausgebeben
-        if (temp[0] === '0')
+        if (temp[0] === '0') {
             temp = temp.substring(1, temp.length);
+        }
 
-        if (minus) temp = "-" + temp;
+        if (minus) {
+            temp = '-' + temp;
+        }
 
         // Tausendstel und Zehntausendstel nicht ausgeben
         temp = temp.substring(0, temp.length - (4 - this.FDisplayPrecision));
@@ -358,25 +375,26 @@ export class TNTime {
         let k: number;
         let s: number;
 
-        if (TimeStr[2] === ':') // Sonderzeichen ignorieren, wenn vorhanden
+        if (TimeStr[2] === ':') { // Sonderzeichen ignorieren, wenn vorhanden
             k = 1;
-        else
+        } else {
             k = 0;
+        }
 
         s = 0;
-        i = TUtils.StrToIntDef(TimeStr.substring(s, s+2), 0); // Stunden
+        i = TUtils.StrToIntDef(TimeStr.substring(s, s + 2), 0); // Stunden
         j = i;
 
         s = 2 + k * 1;
-        i = TUtils.StrToIntDef(TimeStr.substring(s, s+2), 0); // Minuten
+        i = TUtils.StrToIntDef(TimeStr.substring(s, s + 2), 0); // Minuten
         j = j * 60 + i;
 
         s = 4 + k * 2;
-        i = TUtils.StrToIntDef(TimeStr.substring(s, s+2), 0); // Sekunden
+        i = TUtils.StrToIntDef(TimeStr.substring(s, s + 2), 0); // Sekunden
         j = j * 60 + i;
 
         s = 6 + k * 3;
-        i = TUtils.StrToIntDef(TimeStr.substring(s, s+2), 0); // Hundertstel
+        i = TUtils.StrToIntDef(TimeStr.substring(s, s + 2), 0); // Hundertstel
         j = j * 100 + i;
 
         return j;
@@ -393,31 +411,33 @@ export class TNTime {
         let posi: number;
         let str: string;
 
-        pos1 = TimeStr.indexOf("."); // Sonderzeichen vorhanden?
-        pos2 = TimeStr.indexOf(",");
+        pos1 = TimeStr.indexOf('.'); // Sonderzeichen vorhanden?
+        pos2 = TimeStr.indexOf(',');
         posi = Math.max(pos1, pos2);
         if (posi > 0) {
             // Vorkommastellen V
-            str = "000000" + TimeStr.substring(0, posi) + "00"; // Vorkommastellen mit Nullen auffüllen
+            str = '000000' + TimeStr.substring(0, posi) + '00'; // Vorkommastellen mit Nullen auffüllen
             str = str.substring(str.length - 8); // letzten 8 Zeichen nehmen
             V = this.ConvertStrToTime1(str); // diese Konvertieren
             V = V * 100; // V jetzt in Zehntausendstel
 
             // Nachkommastellen N
             str = TimeStr.substring(7);
-            if (str.length === 0)
-                str = "0";
-            // Runden auf Precision				
+            if (str.length === 0) {
+                str = '0';
+            }
+            // Runden auf Precision
             const d: number = TUtils.StrToIntDef(str, 0) * Math.pow(10, this.FPrecision - str.length);
             N = Math.floor(Math.round(d)); // Convert.ToInt64(Math.Round(d));
             // aber intern immer Tausendstel speichern
-            for (let i = this.FPrecision; i <= 3; i++)
+            for (let i = this.FPrecision; i <= 3; i++) {
                 N = N * 10;
+            }
 
             return V + N;
-        }
-        else
+        } else {
             return 0;
+        }
     }
 
     Assign(source: object): void {
@@ -433,8 +453,9 @@ export class TNTime {
     }
 
     Parse(value: string): boolean {
-        if (!this.IsValidTimeString(value))
+        if (!this.IsValidTimeString(value)) {
             return false;
+        }
         this.Status = TTimeStatus.tsAuto;
         const v = this.CheckTime(value);
         this.Time = this.ConvertStrToTime2(v);
@@ -443,30 +464,31 @@ export class TNTime {
 
     toString(): string {
         // if (Time < 0)
-        // return "";
-        // else 
-        if ((this.Time === 0) && (!this.TimePresent))
-            return "";
-        else if (this.Time === 0) {
+        // return '';
+        // else
+        if ((this.Time === 0) && (!this.TimePresent)) {
+            return '';
+        } else if (this.Time === 0) {
             switch (this.DisplayPrecision) {
-                case 1: return "0.0";
-                case 2: return "0.00";
-                case 3: return "0.000";
-                case 4: return "0.0000";
-                default: return "0";
+                case 1: return '0.0';
+                case 2: return '0.00';
+                case 3: return '0.000';
+                case 4: return '0.0000';
+                default: return '0';
             }
-        }
-        else
+        } else {
             return this.ConvertTimeToStr3(this.Time);
+        }
     }
 
     UpdateQualiTimeBehind(aBestTime: number, aOTime: number): void {
-        if (aBestTime === TimeConst.TimeNull)
+        if (aBestTime === TimeConst.TimeNull) {
             this.AsInteger = TimeConst.TimeNull;
-        else if (aOTime > 0)
+        } else if (aOTime > 0) {
             this.AsInteger = aOTime - aBestTime;
-        else
+        } else {
             this.AsInteger = TimeConst.TimeNull;
+        }
     }
 
     IsValidTimeString(TimeStr: string): boolean {
@@ -496,29 +518,29 @@ export class TNTime {
         return this.FDisplayPrecision;
     }
     set DislayPrecesion(value: number) {
-        if ((this.DisplayPrecision > 0) && (this.DisplayPrecision <= 4))
+        if ((this.DisplayPrecision > 0) && (this.DisplayPrecision <= 4)) {
             this.FDisplayPrecision = value;
+        }
     }
 
     get AsInteger(): number {
-        if (this.FStatus === TTimeStatus.tsNone)
+        if (this.FStatus === TTimeStatus.tsNone) {
             return 0;
-        else
-            return this.Time;
+        }
+        return this.Time;
     }
     set AsInteger(value: number) {
         if (value === TimeConst.TimeNull) {
             this.Status = TTimeStatus.tsNone;
             this.Time = 0;
-        }
-        else {
+        } else {
             this.Status = TTimeStatus.tsAuto;
             this.Time = value;
         }
     }
 
     get Status(): TTimeStatus {
-        // Assert(FTime >= 0, "Zeit darf nicht negativ sein");
+        // Assert(FTime >= 0, 'Zeit darf nicht negativ sein');
         if (this.Time < 0) {
             this.Time = 0;
             this.FStatus = TTimeStatus.tsNone;
@@ -536,45 +558,46 @@ export class TQTime extends TNTime {
 
 export class TPTime extends TNTime {
     get AsInteger(): number {
-        if (this.FStatus === TTimeStatus.tsNone)
+        if (this.FStatus === TTimeStatus.tsNone) {
             return -1;
-        else
-            return this.Time;
+        }
+        return this.Time;
     }
     set AsInteger(value: number) {
         if ((value === TimeConst.TimeNull) || (value < 0)) {
             this.Status = TTimeStatus.tsNone;
             this.Time = 0;
-        }
-        else {
+        } else {
             this.Status = TTimeStatus.tsAuto;
             this.Time = value;
         }
     }
 
     toString(): string {
-        if (this.Time < 0)
-            return "";
-        else if ((this.Time === 0) && (!this.TimePresent))
-            return "";
-        else if (this.Time === 0) {
+        if (this.Time < 0) {
+            return '';
+        } else if ((this.Time === 0) && (!this.TimePresent)) {
+            return '';
+        } else if (this.Time === 0) {
             switch (this.DisplayPrecision) {
-                case 1: return "0.0";
-                case 2: return "0.00";
-                case 3: return "0.000";
-                case 4: return "0.0000";
-                default: return "0";
+                case 1: return '0.0';
+                case 2: return '0.00';
+                case 3: return '0.000';
+                case 4: return '0.0000';
+                default: return '0';
             }
-        }
-        else
+        } else {
             return this.ConvertTimeToStr3(this.Time);
+        }
     }
 
     SetPenalty(PenaltyTime: number): void {
-        if (PenaltyTime < 100)
+        if (PenaltyTime < 100) {
             PenaltyTime = 100;
-        if (PenaltyTime > 595900)
+        }
+        if (PenaltyTime > 595900) {
             PenaltyTime = 595900;
+        }
         this.Status = TTimeStatus.tsPenalty;
         this.Time = PenaltyTime;
     }

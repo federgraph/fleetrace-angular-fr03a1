@@ -1,17 +1,21 @@
-﻿import { TCalcEventProxy } from "./calc-event-proxy";
-import { TEventProps } from "../fr/fr-event-props";
-import { TFRProxy, TEntryInfo, TRaceInfo, TJSEventProps } from "../scoring/scoring-proxy";
-import { TEventRowCollectionItem, TEventRowCollection, TEventNode } from "../col/event/event-row-collection";
-import { TEventRaceEntry } from "../col/event/event-race-entry";
-import { TProxyLoader } from "../scoring/scoring-proxy-loader";
-import { TUtils } from "../util/fb-classes";
-import { TBO } from "../fr/fr-bo";
+﻿import { TCalcEventProxy } from './calc-event-proxy';
+import { TEventProps } from '../fr/fr-event-props';
+import { TFRProxy, TEntryInfo, TRaceInfo, TJSEventProps } from '../scoring/scoring-proxy';
+import { TEventRowCollectionItem, TEventRowCollection, TEventNode } from '../col/event/event-row-collection';
+import { TEventRaceEntry } from '../col/event/event-race-entry';
+import { TProxyLoader } from '../scoring/scoring-proxy-loader';
+import { TUtils } from '../util/fb-classes';
+import { TBO } from '../fr/fr-bo';
 
-/**proxy for using internal scoring code via TFRProxy and TProxyLoader*/
+/**
+ * proxy for using internal scoring code via TFRProxy and TProxyLoader
+ */
 export class TCalcEventProxy11 extends TCalcEventProxy {
     protected eventNode: TEventNode;
 
-    /**shortcut to eventNode.BO.Props*/
+    /**
+     * shortcut to eventNode.BO.Props
+     */
     protected EventProps: TEventProps;
     protected proxyNode: TFRProxy;
 
@@ -23,8 +27,9 @@ export class TCalcEventProxy11 extends TCalcEventProxy {
         this.eventNode = aqn;
         this.EventProps = this.BO.EventProps;
 
-        if (this.eventNode.Collection.Count === 0)
+        if (this.eventNode.Collection.Count === 0) {
             return;
+        }
 
         this.proxyNode = new TFRProxy();
         this.LoadProxy();
@@ -38,8 +43,9 @@ export class TCalcEventProxy11 extends TCalcEventProxy {
     }
 
     protected LoadProxy(): void {
-        if (this.eventNode == null)
+        if (this.eventNode == null) {
             return;
+        }
 
         this.EventName = this.BO.EventProps.EventName;
 
@@ -54,10 +60,11 @@ export class TCalcEventProxy11 extends TCalcEventProxy {
 
         this.proxyNode.RCount = this.eventNode.RCount; // SetLength(p.IsRacing, qn.RCount); // RCount = RaceCount+1
         for (let r1 = 1; r1 < this.eventNode.RCount; r1++) {
-            if (this.BO.GetIsRacing(r1))
+            if (this.BO.GetIsRacing(r1)) {
                 this.proxyNode.IsRacing[r1] = true;
-            else
+            } else {
                 this.proxyNode.IsRacing[r1] = false;
+            }
 
             this.proxyNode.UseFleets = this.eventNode.UseFleets;
             this.proxyNode.TargetFleetSize = this.eventNode.TargetFleetSize;
@@ -68,23 +75,24 @@ export class TCalcEventProxy11 extends TCalcEventProxy {
         for (let i = 0; i < cl.Count; i++) {
             const cr: TEventRowCollectionItem = cl.Items[i];
             const ei: TEntryInfo = this.proxyNode.EntryInfoCollection.Add();
-            //any unique whole number key field will be good to use as key for TEntryInfo (ei.SNR)
-            ei.SNR = cr.BaseID; //cr.SNR; cr.Bib;
+            // any unique whole number key field will be good to use as key for TEntryInfo (ei.SNR)
+            ei.SNR = cr.BaseID; // cr.SNR; cr.Bib;
             ei.RaceList.length = 0;
             for (let r = 0; r < cr.RCount; r++) {
                 const ri: TRaceInfo = new TRaceInfo();
                 ei.RaceList.push(ri);
-                if (r === 0)
+                if (r === 0) {
                     continue;
+                }
 
                 const er: TEventRaceEntry = cr.Race[r];
                 ri.OTime = er.OTime;
                 ri.QU = er.QU;
-                ri.Penalty_Points = er.Penalty.Points;
-                ri.Penalty_Percent = er.Penalty.Percent;
+                ri.PenaltyPoints = er.Penalty.Points;
+                ri.PenaltyPercent = er.Penalty.Percent;
                 // #if Sailtime
-                ri.Penalty_Note = er.Penalty.Note;
-                ri.Penalty_TimePenalty = er.Penalty.TimePenalty;
+                ri.PenaltyNote = er.Penalty.Note;
+                ri.PenaltyTimePenalty = er.Penalty.TimePenalty;
                 // #endif
                 ri.Fleet = er.Fleet;
                 ri.IsRacing = er.IsRacing;
@@ -98,7 +106,9 @@ export class TCalcEventProxy11 extends TCalcEventProxy {
     }
 
     protected UnLoadProxy(): void {
-        if (this.eventNode == null) return;
+        if (this.eventNode == null) {
+             return;
+        }
 
         try {
             const cl: TEventRowCollection = this.eventNode.Collection;
@@ -131,27 +141,30 @@ export class TCalcEventProxy11 extends TCalcEventProxy {
                 }
             }
             this.BO.Gezeitet = this.proxyNode.Gezeitet;
-        }
-        catch
-        {
+        } catch {
         }
     }
 
     private CheckAnyRace(): boolean {
         // precondition
-        if (this.eventNode == null)
+        if (this.eventNode == null) {
             return false;
-        if (this.eventNode.Collection.Count === 0)
+        }
+        if (this.eventNode.Collection.Count === 0) {
             return false;
+        }
 
         // count of sailed races
         let IsRacingCount = 0;
-        for (let r = 1; r <= this.eventNode.RaceCount; r++)
-            if (this.BO.GetIsRacing(r))
+        for (let r = 1; r <= this.eventNode.RaceCount; r++) {
+            if (this.BO.GetIsRacing(r)) {
                 IsRacingCount++;
+            }
+        }
 
-        if (IsRacingCount < 1)
+        if (IsRacingCount < 1) {
             return false;
+        }
 
         return true;
     }
@@ -173,9 +186,7 @@ export class TCalcEventProxy11 extends TCalcEventProxy {
                     cr.Race[i + 1].Drop = false;
                 }
             });
-        }
-        catch
-        {
+        } catch {
         }
     }
 

@@ -21,7 +21,7 @@ describe('TCellProps', () => {
         const cl = new TCellProps();
         let cc = cl.ColCount;
         expect(cc).toBe(0);
-        
+
         cl.ColCount = 1;
         cc = cl.ColCount;
         expect(cc).toBe(1);

@@ -10,7 +10,7 @@ export class Color {
 
     constructor(colorStr?: string)
     constructor(r?: string|number, g?: number, b?: number)
-    constructor(r?: string|number, g?: number, b?: number, a?: number) {        
+    constructor(r?: string|number, g?: number, b?: number, a?: number) {
         if (typeof r === 'string') {
             r = r.trim();
             if (r.indexOf('#') === 0) {
@@ -18,8 +18,7 @@ export class Color {
                 this.r = parseInt(r.substr(0, 2), 16);
                 this.g = parseInt(r.substr(2, 2), 16);
                 this.b = parseInt(r.substr(4, 2), 16);
-            } 
-            else if (r.indexOf('rgb') === 0) {
+            } else if (r.indexOf('rgb') === 0) {
                 const res = RGB_COLOR_REGEX.exec(r);
                 if (res) {
                     this.r = parseInt(res[1], 10);
@@ -29,12 +28,15 @@ export class Color {
                 }
             }
         } else {
-            if (r)
+            if (r) {
                 this.r = r;
-            if (g)
+            }
+            if (g) {
                 this.g = g;
-            if (b)
-                this.b = b;                
+            }
+            if (b) {
+                this.b = b;
+            }
             this.a = a || 1;
         }
     }
@@ -53,7 +55,7 @@ export class Color {
 
     padHex(n: number, len: number = 2): string {
         const s = n.toString(16);
-        return "0".repeat(len - s.length) + s;
+        return '0'.repeat(len - s.length) + s;
     }
 
 }

@@ -1,7 +1,7 @@
-import { TRace } from "./scoring-race";
-import { TEntry } from "./scoring-entry";
-import { TFinishPosition } from "./scoring-finish-position";
-import { TRSPenalty, Constants } from "./scoring-penalty";
+import { TRace } from './scoring-race';
+import { TEntry } from './scoring-entry';
+import { TFinishPosition } from './scoring-finish-position';
+import { TRSPenalty, Constants } from './scoring-penalty';
 
 export class TFinish {
 
@@ -46,8 +46,9 @@ export class TFinish {
         return this.fPenalty;
     }
     set Penalty(value: TRSPenalty) {
-        if (value == null)
+        if (value == null) {
             value = new TRSPenalty();
+        }
         this.fPenalty = value;
     }
 
@@ -59,35 +60,32 @@ export class TFinish {
     }
 
     equals(that: TFinish): boolean {
-        // if (!(obj instanceof TFinish))
-        // 	return false;
-        if (this === that)
+        if (this === that) {
             return true;
-
-        // let that: TFinish = obj as TFinish;
-
-        if ((this.Entry == null) ? (that.Entry != null) : !(this.Entry.equals(that.Entry)))
+        }
+        if ((this.Entry == null) ? (that.Entry != null) : !(this.Entry.equals(that.Entry))) {
             return false;
-        if ((this.fPenalty == null) ? (that.fPenalty != null) : !(this.fPenalty.equals(that.fPenalty)))
+        }
+        if ((this.fPenalty == null) ? (that.fPenalty != null) : !(this.fPenalty.equals(that.fPenalty))) {
             return false;
-
+        }
         return true;
     }
 
     toString(): string {
-        let sb = "";
+        let sb = '';
         if (this.Entry == null) {
-            sb += "<null entry>";
-        }
-        else {
+            sb += '<null entry>';
+        } else {
             sb += this.Entry.toString();
-            sb += "/ ";
-            if (this.fPosition != null)
+            sb += '/ ';
+            if (this.fPosition != null) {
                 sb += this.fPosition.toString();
+            }
             if (this.fPenalty != null) {
-                sb += "[";
+                sb += '[';
                 sb += this.fPenalty.toString();
-                sb += "]";
+                sb += ']';
             }
         }
         return sb.toString();

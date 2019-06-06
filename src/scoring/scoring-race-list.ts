@@ -1,4 +1,4 @@
-import { TRace } from "./scoring-race";
+import { TRace } from './scoring-race';
 
 export class TRaceList extends Array<TRace> {
 
@@ -6,7 +6,7 @@ export class TRaceList extends Array<TRace> {
         super();
         Object.setPrototypeOf(this, TRaceList.prototype);
     }
-    
+
     get Count(): number {
         return this.length;
     }

@@ -14,17 +14,16 @@ export class UrlOptionComponent implements OnInit {
   }
 
   get urlOption(): number {
-    if (this.apiService.AspNet)
+    if (this.apiService.AspNet) {
       return 1;
-    else
-      return 0;
+    }
+    return 0;
   }
 
   set urlOption(value: number) {
     if (value === 1) {
       this.apiService.AspNet = true;
-    }
-    else {
+    } else {
       this.apiService.AspNet = false;
     }
   }

@@ -13,10 +13,10 @@ import { TUtils } from '../../util/fb-classes';
 export class ResultHashComponent implements OnInit {
 
   CL: TStringList = new TStringList();
-  CompareMsg: string = "";
+  CompareMsg: string = '';
   ComparedOK: boolean = true;
 
-  Info: string = "info";
+  Info: string = 'info';
   TestOutput: string;
 
   constructor(public BOManager: TBOManager) { }
@@ -32,7 +32,7 @@ export class ResultHashComponent implements OnInit {
 
     this.writeCompareList(this.CL);
 
-    this.Info = "show called.";
+    this.Info = 'show called.';
     this.TestOutput = this.CL.Text;
 
     this.CL.Clear();
@@ -41,15 +41,15 @@ export class ResultHashComponent implements OnInit {
   check() {
     this.checkMsgList(this.CL);
     this.Info = this.CompareMsg;
-    this.ComparedOK ? this.TestOutput = "" : this.TestOutput = this.CL.Text;
+    this.ComparedOK ? this.TestOutput = '' : this.TestOutput = this.CL.Text;
     this.CL.Clear();
   }
 
   clear() {
     this.Info = 'info';
-    this.TestOutput = "";
+    this.TestOutput = '';
   }
-  
+
   getMsgList(SL: TStringList): string {
     const cl = this.BOManager.BO.EventNode.Collection;
     let cr: TEventRowCollectionItem;
@@ -61,13 +61,12 @@ export class ResultHashComponent implements OnInit {
         cr = cl.Items[cr.PLZ];
         v0 = cr.Bib;
         v1 = Math.round(cr.Race[0].CTime);
-      }
-      else {
-        //should never come into here
+      } else {
+        // should never come into here
         v0 = i;
         v1 = 0;
       }
-      SL.Add(`${v0}=${v1}`); //Format('%.3d=%.5d', [v0, v1]);
+      SL.Add(`${v0}=${v1}`); // Format('%.3d=%.5d', [v0, v1]);
     }
     return SL.Text;
   }
@@ -96,13 +95,11 @@ export class ResultHashComponent implements OnInit {
       result = false;
       this.CompareMsg = 'Original CompareList (ML) is empty.';
       return result;
-    }
-    else if (ML.Count !== this.BOManager.BO.BOParams.StartlistCount) {
+    } else if (ML.Count !== this.BOManager.BO.BOParams.StartlistCount) {
       result = false;
       this.CompareMsg = 'CompareList.Count does not match StartList.Count.';
       return result;
-    }
-    else if (ML.Count === SL.Count) {
+    } else if (ML.Count === SL.Count) {
       for (let i = 0; i < SL.Count; i++) {
         b1 = TUtils.StrToIntDef(SL.KeyFromIndex(i), -1);
         b2 = TUtils.StrToIntDef(ML.KeyFromIndex(i), -1);
@@ -114,15 +111,14 @@ export class ResultHashComponent implements OnInit {
             SL.Update(i, `${i}: ${ML.Items(i)} : ${SL.Items(i)}`);
             this.CompareMsg = `Points mismatch at Index ${i}`;
             this.ComparedOK = false;
-            //break;
+            // break;
           }
-        }
-        else {
+        } else {
           result = false;
           SL.Update(i, `${i}: ${ML.Items(i)} : ${SL.Items(i)}`);
           this.CompareMsg = `Bib mismatch at Index ${i}`;
           this.ComparedOK = false;
-          //break;
+          // break;
         }
       }
     }
@@ -136,13 +132,15 @@ export class ResultHashComponent implements OnInit {
     this.getMsgList(this.CL);
     SL.Add('');
     b = this.checkMsgList(this.CL);
-    if (b)
+    if (b) {
       SL.Add('CompareList-Check ok');
-    else
+    } else {
       SL.Add('CompareList-Check failed - ' + this.CompareMsg);
+    }
 
-    for (let i = 0; i < this.CL.Count; i++)
+    for (let i = 0; i < this.CL.Count; i++) {
       SL.Add(this.CL.Items(i));
+    }
 
     return SL.Text;
   }

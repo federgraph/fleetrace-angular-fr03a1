@@ -1,5 +1,7 @@
-﻿import { IColGrid, TColGrid, TBaseColBO, TBaseNode, TBaseRowCollection, 
-    TBaseRowCollectionItem, TBaseColProps, TBaseColProp } from "./col-grid";
+﻿import {
+    IColGrid, TColGrid, TBaseColBO, TBaseNode, TBaseRowCollection,
+    TBaseRowCollectionItem, TBaseColProps, TBaseColProp
+} from './col-grid';
 
 export class TCell {
     c: number;
@@ -12,34 +14,34 @@ export class TCell {
         return `(${this.c},${this.r})`;
     }
     get value(): string {
-        return `(${this.c},${this.r})`;        
+        return `(${this.c},${this.r})`;
     }
 }
 
 export class TGridCells {
 
     key: TCell = new TCell(0, 0);
-    DefaultValue = "";
+    DefaultValue = '';
 
     map: Map<string, string>;
 
     constructor() {
         this.map = new Map<string, string>();
     }
-    
+
     GetCells(ACol: number, ARow: number): string {
         this.key.c = ACol;
         this.key.r = ARow;
         const k = this.key.value;
         if (this.map.has(k)) {
             const result = this.map.get(k);
-            if (result)
+            if (result) {
                 return result;
-        }
-        else {
+            }
+        } else {
             return this.DefaultValue;
         }
-        return "";
+        return '';
     }
 
     SetCells(ACol: number, ARow: number, value: string) {
@@ -48,8 +50,7 @@ export class TGridCells {
         const k = this.key.value;
         if (this.map.has(k)) {
             this.map.set(k, value);
-        }
-        else {
+        } else {
             this.map.set(k, value);
         }
     }
@@ -62,11 +63,9 @@ export class TSimpleHashGrid<
     C extends TBaseRowCollection<G, B, N, C, I, PC, PI>,
     I extends TBaseRowCollectionItem<G, B, N, C, I, PC, PI>,
     PC extends TBaseColProps<G, B, N, C, I, PC, PI>,
-    PI extends TBaseColProp<G, B, N, C, I, PC, PI>> 
+    PI extends TBaseColProp<G, B, N, C, I, PC, PI>>
     extends TGridCells
-    implements IColGrid<G, B, N, C, I, PC, PI> 
-
-{
+    implements IColGrid<G, B, N, C, I, PC, PI> {
     [index: string]: any;
 
     FirstRowIndex: number = 0;
@@ -83,7 +82,7 @@ export class TSimpleHashGrid<
 
     constructor() {
         super();
-        this.DefaultValue = "";
+        this.DefaultValue = '';
     }
 
     // GetCells(c: number, r: number): string {
@@ -92,7 +91,7 @@ export class TSimpleHashGrid<
     // SetCells(c: number, r: number, value: string): void {
     //     super.SetCells(c, r, value);
     // }
-    
+
     InvalidateGrid() {
     }
 
@@ -107,10 +106,9 @@ export class TSimpleHashGrid<
     ClearRow(ARow: number): void {
         const key = new TCell();
         key.r = ARow;
-        for (let i = 0; i < this.ColCount; i++)
-        {
+        for (let i = 0; i < this.ColCount; i++) {
             key.c = i;
-            this[key.value] = "";
+            this[key.value] = '';
         }
     }
 
@@ -134,6 +132,6 @@ export class TSimpleHashGrid<
         // virtual
         return -1;
     }
-    
+
 }
 

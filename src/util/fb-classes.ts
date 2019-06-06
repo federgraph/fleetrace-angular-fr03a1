@@ -1,4 +1,4 @@
-﻿import { TStringList } from "./fb-strings";
+﻿import { TStringList } from './fb-strings';
 
 // const BoolStr = ['False', 'True'];
 // const BoolInt = [0, 1];
@@ -69,32 +69,35 @@ export class TStringContainer {
 
 export class TUtils {
 
-    static BoolStr(value: boolean): string
-    {
-        if (value) 
-            return "True";
-        else
-            return "False";
+    static BoolStr(value: boolean): string {
+        if (value) {
+            return 'True';
+        } else {
+            return 'False';
+        }
     }
-    
+
     static IsFalse(Value: string): boolean {
         let result = false;
         const s = Value.toUpperCase();
-        if (s === 'FALSE' || s === 'F' || s === '0')
+        if (s === 'FALSE' || s === 'F' || s === '0') {
             result = true;
+        }
         return result;
     }
     static IsTrue(value: string): boolean {
         const s = value.toUpperCase();
-        if (s === 'TRUE' || s === 'T' || s === '1')
+        if (s === 'TRUE' || s === 'T' || s === '1') {
             return true;
+        }
         return false;
     }
     static IsEmptyOrTrue(Value: string): boolean {
         let result = false;
         const s = Value.toUpperCase();
-        if (s === '' || s === 'TRUE' || s === 'T' || s === '1')
+        if (s === '' || s === 'TRUE' || s === 'T' || s === '1') {
             result = true;
+        }
         return result;
     }
     static StartsWith(s: string, substring: string): boolean {
@@ -103,13 +106,13 @@ export class TUtils {
     static EndsWith(s: string, substring: string): boolean {
         return s.endsWith(substring);
     }
-    /** 
+    /**
      * Trennt einen String beim Trennzeichen
      * @param delim Trennzeichen -> erstes Auftreten = Trennposition
      * @param s input
      * @param token output, vorn abgeschnitten
      * @returns den rest
-     * */
+     */
     static Cut(delim: string, s: string, token: TStringContainer): string {
         let posi: number; // Trennposition
         let result: string;
@@ -117,73 +120,75 @@ export class TUtils {
         if (posi > -1) {
             token.value = s.substring(0, posi).trim();
             result = s.substring(posi + 1).trim();
-        }
-        else {
+        } else {
             token.value = s;
             result = '';
         }
         return result;
     }
     static IncludeTrailingSlash(s: string): string {
-        if (!s.endsWith('/'))
+        if (!s.endsWith('/')) {
             return s + '/';
-        else
-            return s;
+        }
+        return s;
     }
     static IncludeTrailingBackSlash(s: string): string {
-        if (!s.endsWith('\\'))
+        if (!s.endsWith('\\')) {
             return s + '\\';
-        else
-            return s;
-    }    
+        }
+        return s;
+    }
     static StrToBoolDef(Value: string, DefaultValue: boolean): boolean {
-        if (Value === '')
+        if (Value === '') {
             return DefaultValue;
-        else
-            return TUtils.IsTrue(Value);
+        }
+        return TUtils.IsTrue(Value);
     }
 
     static StringReplaceAll(s: string, search: string, replace: string): string {
-        const re = new RegExp(search, 'g');        
+        const re = new RegExp(search, 'g');
         return s.replace(re, replace);
     }
-        
+
     static Odd(value: number): boolean {
-        return (value % 2) !== 0; 
+        return (value % 2) !== 0;
       }
-  
+
     static StrToIntDef(value: string, defaultResult: number) {
         let i = Number.parseInt(value, 10);
-        if (Number.isNaN(i))
+        if (Number.isNaN(i)) {
             i = defaultResult;
+        }
         return i;
     }
-      
+
     static Assert(b: boolean, s: string) {
-        if (!b)
+        if (!b) {
             console.assert(b, s);
+        }
     }
 
     static IntToStr(value: number) {
         return '' + value;
-    }    
-    
+    }
+
     static StrToFloatDef(s: string, precision: number) {
         return Number.parseFloat(s);
-    }    
+    }
 
     static EnumInt(enumSource: any): number {
         const r = enumSource as number;
-        if (r === Number.NaN)
+        if (r === Number.NaN) {
             return -1;
+        }
         return r;
     }
 
 }
 
 export class TTokenParser {
-    sToken: string = "";
-    sRest: string = "";
+    sToken: string = '';
+    sRest: string = '';
     Token: TStringContainer = new TStringContainer();
 
     NextToken(): void {
@@ -222,13 +227,13 @@ export class TLineParser {
         i = s.indexOf('=');
         if (i > -1) {
             temp = s.substring(0, i).trim() + '=' + s.substring(i + 1, s.length).trim();
-        }
-        else {
+        } else {
             temp = TUtils.StringReplaceAll(s.trim(), ' ', '_');
         }
 
-        if (temp.indexOf('=') === 0)
+        if (temp.indexOf('=') === 0) {
             temp = temp + '=';
+        }
         this.SL.Add(temp);
         sK = this.SL.KeyFromIndex(0);
         sV = this.SL.ValueFromIndex(0);

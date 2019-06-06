@@ -13,13 +13,12 @@ export class ResultUploadComponent implements OnInit {
 
   @Input() race: number = 1;
 
-  Info: string = "info";
+  Info: string = 'info';
   TestOutput: any = '';
 
   jsonInfo: JsonInfo;
 
-  constructor(public BOManager: TBOManager,
-    private apiService: ApiService) {
+  constructor(public BOManager: TBOManager, private apiService: ApiService) {
     this.jsonInfo = new JsonInfo(BOManager);
   }
 
@@ -36,7 +35,7 @@ export class ResultUploadComponent implements OnInit {
     this.Info = `post() called for race ${this.race}`;
     const t: RaceDataJson = this.jsonInfo.getRaceDataJson(this.race);
     this.apiService.push3(t).subscribe(data => this.TestOutput = data.retvalue);
-    this.TestOutput = "";
+    this.TestOutput = '';
   }
 
   clear() {

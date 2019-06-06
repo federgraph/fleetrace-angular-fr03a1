@@ -1,7 +1,7 @@
-﻿import { StatusConst } from "./status";
-import { TEventRowCollectionItem, TEventRowCollection, TEventNode } from "../col/event/event-row-collection";
-import { TimeConst } from "./time";
-import { TCalcEventProxy } from "./calc-event-proxy";
+﻿import { StatusConst } from './status';
+import { TEventRowCollectionItem, TEventRowCollection, TEventNode } from '../col/event/event-row-collection';
+import { TimeConst } from './time';
+import { TCalcEventProxy } from './calc-event-proxy';
 
 export class TCalcEventProxy01 extends TCalcEventProxy {
     // in
@@ -40,15 +40,16 @@ export class TCalcEventProxy01 extends TCalcEventProxy {
 
     protected Calc_BTime(): void {
         if (this.BestOTime === TimeConst.TimeNull) {
-            for (let i = 0; i < this.Count; i++)
+            for (let i = 0; i < this.Count; i++) {
                 this.BTime[i] = TimeConst.TimeNull;
-        }
-        else {
+            }
+        } else {
             for (let j = 0; j < this.Count; j++) {
-                if (this.OTime[j] > 0)
+                if (this.OTime[j] > 0) {
                     this.BTime[j] = this.OTime[j] - this.BestOTime;
-                else
+                } else {
                     this.BTime[j] = TimeConst.TimeNull;
+                }
             }
         }
     }
@@ -56,12 +57,13 @@ export class TCalcEventProxy01 extends TCalcEventProxy {
     protected EncodeDSQGateAndStatus(): void {
         for (let i = 0; i < this.Count; i++) {
             let temp: number = this.OTime[i];
-            if (this.Status[i] === StatusConst.Status_DNF)
+            if (this.Status[i] === StatusConst.StatusDNF) {
                 temp = Number.MAX_SAFE_INTEGER - 300;
-            else if (this.Status[i] === StatusConst.Status_DSQ)
+            } else if (this.Status[i] === StatusConst.StatusDSQ) {
                 temp = Number.MAX_SAFE_INTEGER - 200;
-            else if (this.Status[i] === StatusConst.Status_DNS)
+            } else if (this.Status[i] === StatusConst.StatusDNS) {
                 temp = Number.MAX_SAFE_INTEGER - 100;
+            }
             // temp = temp - DSQGate[i];
             this.OTime[i] = temp;
         }
@@ -88,9 +90,8 @@ export class TCalcEventProxy01 extends TCalcEventProxy {
             if (t2 <= 0) {
                 this.Rank[j] = 0;
                 this.PosR[j] = 0;
-            }
+            } else {
             // TimePresent
-            else {
                 for (let l = j + 1; l < this.Count; l++) {
                     t1 = this.OTime[l];
                     if (t1 > 0) {
@@ -110,16 +111,17 @@ export class TCalcEventProxy01 extends TCalcEventProxy {
                             // do not increment Rank if Times are equal
                             // increment PosR for one of the riders, j or l
                             if (this.HighestBibGoesFirst) {
-                                if (BibMerker > this.Bib[l])
+                                if (BibMerker > this.Bib[l]) {
                                     this.PosR[l] = this.PosR[l] + 1;
-                                else
+                                } else {
                                     this.PosR[j] = this.PosR[j] + 1;
                             }
-                            else {
-                                if (BibMerker < this.Bib[l])
+                            } else {
+                                if (BibMerker < this.Bib[l]) {
                                     this.PosR[l] = this.PosR[l] + 1;
-                                else
+                                } else {
                                     this.PosR[j] = this.PosR[j] + 1;
+                                }
                             }
                         }
                     }
@@ -133,14 +135,14 @@ export class TCalcEventProxy01 extends TCalcEventProxy {
     }
 
     protected IsOut(Value: number): boolean {
-        return ((Value === StatusConst.Status_DSQ)
-            || (Value === StatusConst.Status_DNF)
-            || (Value === StatusConst.Status_DNS));
+        return ((Value === StatusConst.StatusDSQ)
+            || (Value === StatusConst.StatusDNF)
+            || (Value === StatusConst.StatusDNS));
     }
 
     protected IsOK(Value: number): boolean {
-        return ((Value === StatusConst.Status_OK)
-            || (Value === StatusConst.Status_DSQPending));
+        return ((Value === StatusConst.StatusOK)
+            || (Value === StatusConst.StatusDSQPending));
     }
 
     Calc(qn: TEventNode): void {
@@ -150,8 +152,9 @@ export class TCalcEventProxy01 extends TCalcEventProxy {
         let cr: TEventRowCollectionItem;
         let GPoints: number;
 
-        if (qn.Collection.Count < 1)
+        if (qn.Collection.Count < 1) {
             return;
+        }
 
         RaceCount = qn.Collection.Items[0].RCount;
         for (let i1 = 1; i1 < RaceCount; i1++) {
@@ -193,17 +196,19 @@ export class TCalcEventProxy01 extends TCalcEventProxy {
             this.Bib[i] = cr.Bib;
             this.DSQGate[i] = cr.Race[channel].DG;
             this.Status[i] = cr.Race[channel].QU;
-            if (channel === 0) // channel_FT
+            if (channel === 0) { // channel_FT
                 this.OTime[i] = cr.Race[channel].CTime1;
-            else
+            } else {
                 this.OTime[i] = cr.Race[channel].OTime;
         }
+    }
     }
 
     UnLoadProxy(qn: TEventNode, channel: number): void {
         const cl: TEventRowCollection = qn.Collection;
-        if (this.Count !== cl.Count)
+        if (this.Count !== cl.Count) {
             return;
+        }
         for (let i = 0; i < cl.Count; i++) {
             const cr: TEventRowCollectionItem = cl.Items[i];
             // cr.Race[channel].BTime = BTime[i];

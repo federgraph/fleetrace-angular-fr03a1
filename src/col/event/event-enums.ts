@@ -1,4 +1,4 @@
-import { ColorConst, TColorTranslator, TColorRec } from "../../grid/grid-color";
+import { ColorConst, TColorTranslator, TColorRec } from '../../grid/grid-color';
 
 export enum TFinishError {
     error_OutOfRange_OTime_Min,

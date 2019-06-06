@@ -21,7 +21,7 @@ export class FormEventPropsComponent implements OnInit {
   schemas = NameFieldSchemaStrings;
 
   @Output() propsChanged: EventEmitter<EventProps> = new EventEmitter();
-  
+
   ngOnInit() {
     this.createForm();
   }
@@ -48,9 +48,9 @@ export class FormEventPropsComponent implements OnInit {
     });
   }
 
-  submit() {    
+  submit() {
     const v = this.form.value;
-    const ep = v.props as EventProps;   
+    const ep = v.props as EventProps;
     this.propsChanged.emit(ep);
   }
 

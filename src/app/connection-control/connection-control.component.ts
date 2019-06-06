@@ -33,19 +33,19 @@ export class ConnectionControlComponent implements OnInit, OnDestroy {
     canWatch = false;
     private subscription: Subscription;
     isWatching: boolean = false;
-    netto: string = "";
+    netto: string = '';
 
     private inputConnected = false;
     private outputConnected = false;
     ledIn: AmpelColor = AmpelColor.white;
     ledOut: AmpelColor = AmpelColor.white;
-    ledColorIn = "red";
-    ledColorOut = "red";
+    ledColorIn = 'red';
+    ledColorOut = 'red';
 
-    dataMsgIn = "";
-    dataMsgOut = "";
-    errorMsg = "";
-    flashMsg = "";
+    dataMsgIn = '';
+    dataMsgOut = '';
+    errorMsg = '';
+    flashMsg = '';
 
     constructor(
         private timingService: TimingService,
@@ -60,7 +60,7 @@ export class ConnectionControlComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        //this.toggleWatchNetto();
+        // this.toggleWatchNetto();
     }
 
     writeInputNetto(nettoText: string) {
@@ -72,8 +72,9 @@ export class ConnectionControlComponent implements OnInit, OnDestroy {
     }
 
     onWebsocketMsgReceived(nettoText: string) {
-        if (!this.isDropping)
+        if (!this.isDropping) {
             this.newNettoAvailable.emit(nettoText);
+    }
     }
 
     handleError(err: any) {
@@ -84,9 +85,9 @@ export class ConnectionControlComponent implements OnInit, OnDestroy {
 
     updateFlash(s: string) {
         this.flashMsg = s;
-        this.dataMsgIn = "";
-        this.dataMsgOut = "";
-        this.errorMsg = "";
+        this.dataMsgIn = '';
+        this.dataMsgOut = '';
+        this.errorMsg = '';
     }
 
     connectBtnClick() {
@@ -106,16 +107,16 @@ export class ConnectionControlComponent implements OnInit, OnDestroy {
             },
             (err) => {
                 this.handleError(err);
-                this.dataMsgIn = "";
+                this.dataMsgIn = '';
                 this.ledIn = AmpelColor.gray;
                 this.setInputConnected(false);
             }
-        );        
+        );
     }
 
     connectOutput() {
         this.ledOut = AmpelColor.white;
-        this.updateFlash('connect output');        
+        this.updateFlash('connect output');
         this.apiService.outputWireConnect().subscribe(
             (data) => {
                 this.dataMsgOut = data;
@@ -124,7 +125,7 @@ export class ConnectionControlComponent implements OnInit, OnDestroy {
             },
             (err) => {
                 this.handleError(err);
-                this.dataMsgOut = "";
+                this.dataMsgOut = '';
                 this.ledOut = AmpelColor.gray;
                 this.setOutputConnected(false);
             }
@@ -148,7 +149,7 @@ export class ConnectionControlComponent implements OnInit, OnDestroy {
             },
             (err) => {
                 this.handleError(err);
-                this.dataMsgIn = "";
+                this.dataMsgIn = '';
                 this.ledIn = AmpelColor.gray;
                 this.setInputConnected(false);
             }
@@ -166,7 +167,7 @@ export class ConnectionControlComponent implements OnInit, OnDestroy {
             },
             (err) => {
                 this.handleError(err);
-                this.dataMsgOut = "";
+                this.dataMsgOut = '';
                 this.ledOut = AmpelColor.gray;
                 this.setOutputConnected(false);
             }
@@ -177,10 +178,11 @@ export class ConnectionControlComponent implements OnInit, OnDestroy {
         this.updateFlash('clear');
         this.apiService.manageClear().subscribe(
             (res) => {
-                if (res)
+                if (res) {
                     this.dataMsgIn = res;
-                else
+                } else {
                     this.dataMsgIn = 'please check response for clear';
+                }
             },
             err => this.handleError(err)
         );
@@ -188,7 +190,7 @@ export class ConnectionControlComponent implements OnInit, OnDestroy {
 
     inputNettoClick() {
         this.updateFlash('input netto requested');
-        this.dataMsgIn = "";
+        this.dataMsgIn = '';
         switch (this.mode) {
 
             case 0:
@@ -227,7 +229,7 @@ export class ConnectionControlComponent implements OnInit, OnDestroy {
 
     outputNettoClick() {
         this.updateFlash('output netto requested (last msg)');
-        this.dataMsgOut = "";
+        this.dataMsgOut = '';
         this.apiService.requestOutputNetto().subscribe(
             data => this.writeOutputNetto(data),
             err => this.handleError(err)
@@ -239,20 +241,18 @@ export class ConnectionControlComponent implements OnInit, OnDestroy {
         this.apiService.getConnectionStatus().subscribe(
             (data) => {
                 if (data.connected) {
-                    this.dataMsgIn = "input connected";
+                    this.dataMsgIn = 'input connected';
                     this.ledIn = AmpelColor.green;
                     this.setInputConnected(true);
-                }
-                else {
-                    this.dataMsgIn = "input not connected";
+                } else {
+                    this.dataMsgIn = 'input not connected';
                     this.ledIn = AmpelColor.red;
                     this.setInputConnected(false);
                 }
 
                 if (data.websockets) {
                     this.canWatch = true;
-                }
-                else {
+                } else {
                     this.canWatch = false;
                 }
             },
@@ -265,20 +265,18 @@ export class ConnectionControlComponent implements OnInit, OnDestroy {
         this.apiService.getOpuputConnectionStatus().subscribe(
             (data) => {
                 if (data.connected) {
-                    this.dataMsgOut = "output connected";
+                    this.dataMsgOut = 'output connected';
                     this.ledOut = AmpelColor.green;
                     this.setOutputConnected(true);
-                }
-                else {
-                    this.dataMsgOut = "output not connected";
+                } else {
+                    this.dataMsgOut = 'output not connected';
                     this.ledOut = AmpelColor.red;
                     this.setOutputConnected(false);
                 }
 
                 if (data.websockets) {
                     this.canWatch = true;
-                }
-                else {
+                } else {
                     this.canWatch = false;
                 }
             },
@@ -310,22 +308,22 @@ export class ConnectionControlComponent implements OnInit, OnDestroy {
 
     updateLEDColorInput(): void {
         switch (this.ledIn) {
-            case AmpelColor.white: this.ledColorIn = "white"; break;
-            case AmpelColor.red: this.ledColorIn = "red"; break;
-            case AmpelColor.yellow: this.ledColorIn = "yellow"; break;
-            case AmpelColor.green: this.ledColorIn = "lime"; break;
-            default: this.ledColorIn = "gray"; break;
+            case AmpelColor.white: this.ledColorIn = 'white'; break;
+            case AmpelColor.red: this.ledColorIn = 'red'; break;
+            case AmpelColor.yellow: this.ledColorIn = 'yellow'; break;
+            case AmpelColor.green: this.ledColorIn = 'lime'; break;
+            default: this.ledColorIn = 'gray'; break;
         }
     }
 
     updateLEDColorOutput(): void {
         switch (this.ledOut) {
-            case AmpelColor.white: this.ledColorOut = "white"; break;
-            case AmpelColor.red: this.ledColorOut = "red"; break;
-            case AmpelColor.yellow: this.ledColorOut= "yellow"; break;
-            case AmpelColor.green: this.ledColorOut = "lime"; break;
-            default: this.ledColorOut = "gray"; break;
-        }        
+            case AmpelColor.white: this.ledColorOut = 'white'; break;
+            case AmpelColor.red: this.ledColorOut = 'red'; break;
+            case AmpelColor.yellow: this.ledColorOut = 'yellow'; break;
+            case AmpelColor.green: this.ledColorOut = 'lime'; break;
+            default: this.ledColorOut = 'gray'; break;
+        }
     }
 
     getInputConnected(): boolean {
@@ -348,23 +346,24 @@ export class ConnectionControlComponent implements OnInit, OnDestroy {
 
     sendMsg(msg: string) {
         if (this.subscription) {
-            //use open websocket channel
+            // use open websocket channel
             this.timingService.send(-2, msg);
-        }
-        else {
-            //use ajax
-            if (this.inputConnected)
+        } else {
+            // use ajax
+            if (this.inputConnected) {
                 this.apiService.sendMsg(msg).subscribe(
                     data => this.writeUpdate(data),
-                    err => console.log("Cannot retrieve response. Error code: %s, URL: %s ", err.status, err.url)
+                    err => console.log('Cannot retrieve response. Error code: %s, URL: %s ', err.status, err.url)
                 );
         }
     }
+    }
 
     writeUpdate(responseText: string) {
-        const div = document.getElementById("response-text");
-        if (div != null)
+        const div = document.getElementById('response-text');
+        if (div != null) {
             div.innerHTML = responseText;
+    }
     }
 
     toggleDropping() {

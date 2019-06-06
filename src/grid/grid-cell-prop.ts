@@ -1,5 +1,5 @@
-import { TColor, TColAlignment, TColGridColorClass } from "./grid-def";
-import { ColorConst, TColorRec } from "./grid-color";
+import { TColor, TColAlignment, TColGridColorClass } from './grid-def';
+import { ColorConst, TColorRec } from './grid-color';
 
 export class TCellProp {
   Alignment: TColAlignment;
@@ -18,8 +18,8 @@ export class TCellProp {
     this.ShowGroup = false;
   }
 
-  get HasGroup(): boolean { 
-    return this.GroupColor !== ColorConst.clFleetNone; 
+  get HasGroup(): boolean {
+    return this.GroupColor !== ColorConst.clFleetNone;
   }
 
 }
@@ -39,13 +39,14 @@ export class TCellProps {
 
   GetCellProp(ACol: number, ARow: number): TCellProp {
     const i = this.ColCount * ARow + ACol;
-    if (i > this.LastArrayIndex)
+    if (i > this.LastArrayIndex) {
       this.Grow(i);
+    }
 
     const result = this.T[i];
 
-    console.assert(result != null);    
-    
+    console.assert(result != null);
+
     return result;
   }
 

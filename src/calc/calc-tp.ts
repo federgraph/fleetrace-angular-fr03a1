@@ -1,10 +1,10 @@
-import { TRaceNode } from "../col/race/race-node";
-import { TBO } from "../fr/fr-bo";
-import { TRaceRowCollection } from "../col/race/race-row-collection";
-import { TRaceRowCollectionItem } from "../col/race/race-row-collection-item";
-import { TPTime } from "./time";
-import { TQProxy, TQProxy1 } from "./q-proxy";
-import { TRaceBO } from "../col/race/race-bo";
+import { TRaceNode } from '../col/race/race-node';
+import { TBO } from '../fr/fr-bo';
+import { TRaceRowCollection } from '../col/race/race-row-collection';
+import { TRaceRowCollectionItem } from '../col/race/race-row-collection-item';
+import { TPTime } from './time';
+import { TQProxy, TQProxy1 } from './q-proxy';
+import { TRaceBO } from '../col/race/race-bo';
 
 export class TCalcTP {
     private qn: TRaceNode;
@@ -28,8 +28,9 @@ export class TCalcTP {
 
     private UnLoadProxy(qn: TRaceNode, channel: number): void {
         const cl: TRaceRowCollection = qn.Collection;
-        if (this.FProxy.Count !== cl.Count)
+        if (this.FProxy.Count !== cl.Count) {
             return;
+        }
         for (let i = 0; i < cl.Count; i++) {
             const cr: TRaceRowCollectionItem = cl.Items[i];
             cr.IT[channel].Behind.AsInteger = this.FProxy.TimeBehind[i];
@@ -60,7 +61,9 @@ export class TCalcTP {
         let rd: TRaceNode;
         let refTime: TPTime;
 
-        if (cr == null) return;
+        if (cr == null) {
+            return;
+        }
         rd = cr.ru;
 
         // Zwischenzeiten
@@ -73,20 +76,19 @@ export class TCalcTP {
             // TimeBehind in Bezug auf die Zwischenzeit des FT-Besten
             cl = rd.Collection;
             refTime = cl.Items[rd.BestIndex[0]].IT[channel].OTime;
-            if ((rd.BestIndex[0] !== cr.IndexOfRow) && refTime.TimePresent)
+            if ((rd.BestIndex[0] !== cr.IndexOfRow) && refTime.TimePresent) {
                 cr.IT[channel].BFT.UpdateQualiTimeBehind(
                     refTime.AsInteger,
                     cr.IT[channel].OTime.AsInteger);
-            else
+            } else {
                 cr.IT[channel].BFT.Clear();
-
-        }
-
-        // Zielzeit
-        else
+            }
+        } else {
+            // Zielzeit
             cr.FT.BPL.UpdateQualiTimeBehind(
                 rd.BestTime[0],
                 cr.FT.OTime.AsInteger);
+        }
     }
 
     get HighestBibGoesFirst(): boolean {

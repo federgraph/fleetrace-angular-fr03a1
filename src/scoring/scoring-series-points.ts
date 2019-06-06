@@ -1,5 +1,5 @@
-import { TEntry } from "./scoring-entry";
-import { TPoints } from "./scoring-points";
+import { TEntry } from './scoring-entry';
+import { TPoints } from './scoring-points';
 
 export class TSeriesPoints extends TPoints {
 
@@ -28,49 +28,47 @@ export class TSeriesPoints extends TPoints {
     }
 
     equals(that: TSeriesPoints): boolean {
-        if (this === that)
+        if (this === that) {
             return true;
-        // if (!(obj instanceof TSeriesPoints))
-        //     return false;
-        if (!that)
+        }
+        if (!that) {
             return false;
-
-        if (!super.equals(that))
+        }
+        if (!super.equals(that)) {
             return false;
-
-        // let that: TSeriesPoints = obj as TSeriesPoints;
+        }
         return (this.Tied === that.Tied);
     }
 
     compareTo(that: TSeriesPoints): number {
-        if (that == null)
+        if (that == null) {
             return - 1;
+        }
         try {
-            // let that: TSeriesPoints = obj as TSeriesPoints;
-            if (this.Points < that.Points)
+            if (this.Points < that.Points) {
                 return - 1;
-            else if (this.Points > that.Points)
+            } else if (this.Points > that.Points) {
                 return 1;
-            else {
+            } else {
                 // need to compare by EntryID also, because Sort is not a stable sort,
                 // order of elements is not preserved if elements are equal
-                if (this.EntryID < that.EntryID)
+                if (this.EntryID < that.EntryID) {
                     return -1;
-                else if (this.EntryID > that.EntryID)
+                } else if (this.EntryID > that.EntryID) {
                     return 1;
+                }
             }
             return 0;
-        }
-        catch
-        {
+        } catch {
             return - 1;
         }
     }
 
     toString(): string {
         let s = this.Points.toFixed(2);
-        if (this.Tied)
+        if (this.Tied) {
             s += 'T';
+        }
         return s;
     }
 

@@ -18,7 +18,7 @@ export class FormEventParamsComponent implements OnInit {
   formData: EventParams;
 
   @Output() paramsChanged: EventEmitter<EventParams> = new EventEmitter();
-  
+
   ngOnInit() {
     this.createForm();
   }
@@ -29,7 +29,7 @@ export class FormEventParamsComponent implements OnInit {
 
   createForm() {
     this.form = this.fb.group({
-      params: this.fb.group(new EventParams, Validators.required),
+      params: this.fb.group(new EventParams(), Validators.required),
     });
 
     this.form.get('params.raceCount').setValidators([Validators.required, Validators.min(1), Validators.max(20)]);
@@ -40,7 +40,7 @@ export class FormEventParamsComponent implements OnInit {
   patch() {
     const bop = this.BOManager.BO.BOParams;
     this.formData.createOption = 0;
-    this.formData.raceCount = bop.RaceCount;    
+    this.formData.raceCount = bop.RaceCount;
     this.formData.itCount = bop.ITCount;
     this.formData.startlistCount = bop.StartlistCount;
 
@@ -51,7 +51,7 @@ export class FormEventParamsComponent implements OnInit {
 
   submit() {
     const v = this.form.value;
-    const ep = v.params as EventParams; 
+    const ep = v.params as EventParams;
     this.paramsChanged.emit(ep);
   }
 

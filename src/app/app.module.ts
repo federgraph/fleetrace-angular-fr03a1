@@ -48,7 +48,7 @@ import { TBOParams } from '../bo/bo-params';
 import { TMsgToken } from '../bo/bo-msg-token';
 import { TBOManager } from '../bo/bo-manager';
 
-import { ONLINE_SERVICES } from "./shared/services";
+import { ONLINE_SERVICES } from './shared/services';
 import { ApiComponent } from './api/api.component';
 import { ConnectionControlComponent } from './connection-control/connection-control.component';
 

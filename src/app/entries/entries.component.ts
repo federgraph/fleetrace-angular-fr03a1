@@ -17,7 +17,7 @@ export class EntriesComponent {
   ColTable: TTable;
 
   @Output() entriesTableChanged: EventEmitter<number> = new EventEmitter();
-  
+
   legend: IconData[];
   LegendVisible = false;
 
@@ -60,8 +60,7 @@ export class EntriesComponent {
   thClick(c: number) {
     if (this.ColGrid.ColsActive.SortColIndex === c) {
       this.ColGrid.DisplayOrder.Descending = !this.ColGrid.DisplayOrder.Descending;
-    }
-    else {
+    } else {
       this.ColGrid.ColsActive.SortColIndex = c;
       this.ColGrid.DisplayOrder.Descending = false;
     }
@@ -97,14 +96,14 @@ export class EntriesComponent {
   popEntry() {
     this.getNode().Collection.Items.pop();
     this.show();
-    this.entriesTableChanged.emit(4);    
+    this.entriesTableChanged.emit(4);
   }
 
   sortOrderClear() {
     this.ColGrid.ColsActive.SortColIndex = -1;
     this.show();
   }
-  
+
   loadNames() {
     const bo = this.BOManager.BO;
 

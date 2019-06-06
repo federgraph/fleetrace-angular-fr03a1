@@ -1,7 +1,7 @@
-import { TStringList } from "../util/fb-strings";
-import { TBaseMsg } from "./bo-msg-base";
-import { TBO } from "../fr/fr-bo";
-import { TBOMsg } from "./bo-msg";
+import { TStringList } from '../util/fb-strings';
+import { TBaseMsg } from './bo-msg-base';
+import { TBO } from '../fr/fr-bo';
+import { TBOMsg } from './bo-msg';
 
 export class TBaseMsgList extends TBaseMsg {
     private SL: TStringList = new TStringList();
@@ -22,10 +22,11 @@ export class TBaseMsgList extends TBaseMsg {
 
         const l: number = this.BO.MsgToken.cTokenRequest.length;
         do {
-            if (this.SL.Count > 0)
+            if (this.SL.Count > 0) {
                 b = (this.SL.SL[0].startsWith(this.BO.MsgToken.cTokenRequest));
-            else
+            } else {
                 b = false;
+            }
             if (b) {
                 s = this.SL.SL[0].substring(l + 1);
                 this.OutputRequestList.Add(this.BO.MsgToken.cTokenOutput + s);
@@ -39,8 +40,9 @@ export class TBaseMsgList extends TBaseMsg {
         if (this.SL.Count > 0) {
             const msg: TBaseMsg = this.NewMsg(); // NewMsg is virtual! //TBOMsg msg = new TBOMsg(BO);
             for (let i = 0; i < this.SL.Count; i++) {
-                if (this.IsComment(this.SL.SL[i]))
+                if (this.IsComment(this.SL.SL[i])) {
                     continue;
+                }
                 msg.Prot = this.SL.SL[i];
                 msg.DispatchProt();
             }
@@ -55,18 +57,19 @@ export class TBaseMsgList extends TBaseMsg {
 
         // if erste Zeile ist Request
         if (this.Prot.startsWith(this.BO.MsgToken.cTokenRequest) ||
-            this.Prot.startsWith("RiggVar.Request.") ||
+            this.Prot.startsWith('RiggVar.Request.') ||
             this.Prot.startsWith(this.BO.MsgToken.cTokenAnonymousRequest)) {
             let result = false;
             if (this.SL.Count > 0) {
                 // eine Request-Zeile, wie bisher
                 let l: number;
-                if (this.Prot.startsWith(this.BO.MsgToken.cTokenRequest))
+                if (this.Prot.startsWith(this.BO.MsgToken.cTokenRequest)) {
                     l = this.BO.MsgToken.cTokenRequest.length;
-                else if (this.Prot.startsWith(this.BO.MsgToken.cTokenAnonymousRequest))
+                } else if (this.Prot.startsWith(this.BO.MsgToken.cTokenAnonymousRequest)) {
                     l = this.BO.MsgToken.cTokenAnonymousRequest.length;
-                else
-                    l = "RiggVar.Request.".length;
+                } else {
+                    l = 'RiggVar.Request.'.length;
+                }
                 this.MsgValue = this.SL.SL[0].substring(l + 1);
                 this.Cmd = this.BO.MsgToken.cTokenOutput;
                 this.MsgValue = this.BO.MsgToken.cTokenOutput + this.MsgValue;
@@ -79,7 +82,7 @@ export class TBaseMsgList extends TBaseMsg {
                 // process body of message
                 this.ProcessRequestInput();
 
-                this.Prot = ""; // wird nicht mehr gebraucht
+                this.Prot = ''; // wird nicht mehr gebraucht
                 result = true; // später die Antwort senden
                 // Msg wird anschließend zur Queue hinzugefügt,
                 // nach Neuberechnung wird Msg von der Queue geholt,
@@ -113,9 +116,8 @@ export class TBaseMsgList extends TBaseMsg {
 }
 
 export class TMsgFactory {
-    
-    constructor(public BO: TBO)
-    {
+
+    constructor(public BO: TBO) {
     }
 
     CreateMsg(): TBaseMsgList {

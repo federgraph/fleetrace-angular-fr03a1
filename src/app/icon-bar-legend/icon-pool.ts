@@ -25,7 +25,7 @@ export const IconPool: string[] = [
     'explore',
     'toys',
     'pets',
-    'all_inclusive',    
+    'all_inclusive',
 
     'menu',
     'more_vert',
@@ -43,10 +43,10 @@ export const IconPool: string[] = [
     'scatter_plot',
     'brush',
     'sort',
-    'texture',    
+    'texture',
 
     'functions',
-    'filter_vintage', 
+    'filter_vintage',
 
     'schedule',
     'send',
@@ -137,6 +137,6 @@ export const IconPool: string[] = [
     'bookmark',
     'account_circle',
     'account_box',
-    
+
     'panorama'
   ];

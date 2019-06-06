@@ -14,11 +14,11 @@ import { IconData, EventIcons } from '../icon-legend/icon-data';
 })
 export class EventComponent {
 
-  @Input() EventName = "Event Name";
+  @Input() EventName = 'Event Name';
 
   ColGrid: TEventColGrid;
 
-  ColorBtnCaption: string = "";
+  ColorBtnCaption: string = '';
 
   ColTable: TTable;
 
@@ -27,7 +27,7 @@ export class EventComponent {
 
   constructor(public BOManager: TBOManager) {
     this.initGrid();
-    this.BOManager.BO.EventProps.DetailUrl = "DetailUrl";
+    this.BOManager.BO.EventProps.DetailUrl = 'DetailUrl';
 
     this.calc();
     this.updateColorBtnCaption();
@@ -52,7 +52,7 @@ export class EventComponent {
     g.SetupGrid();
     g.UpdateAll();
 
-    this.ColGrid = g;    
+    this.ColGrid = g;
   }
 
   show() {
@@ -146,8 +146,7 @@ export class EventComponent {
   thClick(c: number) {
     if (this.ColGrid.ColsActive.SortColIndex === c) {
       this.ColGrid.DisplayOrder.Descending = !this.ColGrid.DisplayOrder.Descending;
-    }
-    else {
+    } else {
       this.ColGrid.ColsActive.SortColIndex = c;
       this.ColGrid.DisplayOrder.Descending = false;
     }
@@ -194,7 +193,7 @@ export class EventComponent {
     this.BOManager.BO.EventBO.CurrentRow = this.BOManager.BO.EventNode.FindBib(bib);
   }
 
-  markAndShow(bib: number) {    
+  markAndShow(bib: number) {
     this.mark(bib);
     this.show();
   }
@@ -202,5 +201,5 @@ export class EventComponent {
   toggleLegend() {
     this.LegendVisible = ! this.LegendVisible;
   }
-  
+
 }
