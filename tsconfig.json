@@ -11,6 +11,7 @@
     "importHelpers": true,
     "strict": true,
     "strictNullChecks": false,
+    "downlevelIteration": true,
     "target": "es5",
     "typeRoots": [
       "node_modules/@types"

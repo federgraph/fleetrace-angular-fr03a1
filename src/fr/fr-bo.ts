@@ -949,11 +949,7 @@ export class TBO extends TBaseBO {
     EditQU(raceIndex: number, crIndex: number, value: string) {
         this.PenaltyService.Clear();
         this.PenaltyService.Parse(value);
-
         this.SetPenalty(raceIndex, crIndex, this.PenaltyService);
-
-        // or this
-        // this.SetQU(raceIndex, crIndex, this.PenaltyService.AsInteger)
     }
 
     EditDG(raceIndex: number, crIndex: number, value: string) {
@@ -969,7 +965,6 @@ export class TBO extends TBaseBO {
             this.SetOT(raceIndex, crIndex, t);
         }
     }
-
 
     BackupPenalties(SL: TStringList, n: number): void {
         let InputAction: TInputAction;

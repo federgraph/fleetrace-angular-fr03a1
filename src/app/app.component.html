@@ -259,9 +259,10 @@
         </ng-container>
 
         <app-timing-buttons *ngIf=InputVisible #timingTab
-            (sendMsg)="sendMsg($event)" 
+            (sendMsg)="sendMsg($event)"
             (updateAll)="handleUpdate($event)"
-            (calc)="handleCalc($event)"></app-timing-buttons>
+            (calc)="handleCalc($event)">
+        </app-timing-buttons>
 
         <ng-container *ngIf=TextAreaVisible>
             <h2>Text Area</h2>
@@ -303,14 +304,15 @@
                 </button>
             </ng-container>
 
-            <app-icon-bar-legend [caption]="'Pre Text'" [bar]="textAreaIcons" *ngIf="TextAreaLegendVisible"></app-icon-bar-legend>
-
             <div class="memo-form">
                 <mat-form-field class="memo">
                     <textarea #memo matInput spellcheck="false" rows="16" class="memo" [(ngModel)]="MemoText"
                         [ngModelOptions]="{standalone: true}"></textarea>
                 </mat-form-field>
             </div>
+
+            <app-icon-bar-legend [caption]="'Text Area'" [bar]="textAreaIcons" *ngIf="TextAreaLegendVisible"></app-icon-bar-legend>
+
         </ng-container>
 
         <ng-container *ngIf=PreTextVisible>

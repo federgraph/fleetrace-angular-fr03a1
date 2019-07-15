@@ -2,7 +2,7 @@
 import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, } from 'rxjs/operators';
-import { RaceDataJson, EventDataJson, ApiRetValue} from './data-model';
+import { RaceDataJson, EventDataJson, ApiRetValue } from './data-model';
 
 export class EventParams {
   raceCount: number;

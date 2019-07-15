@@ -175,10 +175,8 @@ export class AppComponent implements OnInit {
   textAreaIcons: IconData[];
   preTextIcons: IconData[];
 
-  constructor(private cdref: ChangeDetectorRef,
-              public BOManager: TBOManager,
-              private breakpointObserver: BreakpointObserver,
-              public snackBar: MatSnackBar) {
+  constructor(private cdref: ChangeDetectorRef, public BOManager: TBOManager,
+              private breakpointObserver: BreakpointObserver, public snackBar: MatSnackBar) {
     this.BOManager.BigButtonRow = false;
     this.BOManager.IsDebug = false;
     this.SL = new TStringList();
@@ -455,15 +453,17 @@ export class AppComponent implements OnInit {
     this.EventVisible = false;
     this.ParamsVisible = false;
     this.PropsVisible = false;
+
     this.TextAreaVisible = false;
     this.PreTextVisible = false;
     this.HelpTextVisible = false;
-    this.AssetMenuVisible = false;
-    this.EventMenuVisible = false;
     this.JsonInfoVisible = false;
     this.LegendVisible = false;
     this.TextAreaLegendVisible = false;
     this.PreTextLegendVisible = false;
+
+    this.AssetMenuVisible = false;
+    this.EventMenuVisible = false;
 
     this.EntryVisible = false;
     this.SaveVisible = false;
