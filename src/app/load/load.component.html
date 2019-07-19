@@ -1,5 +1,7 @@
-<h2>Loading Event Data</h2>
-
+<mat-card class="scroll-card">
+<mat-card-title>Loading Event Data</mat-card-title>
+<mat-card-content>
+    
 <div class="radio-button-row">
   <mat-radio-group class="radio-group" [(ngModel)]="option">
       <mat-radio-button class="radio-button" *ngFor="let o of options; let i = index" [value]=i>{{o}}</mat-radio-button>
@@ -18,4 +20,5 @@
 
 <pre>{{TestOutput}}</pre>
 
-<p></p>
+</mat-card-content>
+</mat-card>

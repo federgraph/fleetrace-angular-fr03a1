@@ -249,8 +249,9 @@ export class TEventProps extends TLineParser {
     set RaceLayout(value: string) {
         if (value === 'Finish') {
             this.BO.EventNode.ShowPoints = TEventNode.LayoutFinish;
+        } else {
+            this.BO.EventNode.ShowPoints = TEventNode.LayoutPoints;
         }
-        this.BO.EventNode.ShowPoints = TEventNode.LayoutPoints;
     }
 
     get SchemaCode(): number {

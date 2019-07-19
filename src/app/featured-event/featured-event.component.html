@@ -1,4 +1,6 @@
-<h2>Featured Event</h2>
+<mat-card class="scroll-card">
+<mat-card-title>Featured Event</mat-card-title>
+<mat-card-content>
 
 <button mat-raised-button (click)="show()">Show</button>
 <button mat-raised-button (click)="loadEvent()">Load</button>
@@ -7,4 +9,5 @@
 <pre class="info">--- {{Info}} ---</pre>
 <pre class="error" *ngIf="HasError">--- {{Error}} ---</pre>
 
-<p></p>
+</mat-card-content>
+</mat-card>

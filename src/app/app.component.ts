@@ -53,7 +53,6 @@ enum Page {
 export class AppComponent implements OnInit {
   title = 'FR03A1';
 
-  more = false;
   wantInput = true;
   wantOutput = true;
 
@@ -85,12 +84,13 @@ export class AppComponent implements OnInit {
   FormsRowVisible = false;
   ClearingRowVisible = false;
 
-  LinkButtonVisible = false;
+  LinkButtonVisible = true;
 
   ApiVisible = true;
   ConnVisible = true;
 
-  IconBarVisible = false;
+  ComponentToggleCardVisible = true;
+  CommandBarVisible = false;
   ExplorerBarVisible = false;
   ExplorerLineVisible = false;
   ButtonPanelVisible = true;
@@ -101,51 +101,38 @@ export class AppComponent implements OnInit {
   RaceVisible = true;
   EventVisible = false;
 
-  TextAreaVisible = false;
-  PreTextVisible = false;
+  TextAreaLegendVisible = true;
+  PreTextLegendVisible = true;
 
-  AssetMenuVisible = false;
-  EventMenuVisible = false;
-  HelpTextVisible = false;
-  JsonInfoVisible = false;
-  LegendVisible = false;
-  TextAreaLegendVisible = false;
-  PreTextLegendVisible = false;
+  TextAreaVisible = true;
+  PreTextVisible = true;
+  HelpTextVisible = true;
+  JsonInfoVisible = true;
+  LegendVisible = true;
+  ConfigVisible = true;
+  ComponentsVisible = true;
+  SonstigesVisible = true;
 
   ParamsVisible = false;
   PropsVisible = false;
-
   EntryVisible = false;
 
+  AssetMenuVisible = false;
+  EventMenuVisible = false;
   SaveVisible = false;
   LoadVisible = false;
 
-  @ViewChild('eventTab', { static: false })
-  eventTab: EventComponent;
+  TabsVisible = true;
 
-  @ViewChild('raceTab', { static: false })
-  raceTab: RaceComponent;
-
-  @ViewChild('entriesTab', { static: false })
-  entriesTab: EntriesComponent;
-
-  @ViewChild('widgetTab', { static: false })
-  widgetTab: TimingWidgetComponent;
-
-  @ViewChild('timingTab', { static: false })
-  timingTab: TimingButtonsComponent;
-
-  @ViewChild('menuTab', { static: false })
-  menuTab: EventMenuComponent;
-
-  @ViewChild('bibInfo', { static: false })
-  bibTab: BibComponent;
-
-  @ViewChild('connBar', { static: false })
-  connBar: ConnectionControlComponent;
-
-  @ViewChild('apiBar', { static: false })
-  apiBar: ApiComponent;
+  @ViewChild('eventTab', { static: false }) eventTab: EventComponent;
+  @ViewChild('raceTab', { static: false }) raceTab: RaceComponent;
+  @ViewChild('entriesTab', { static: false }) entriesTab: EntriesComponent;
+  @ViewChild('widgetTab', { static: false }) widgetTab: TimingWidgetComponent;
+  @ViewChild('timingTab', { static: false }) timingTab: TimingButtonsComponent;
+  @ViewChild('menuTab', { static: false }) menuTab: EventMenuComponent;
+  @ViewChild('bibInfo', { static: false }) bibTab: BibComponent;
+  @ViewChild('connBar', { static: false }) connBar: ConnectionControlComponent;
+  @ViewChild('apiBar', { static: false }) apiBar: ApiComponent;
 
   private SL: TStringList;
   private Asset: IEventDataItem;
@@ -175,8 +162,11 @@ export class AppComponent implements OnInit {
   textAreaIcons: IconData[];
   preTextIcons: IconData[];
 
-  constructor(private cdref: ChangeDetectorRef, public BOManager: TBOManager,
-              private breakpointObserver: BreakpointObserver, public snackBar: MatSnackBar) {
+  constructor(
+      private cdref: ChangeDetectorRef,
+      public BOManager: TBOManager,
+      private breakpointObserver: BreakpointObserver,
+      public snackBar: MatSnackBar) {
     this.BOManager.BigButtonRow = false;
     this.BOManager.IsDebug = false;
     this.SL = new TStringList();
@@ -369,6 +359,13 @@ export class AppComponent implements OnInit {
     this.reduceTo(Page.Load);
   }
 
+  reduceComponents() {
+    this.AssetMenuVisible = false;
+    this.EventMenuVisible = false;
+    this.LoadVisible = false;
+    this.SaveVisible = false;
+  }
+
   toggleBib() {
     this.BibVisible = !this.BibVisible;
   }
@@ -417,6 +414,18 @@ export class AppComponent implements OnInit {
     this.JsonInfoVisible = !this.JsonInfoVisible;
   }
 
+  toggleConfig() {
+    this.ConfigVisible = !this.ConfigVisible;
+  }
+
+  toggleComponents() {
+    this.ComponentsVisible = !this.ComponentsVisible;
+  }
+
+  toggleSonstiges() {
+    this.SonstigesVisible = !this.SonstigesVisible;
+  }
+
   toggleLegend() {
     this.LegendVisible = !this.LegendVisible;
     this.TextAreaLegendVisible = false;
@@ -444,6 +453,10 @@ export class AppComponent implements OnInit {
     this.InputVisible = !this.InputVisible;
   }
 
+  toggleTabsVisible() {
+    this.TabsVisible = !this.TabsVisible;
+  }
+
   reduceTo(p: Page = Page.Event) {
     this.CurrentPage = p;
 
@@ -453,14 +466,6 @@ export class AppComponent implements OnInit {
     this.EventVisible = false;
     this.ParamsVisible = false;
     this.PropsVisible = false;
-
-    this.TextAreaVisible = false;
-    this.PreTextVisible = false;
-    this.HelpTextVisible = false;
-    this.JsonInfoVisible = false;
-    this.LegendVisible = false;
-    this.TextAreaLegendVisible = false;
-    this.PreTextLegendVisible = false;
 
     this.AssetMenuVisible = false;
     this.EventMenuVisible = false;
@@ -985,24 +990,14 @@ export class AppComponent implements OnInit {
 
   toggleButtonPanel() {
     this.ButtonPanelVisible = !this.ButtonPanelVisible;
-    if (this.ButtonPanelVisible) {
-      this.ShortMode = this.ExplorerBarVisible; // remember
-      this.IconBarVisible = false;
-      this.ExplorerBarVisible = false;
-    } else {
-      this.IconBarVisible = !this.ShortMode;
-      this.ExplorerBarVisible = this.ShortMode;
-    }
   }
 
-  toggleIconBar() {
-    this.IconBarVisible = !this.IconBarVisible;
-    this.ExplorerBarVisible = !this.IconBarVisible;
+  toggleCommandBar() {
+    this.CommandBarVisible = !this.CommandBarVisible;
   }
 
   toggleExplorerBar() {
     this.ExplorerBarVisible = !this.ExplorerBarVisible;
-    this.IconBarVisible = !this.IconBarVisible;
   }
 
   toggleExplorerLine() {
@@ -1415,14 +1410,6 @@ export class AppComponent implements OnInit {
 
   toggleConn() {
     this.ConnVisible = !this.ConnVisible;
-  }
-
-  showMore() {
-    this.more = true;
-  }
-
-  showLess() {
-    this.more = false;
   }
 
 }

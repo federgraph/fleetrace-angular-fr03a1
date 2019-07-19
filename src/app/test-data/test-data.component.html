@@ -1,4 +1,6 @@
-<h2>Bundled Assets</h2>
+<mat-card class="scroll-card">
+<mat-card-title>Bundled Assets</mat-card-title>
+<mat-card-content>    
 
 <ng-container *ngFor="let m of EDM.Menu">
     <button class="btn" mat-raised-button (click)="selectFolder(m)">{{m.Folder}}</button>
@@ -9,3 +11,6 @@
 <ng-container *ngFor="let en of Items">
     <button mat-button (click)="loadEvent(en)">{{en}}</button><br>
 </ng-container>
+
+</mat-card-content>
+</mat-card>

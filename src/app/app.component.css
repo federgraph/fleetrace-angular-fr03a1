@@ -2,11 +2,6 @@
     flex: 1 1 auto;
 }
 
-.real-content {
-    margin: 4px;
-    margin-left: 10px;
-}
-
 .button-line button {
     min-width: 90px;
     margin-right: 4px;
@@ -38,4 +33,23 @@
 
 .color-primary {
     color:  #3f51b5;    
+}
+
+.main-card {
+    /* margin-top: 4px; */
+    /* margin-left: 10px; */
+    margin-bottom: 20px;
+    float: left;
+}
+
+.second-card {
+    max-width: 1200px;
+    /* margin-top: 4px; */
+    margin-left: 10px;
+    margin-bottom: 20px;
+    float: left;
+}
+
+.tab-icon {
+    margin-right: 8px;
 }

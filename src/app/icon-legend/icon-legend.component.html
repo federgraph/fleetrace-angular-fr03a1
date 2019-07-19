@@ -1,31 +1,82 @@
-<h2>Icon Legend</h2>
+<mat-card class="legend-card">
+     <app-icon-bar-legend [caption]="'Toolbar'" [bar]="toolbarIcons"></app-icon-bar-legend>
+</mat-card>
 
-<app-icon-bar-legend [caption]="'Toolbar'" [bar]="toolbarIcons"></app-icon-bar-legend>
-<app-icon-bar-legend [caption]="'Iconbar'" [bar]="iconbarIcons"></app-icon-bar-legend>
-<app-icon-bar-legend [caption]="'Explorer bar'" [bar]="explorerbarIcons"></app-icon-bar-legend>
-<app-icon-bar-legend [caption]="'Checkbar'" [bar]="checkbarIcons"></app-icon-bar-legend>
-<app-icon-bar-legend [caption]="'Editbar'" [bar]="editbarIcons"></app-icon-bar-legend>
-<app-icon-bar-legend [caption]="'Msg edit 1'" [bar]="msgEdit1Icons"></app-icon-bar-legend>
-<app-icon-bar-legend [caption]="'Msg edit 2'" [bar]="msgEdit2Icons"></app-icon-bar-legend>
-<app-icon-bar-legend [caption]="'Prepare bar'" [bar]="preparebarIcons"></app-icon-bar-legend>
-<app-icon-bar-legend [caption]="'Text Area'" [bar]="textAreaIcons"></app-icon-bar-legend>
-<app-icon-bar-legend [caption]="'Pre Text'" [bar]="preTextIcons"></app-icon-bar-legend>
-<app-icon-bar-legend [caption]="'Entries'" [bar]="entriesIcons"></app-icon-bar-legend>
-<app-icon-bar-legend [caption]="'Event'" [bar]="eventIcons"></app-icon-bar-legend>
-<app-icon-bar-legend [caption]="'Race'" [bar]="raceIcons"></app-icon-bar-legend>
+<mat-card class="legend-card">
+    <app-icon-bar-legend [caption]="'Card Toggle'" [bar]="cardToggleIcons"></app-icon-bar-legend>
+</mat-card>
 
-<ng-container *ngIf="PoolVisible">
+<mat-card class="legend-card">
+    <app-icon-bar-legend [caption]="'Option Toggle'" [bar]="optionToggleIcons"></app-icon-bar-legend>
+</mat-card>
+    
+<mat-card class="legend-card">
+    <app-icon-bar-legend [caption]="'Tab Toggle'" [bar]="tabToggleIcons"></app-icon-bar-legend>
+</mat-card>
 
-<h3>Icon Pool</h3>
+<mat-card class="legend-card">
+    <app-icon-bar-legend [caption]="'Component Toggle'" [bar]="componentToggleIcons"></app-icon-bar-legend>
+</mat-card>
 
-<ul>
-  <li *ngFor="let i of pool">
-    <button mat-icon-button>
-      <mat-icon>{{i}}</mat-icon>
-    </button>
-    <span>{{i}}</span>
-  </li>
-</ul>
-</ng-container>
+<mat-card class="legend-card">
+    <app-icon-bar-legend [caption]="'Command'" [bar]="commandIcons"></app-icon-bar-legend>
+</mat-card>
 
-<button mat-raised-button (click)="togglePool()">Pool</button>
+<mat-card class="legend-card">
+    <app-icon-bar-legend [caption]="'Event'" [bar]="eventIcons"></app-icon-bar-legend>
+</mat-card>
+
+<mat-card class="legend-card">
+    <app-icon-bar-legend [caption]="'Editbar'" [bar]="editbarIcons"></app-icon-bar-legend>
+</mat-card>
+
+<mat-card class="legend-card">
+    <app-icon-bar-legend [caption]="'Text Area'" [bar]="textAreaIcons"></app-icon-bar-legend>
+</mat-card>
+
+<mat-card class="legend-card">
+    <app-icon-bar-legend [caption]="'Pre Text'" [bar]="preTextIcons"></app-icon-bar-legend>
+</mat-card>
+
+<mat-card class="legend-card">
+    <app-icon-bar-legend [caption]="'Race'" [bar]="raceIcons"></app-icon-bar-legend>
+</mat-card>
+
+<mat-card class="legend-card">
+    <app-icon-bar-legend [caption]="'Checkbar'" [bar]="checkbarIcons"></app-icon-bar-legend>
+</mat-card>
+
+<mat-card class="legend-card">
+    <app-icon-bar-legend [caption]="'Entries'" [bar]="entriesIcons"></app-icon-bar-legend>
+</mat-card>
+
+<mat-card class="legend-card">
+    <app-icon-bar-legend [caption]="'Msg edit 1'" [bar]="msgEdit1Icons"></app-icon-bar-legend>
+</mat-card>
+
+<mat-card class="legend-card">
+    <app-icon-bar-legend [caption]="'Msg edit 2'" [bar]="msgEdit2Icons"></app-icon-bar-legend>
+</mat-card>
+
+<mat-card class="legend-card">
+    <app-icon-bar-legend [caption]="'Prepare bar'" [bar]="preparebarIcons"></app-icon-bar-legend>
+</mat-card>
+
+<mat-card class="legend-card">
+    <button mat-raised-button (click)="togglePool()">Pool</button>
+</mat-card>
+    
+<mat-card class="legend-card" *ngIf="PoolVisible">
+
+    <h3>Icon Pool</h3>
+
+    <ul>
+    <li *ngFor="let i of pool">
+        <button mat-icon-button>
+        <mat-icon>{{i}}</mat-icon>
+        </button>
+        <span>{{i}}</span>
+    </li>
+    </ul>
+
+</mat-card>

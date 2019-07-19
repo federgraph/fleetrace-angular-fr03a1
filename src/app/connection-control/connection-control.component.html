@@ -1,4 +1,6 @@
-<h2>Conn</h2>
+<mat-card class="scroll-card">
+<mat-card-title>Conn</mat-card-title>
+<mat-card-content>    
 
 <div *ngIf="wantInput" id="input-button-row">
     <button mat-raised-button (click)="testInput()" [style.background-color]="ledColorIn">In</button>
@@ -26,3 +28,6 @@
 </ul>
 
 <div *ngIf="wantInput || wantOutput" id="response-text">response-text</div>
+
+</mat-card-content>
+</mat-card>
