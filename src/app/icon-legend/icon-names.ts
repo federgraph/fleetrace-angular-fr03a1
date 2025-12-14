@@ -139,5 +139,5 @@ export const IconNames = [
   'account_circle',
   'account_box',
 
-  'panorama'
+  'panorama',
 ];

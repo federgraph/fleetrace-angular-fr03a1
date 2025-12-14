@@ -11,88 +11,93 @@
  * To set a new finish position, recreate the instance.
  */
 export class TFinishPosition {
-    static NextFinishPositionID = 1;
-    // private FinishPositionID: number;
+  static NextFinishPositionID = 1;
+  // private FinishPositionID: number;
 
-    fFinishPosition: number;
+  fFinishPosition: number;
 
-    static ToStringN(order: number): string {
-        switch (order) {
-            case Constants.NOF: return 'No Finish';
-            case Constants.DNC: return 'dnc';
-            case Constants.DNS: return 'dns';
-            case Constants.DNF: return 'dnf';
-            case Constants.TLE: return 'tle';
-            default: return order.toString();
-        }
+  static ToStringN(order: number): string {
+    switch (order) {
+      case Constants.NOF:
+        return 'No Finish';
+      case Constants.DNC:
+        return 'dnc';
+      case Constants.DNS:
+        return 'dns';
+      case Constants.DNF:
+        return 'dnf';
+      case Constants.TLE:
+        return 'tle';
+      default:
+        return order.toString();
     }
+  }
 
-    constructor(value: number) {
-        // this.FinishPositionID = TFinishPosition.NextFinishPositionID;
-        TFinishPosition.NextFinishPositionID++;
+  constructor(value: number) {
+    // this.FinishPositionID = TFinishPosition.NextFinishPositionID;
+    TFinishPosition.NextFinishPositionID++;
 
-        if ((value & Constants.NF) !== 0) {
-            // setting to non-finish penalty... mask out other bits
-            this.fFinishPosition = (value & Constants.NOF);
-        } else {
-            this.fFinishPosition = value;
-        }
+    if ((value & Constants.NF) !== 0) {
+      // setting to non-finish penalty... mask out other bits
+      this.fFinishPosition = value & Constants.NOF;
+    } else {
+      this.fFinishPosition = value;
     }
+  }
 
-    static parseString(s: string): number {
-        try {
-            return Number.parseInt(s, 10);
-        } catch {
-            try {
-                return TRSPenalty.ParsePenalty(s).Penalty;
-            } catch {
-                return Constants.NOF;
-            }
-        }
+  static parseString(s: string): number {
+    try {
+      return Number.parseInt(s, 10);
+    } catch {
+      try {
+        return TRSPenalty.ParsePenalty(s).Penalty;
+      } catch {
+        return Constants.NOF;
+      }
     }
+  }
 
-    compareTo(that: TFinishPosition): number {
-        if (!that) {
-            return -1;
-        }
-        if (this.fFinishPosition < that.fFinishPosition) {
-            return - 1;
-        } else if (this.fFinishPosition > that.fFinishPosition) {
-            return 1;
-        } else {
-            return 0;
-        }
+  compareTo(that: TFinishPosition): number {
+    if (!that) {
+      return -1;
     }
-
-    isFinisher(): boolean {
-        return ((this.fFinishPosition < Constants.HF) && (this.fFinishPosition > 0));
+    if (this.fFinishPosition < that.fFinishPosition) {
+      return -1;
+    } else if (this.fFinishPosition > that.fFinishPosition) {
+      return 1;
+    } else {
+      return 0;
     }
+  }
 
-    isNoFinish(): boolean {
-        return this.fFinishPosition === Constants.NOF;
+  isFinisher(): boolean {
+    return this.fFinishPosition < Constants.HF && this.fFinishPosition > 0;
+  }
+
+  isNoFinish(): boolean {
+    return this.fFinishPosition === Constants.NOF;
+  }
+
+  equals(that: TFinishPosition): boolean {
+    if (!that) {
+      return false;
     }
+    return this.fFinishPosition === that.fFinishPosition;
+  }
 
-    equals(that: TFinishPosition): boolean {
-        if (!that) {
-            return false;
-        }
-        return this.fFinishPosition === that.fFinishPosition;
-    }
+  intValue(): number {
+    return this.fFinishPosition;
+  }
 
-    intValue(): number {
-        return this.fFinishPosition;
-    }
+  isValidFinish(): boolean {
+    return this.IsValidFinish(this.fFinishPosition);
+  }
 
-    isValidFinish(): boolean {
-        return this.IsValidFinish(this.fFinishPosition);
-    }
+  IsValidFinish(order: number): boolean {
+    return order <= Constants.HF;
+  }
 
-    IsValidFinish(order: number): boolean {
-        return (order <= Constants.HF);
-    }
-
-    toString(): string {
-        return TFinishPosition.ToStringN(this.fFinishPosition);
-    }
-
+  toString(): string {
+    return TFinishPosition.ToStringN(this.fFinishPosition);
+  }
 }

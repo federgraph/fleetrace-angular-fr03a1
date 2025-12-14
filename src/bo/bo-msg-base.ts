@@ -1,16 +1,16 @@
 ﻿import { TMsgType } from './bo-msg-parser';
 
 export abstract class TReplayMsg {
-  Division: string = '*';
-  RunID: string = '';
-  Bib: number = 0;
-  Cmd: string = '';
-  MsgValue: string = '';
+  Division = '*';
+  RunID = '';
+  Bib = 0;
+  Cmd = '';
+  MsgValue = '';
 
-  DBID: number = 0;
+  DBID = 0;
 
   MsgType: TMsgType = TMsgType.None;
-  MsgKey: string = '';
+  MsgKey = '';
 
   constructor() {
     this.ClearResult();
@@ -45,7 +45,7 @@ export abstract class TReplayMsg {
   }
 
   protected IsComment(s: string): boolean {
-    if ( s === '' || s.startsWith('//') || s.startsWith('#') ) {
+    if (s === '' || s.startsWith('//') || s.startsWith('#')) {
       return true;
     }
     return false;
@@ -53,11 +53,10 @@ export abstract class TReplayMsg {
 }
 
 export class TBaseMsg extends TReplayMsg {
-  Prot: string = '';
-  MsgResult: number = 0;
+  Prot = '';
+  MsgResult = 0;
 
   DispatchProt(): boolean {
     return false;
   }
 }
-

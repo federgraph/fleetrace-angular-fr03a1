@@ -1,52 +1,97 @@
-<h2>Race
-    <span id="race-name-label">( R{{race}} - IT{{timepoint}} )</span>
+<h2>
+  Race
+  <span id="race-name-label">( R{{ race }} - IT{{ timepoint }} )</span>
 </h2>
 
 <table id="race-table" cellspacing="0" cellpadding="1">
-    <ng-container *ngFor="let row of ColTable.Rows">
-        <tr>
-            <ng-container *ngFor="let tc of row.Cols; let i = index">
-                <th *ngIf="tc.th" [ngStyle]="{'background-color':tc.color, 'text-align':tc.align }" (click)="thClick(i)">{{tc.text}}</th>
-                <td *ngIf="tc.td" [ngStyle]="{'background-color':tc.color, 'text-align':tc.align }">{{tc.text}}</td>
-            </ng-container>
-        </tr>
+  @for (row of ColTable.Rows; track row) {
+    <ng-container>
+      <tr>
+        @for (tc of row.Cols; track tc; let i = $index) {
+          <ng-container>
+            @if (tc.th) {
+              <th
+                [ngStyle]="{ 'background-color': tc.color, 'text-align': tc.align }"
+                (click)="thClick(i)"
+              >
+                {{ tc.text }}
+              </th>
+            }
+            @if (tc.td) {
+              <td [ngStyle]="{ 'background-color': tc.color, 'text-align': tc.align }">
+                {{ tc.text }}
+              </td>
+            }
+          </ng-container>
+        }
+      </tr>
     </ng-container>
+  }
 </table>
 
-
-<div class="button-row" *ngIf="BOManager.BigButtonRow">
-    <button mat-button *ngIf="BOManager.IsDebug" (click)="clearRace()">Clear R</button>
-    <button mat-button *ngIf="BOManager.IsDebug" (click)="clearTP()">Clear IT</button>
+@if (BOManager.BigButtonRow) {
+  <div class="button-row">
+    @if (BOManager.IsDebug) {
+      <button mat-button (click)="clearRace()">Clear R</button>
+    }
+    @if (BOManager.IsDebug) {
+      <button mat-button (click)="clearTP()">Clear IT</button>
+    }
     <button mat-button (click)="calc()">Calc</button>
     <button mat-button (click)="show()">Show</button>
-    <button mat-button *ngIf="BOManager.IsDebug" (click)="sortOrderClear()">SO</button>
-    <button mat-button *ngIf="BOManager.IsDebug" (click)="toggleLayout()">Layout</button>
-</div>
+    @if (BOManager.IsDebug) {
+      <button mat-button (click)="sortOrderClear()">SO</button>
+    }
+    @if (BOManager.IsDebug) {
+      <button mat-button (click)="toggleLayout()">Layout</button>
+    }
+  </div>
+}
 
-<ng-container *ngIf="!BOManager.BigButtonRow">
-    <button mat-icon-button *ngIf="BOManager.IsDebug" (click)="clearRace()">
+@if (!BOManager.BigButtonRow) {
+  <ng-container>
+    @if (BOManager.IsDebug) {
+      <button mat-icon-button (click)="clearRace()">
         <mat-icon>delete</mat-icon>
-    </button>
-    <button mat-icon-button *ngIf="BOManager.IsDebug" (click)="clearTP()">
+      </button>
+    }
+    @if (BOManager.IsDebug) {
+      <button mat-icon-button (click)="clearTP()">
         <mat-icon>delete_outline</mat-icon>
-    </button>
-    <button mat-icon-button *ngIf="BOManager.IsDebug" (click)="calc()">
+      </button>
+    }
+    @if (BOManager.IsDebug) {
+      <button mat-icon-button (click)="calc()">
         <mat-icon color="primary">functions</mat-icon>
-    </button>
-    <button mat-icon-button *ngIf="BOManager.IsDebug" (click)="show()">
+      </button>
+    }
+    @if (BOManager.IsDebug) {
+      <button mat-icon-button (click)="show()">
         <mat-icon color="primary">filter_vintage</mat-icon>
-    </button>
-    <button mat-icon-button *ngIf="BOManager.IsDebug" (click)="sortOrderClear()">
+      </button>
+    }
+    @if (BOManager.IsDebug) {
+      <button mat-icon-button (click)="sortOrderClear()">
         <mat-icon>sort</mat-icon>
-    </button>
-    <button mat-icon-button *ngIf="BOManager.IsDebug" (click)="toggleLayout()">
+      </button>
+    }
+    @if (BOManager.IsDebug) {
+      <button mat-icon-button (click)="toggleLayout()">
         <mat-icon>texture</mat-icon>
-    </button>
-    <button mat-icon-button *ngIf="BOManager.IsDebug" (click)="toggleLegend()">
+      </button>
+    }
+    @if (BOManager.IsDebug) {
+      <button mat-icon-button (click)="toggleLegend()">
         <mat-icon>camera</mat-icon>
-    </button>
-</ng-container>
+      </button>
+    }
+  </ng-container>
+}
 
-<app-icon-bar-legend [caption]="'Race'" [bar]="legend" *ngIf="LegendVisible"></app-icon-bar-legend>
+@if (LegendVisible) {
+  <app-icon-bar-legend [caption]="'Race'" [bar]="legend"></app-icon-bar-legend>
+}
 
-<p *ngIf="!LegendVisible"></p>
+@if (!LegendVisible) {
+  <p></p>
+}

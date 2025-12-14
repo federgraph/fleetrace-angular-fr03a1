@@ -5,7 +5,6 @@ import { TExcelExporter } from '../../fr/fr-excel-export';
 import { TStringList } from '../../util/fb-strings';
 
 export class JsonInfo {
-
   ee: TExcelExporter;
 
   constructor(public BOManager: TBOManager) {
@@ -61,7 +60,7 @@ export class JsonInfo {
     for (let i = 0; i < Memo.Count; i++) {
       if (Memo.SL[i]) {
         SL.push(Memo.SL[i]);
-    }
+      }
     }
     return Memo.SL;
   }
@@ -73,7 +72,7 @@ export class JsonInfo {
     for (let i = 0; i < Memo.Count; i++) {
       if (Memo.SL[i]) {
         SL.push(Memo.SL[i]);
-    }
+      }
     }
     return Memo.SL;
   }
@@ -126,9 +125,7 @@ export class JsonInfo {
     this.ee.AddTimingSection(bo, Memo, r);
     const SL: string[] = [];
     for (let i = 0; i < Memo.Count; i++) {
-      if (Memo.SL[i]) {
-        SL.push(Memo.SL[i]);
-      }
+      if (Memo.SL[i]) SL.push(Memo.SL[i]);
     }
     return SL;
   }
@@ -146,7 +143,7 @@ export class JsonInfo {
     }
   }
 
-  getTimeLists(): Array<Array<string>> {
+  getTimeLists(): string[][] {
     const bo = this.BOManager.BO;
     if (bo.BOParams.ITCount > 0 || bo.EventProps.IsTimed) {
       const a = [];
@@ -158,7 +155,7 @@ export class JsonInfo {
     return null;
   }
 
-  getPenaltyLists(): Array<Array<string>> {
+  getPenaltyLists(): string[][] {
     const bo = this.BOManager.BO;
     const a = [];
     for (let r = 1; r <= bo.BOParams.RaceCount; r++) {
@@ -190,9 +187,7 @@ export class JsonInfo {
 
     if (bo.BOParams.ITCount > 0 || bo.EventProps.IsTimed) {
       temp = this.getTimeLists();
-      if (temp) {
-        o.TimingInfo = temp;
-      }
+      if (temp) o.TimingInfo = temp;
     }
 
     o.PenaltyInfo = this.getPenaltyLists();
@@ -236,7 +231,6 @@ export class JsonInfo {
   }
 
   convertEventDataJson(o: EventDataJson): string[] {
-
     const a: string[] = [];
 
     for (const s1 of o.EventParams) {
@@ -280,12 +274,11 @@ export class JsonInfo {
         if (pi.length > 0) {
           for (const s8 of pi) {
             a.push(s8);
-      }
+          }
         }
       }
     }
 
     return a;
   }
-
 }

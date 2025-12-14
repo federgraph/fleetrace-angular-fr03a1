@@ -8,72 +8,71 @@ import { TSimpleHashGrid } from '../../grid/grid-cells';
 import { TBO } from '../../fr/fr-bo';
 
 export class TStammdatenColProps extends TBaseColProps<
-    TStammdatenColGrid,
-    TStammdatenBO,
-    TStammdatenNode,
-    TStammdatenRowCollection,
-    TStammdatenRowCollectionItem,
-    TStammdatenColProps,
-    TStammdatenColProp> {
-    constructor(public BO: TBO) {
-        super(BO);
-    }
+  TStammdatenColGrid,
+  TStammdatenBO,
+  TStammdatenNode,
+  TStammdatenRowCollection,
+  TStammdatenRowCollectionItem,
+  TStammdatenColProps,
+  TStammdatenColProp
+> {
+  constructor(public override BO: TBO) {
+    super(BO);
+  }
 
-    NewItem(): TStammdatenColProp {
-        return new TStammdatenColProp(this, this.BO);
-    }
-
+  NewItem(): TStammdatenColProp {
+    return new TStammdatenColProp(this, this.BO);
+  }
 }
 
 export class TStammdatenColGrid extends TColGrid<
-    TStammdatenColGrid,
-    TStammdatenBO,
-    TStammdatenNode,
-    TStammdatenRowCollection,
-    TStammdatenRowCollectionItem,
-    TStammdatenColProps,
-    TStammdatenColProp> {
-    constructor(BO: TBO) {
-        super(BO);
+  TStammdatenColGrid,
+  TStammdatenBO,
+  TStammdatenNode,
+  TStammdatenRowCollection,
+  TStammdatenRowCollectionItem,
+  TStammdatenColProps,
+  TStammdatenColProp
+> {
+  constructor(BO: TBO) {
+    super(BO);
+  }
+
+  NewColAvail(): TStammdatenColProps {
+    return new TStammdatenColProps(this.BO);
+  }
+  NewColBO(): TStammdatenBO {
+    return new TStammdatenBO(this.BO);
+  }
+  SetupGrid() {
+    const cl = this.GetBaseRowCollection();
+
+    // init RowCount, clear visible cells
+    if (cl != null && cl.Count > 0) {
+      this.Grid.RowCount = cl.FilteredCount + this.FirstRowIndex;
+    } else {
+      this.Grid.RowCount = this.FirstRowIndex;
     }
 
-    NewColAvail(): TStammdatenColProps {
-        return new TStammdatenColProps(this.BO);
-    }
-    NewColBO(): TStammdatenBO {
-        return new TStammdatenBO(this.BO);
-    }
-    SetupGrid() {
-        const cl = this.GetBaseRowCollection();
+    this.Grid.ColCount = this.ColsActive.Count;
 
-        // init RowCount, clear visible cells
-        if (cl != null && cl.Count > 0) {
-            this.Grid.RowCount = cl.FilteredCount + this.FirstRowIndex;
-        } else {
-            this.Grid.RowCount = this.FirstRowIndex;
-        }
-
-        this.Grid.ColCount = this.ColsActive.Count;
-
-        for (let i = this.HeaderRowIndex; i < this.Grid.RowCount + this.HeaderRowIndex; i++) {
-            this.Grid.ClearRow(i);
-        }
-
-        // init width of columns, show captions
-        this.ShowHeader();
-
-        this.Grid.SetupGrid(this);
+    for (let i = this.HeaderRowIndex; i < this.Grid.RowCount + this.HeaderRowIndex; i++) {
+      this.Grid.ClearRow(i);
     }
 
+    // init width of columns, show captions
+    this.ShowHeader();
+
+    this.Grid.SetupGrid(this);
+  }
 }
 
 export class TSimpleStammdatenGrid extends TSimpleHashGrid<
-    TStammdatenColGrid,
-    TStammdatenBO,
-    TStammdatenNode,
-    TStammdatenRowCollection,
-    TStammdatenRowCollectionItem,
-    TStammdatenColProps,
-    TStammdatenColProp> {
-}
-
+  TStammdatenColGrid,
+  TStammdatenBO,
+  TStammdatenNode,
+  TStammdatenRowCollection,
+  TStammdatenRowCollectionItem,
+  TStammdatenColProps,
+  TStammdatenColProp
+> {}

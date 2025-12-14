@@ -1,13 +1,13 @@
 <mat-card class="scroll-card">
-<mat-card-title>Featured Event</mat-card-title>
-<mat-card-content>
+  <mat-card-title>Featured Event</mat-card-title>
+  <mat-card-content>
+    <button mat-raised-button (click)="show()">Show</button>
+    <button mat-raised-button (click)="loadEvent()">Load</button>
+    <button mat-raised-button (click)="clear()">Clear</button>
 
-<button mat-raised-button (click)="show()">Show</button>
-<button mat-raised-button (click)="loadEvent()">Load</button>
-<button mat-raised-button (click)="clear()">Clear</button>
-
-<pre class="info">--- {{Info}} ---</pre>
-<pre class="error" *ngIf="HasError">--- {{Error}} ---</pre>
-
-</mat-card-content>
+    <pre class="info">--- {{ Info }} ---</pre>
+    @if (HasError) {
+      <pre class="error">--- {{ Error }} ---</pre>
+    }
+  </mat-card-content>
 </mat-card>

@@ -1,450 +1,616 @@
 ﻿<div class="mat-typography mat-app-background">
+  <mat-toolbar color="primary">
+    <span class="fill-remaining-space"></span>
 
-    <mat-toolbar color="primary">
-        <span class="fill-remaining-space"></span>
+    <button mat-icon-button (click)="toggleInput()">
+      <mat-icon>touch_app</mat-icon>
+    </button>
+    <button mat-icon-button (click)="reduceToEntries()">
+      <mat-icon>people</mat-icon>
+    </button>
+    <button mat-icon-button (click)="reduceToEvent()">
+      <mat-icon>event</mat-icon>
+    </button>
+    <button mat-icon-button (click)="reduceToRace()">
+      <mat-icon>directions_run</mat-icon>
+    </button>
+    <button mat-icon-button (click)="reduceToBib()">
+      <mat-icon>person</mat-icon>
+    </button>
+    <button mat-icon-button (click)="reduceToNone()">
+      <mat-icon>texture</mat-icon>
+    </button>
+    <button mat-icon-button (click)="toggleTabsVisible()">
+      <mat-icon>help</mat-icon>
+    </button>
 
-        <button mat-icon-button (click)="toggleInput()">
-            <mat-icon>touch_app</mat-icon>
-        </button>
-        <button mat-icon-button (click)="reduceToEntries()">
-            <mat-icon>people</mat-icon>
-        </button>
-        <button mat-icon-button (click)="reduceToEvent()">
-            <mat-icon>event</mat-icon>
-        </button>
-        <button mat-icon-button (click)="reduceToRace()">
-            <mat-icon>directions_run</mat-icon>
-        </button>
-        <button mat-icon-button (click)="reduceToBib()">
-            <mat-icon>person</mat-icon>
-        </button>
-        <button mat-icon-button (click)="reduceToNone()">
-            <mat-icon>texture</mat-icon>
-        </button>
-        <button mat-icon-button (click)="toggleTabsVisible()">
-            <mat-icon>help</mat-icon>
-        </button>
+    <span class="fill-remaining-space"></span>
+  </mat-toolbar>
 
-        <span class="fill-remaining-space"></span>
-    </mat-toolbar>
-
-    <mat-card class="main-card">
-
-        <ng-container *ngIf="ButtonPanelVisible">
-            <div class="button-line">
-                <button mat-stroked-button color="primary" (click)="noop()">Blank</button>
-                <button mat-stroked-button color="primary" (click)="toggleRows()">Rows</button>
-                <button mat-stroked-button color="primary" (click)="initCurrent()">Next</button>
-            </div>
-
-            <div class="button-line">
-                <button mat-raised-button (click)="raceDeltaBtnClick(-1)">R-</button>
-                <button mat-raised-button (click)="reduceToEvent()">R {{CurrentRace}}</button>
-                <button mat-raised-button (click)="raceDeltaBtnClick(1)">R+</button>
-            </div>
-
-            <div class="button-line">
-                <button mat-raised-button (click)="timepointDeltaBtnClick(-1)">IT-</button>
-                <button mat-raised-button (click)="reduceToRace()">IT {{CurrentTP}}</button>
-                <button mat-raised-button (click)="timepointDeltaBtnClick(1)">IT+</button>
-            </div>
-
-            <div class="button-line">
-                <button mat-raised-button (click)="bow(-1)">Bib-</button>
-                <button mat-raised-button (click)="reduceToBib()">{{CurrentBib}}</button>
-                <button mat-raised-button (click)="bow(1)">Bib+</button>
-            </div>
-
-            <div class="button-line" *ngIf="ThrowoutsRowVisible">
-                <button mat-raised-button (click)="throwOut(-1)">T-</button>
-                <button mat-raised-button (click)="reduceToEntries()">{{Throwouts}}</button>
-                <button mat-raised-button (click)="throwOut(+1)">T+</button>
-            </div>
-
-            <div class="button-line" *ngIf="FormsRowVisible">
-                <button mat-stroked-button color="primary" (click)="reduceToParams()">Params</button>
-                <button mat-stroked-button color="primary" (click)="reduceToProps()">Props</button>
-                <button mat-stroked-button color="primary" (click)="reduceToEntry()">Names</button>
-            </div>
-
-            <div class="button-line" *ngIf="ClearingRowVisible">
-                <button mat-raised-button color="accent" (click)="clearBtnClick()">Clear</button>
-                <button mat-raised-button color="accent" (click)="clearRaceBtnClick()">Clear R</button>
-                <button mat-raised-button color="accent" (click)="clearTimepointBtnClick()">Clear IT</button>
-            </div>
-
-            <div class="button-line" *ngIf="ResetRowVisible">
-                <button mat-raised-button color="primary" (click)="resetBtnClick()">Reset</button>
-                <button mat-raised-button color="primary" (click)="exampleBtnClick()">Example</button>
-                <button mat-raised-button color="primary" (click)="assetBtnClick(3)">1991</button>
-            </div>
-
-            <div class="button-line" *ngIf="TableRowVisible">
-                <button mat-stroked-button (click)="ensureBib()">Bib</button>
-                <button mat-stroked-button (click)="ensureEvent()">Event</button>
-                <button mat-stroked-button (click)="ensureRace()">Race</button>
-            </div>
-
-            <p></p>
-        </ng-container>
-
-        <app-timing-buttons *ngIf=InputVisible #timingTab
-            (sendMsg)="sendMsg($event)"
-            (updateAll)="handleUpdate($event)"
-            (calc)="handleCalc($event)">
-        </app-timing-buttons>
-
-        <app-bib-tab *ngIf=BibVisible #bibInfo [bib]=CurrentBib (bibChanged)="onBibChanged($event)"></app-bib-tab>
-        <app-entries-tab *ngIf=EntriesVisible #entriesTab (entriesTableChanged)="onEntriesTableChanged($event)"></app-entries-tab>
-        <app-race-tab *ngIf=RaceVisible #raceTab [race]="CurrentRace" [timepoint]="CurrentTP"></app-race-tab>
-        <app-event-tab *ngIf=EventVisible #eventTab [EventName]="EventName"></app-event-tab>
-    </mat-card>
-
-    <mat-card class="second-card">
-        <button mat-icon-button (click)="toggleButtonPanel()">
-            <mat-icon *ngIf="!this.ButtonPanelVisible">dashboard</mat-icon>
-            <mat-icon *ngIf="this.ButtonPanelVisible" color="primary">dashboard</mat-icon>
-        </button>
-        <button mat-icon-button (click)="toggleExplorerLine()">
-            <mat-icon *ngIf="ExplorerLineVisible" color="accent">maximize</mat-icon>
-            <mat-icon *ngIf="!ExplorerLineVisible">maximize</mat-icon>
-        </button>
-        <button mat-icon-button (click)="toggleExplorerBar()">
-            <mat-icon *ngIf="ExplorerBarVisible" color="primary">explore</mat-icon>
-            <mat-icon *ngIf="!ExplorerBarVisible">explore</mat-icon>
-        </button>
-        <button mat-icon-button (click)="toggleCommandBar()">
-            <mat-icon *ngIf="CommandBarVisible" color="accent">functions</mat-icon>
-            <mat-icon *ngIf="!CommandBarVisible">functions</mat-icon>
-        </button>
-    </mat-card>
-
-    <mat-card class="second-card">
-        <button mat-icon-button (click)="toggleLegend()">
-            <mat-icon *ngIf="LegendVisible" color="primary">camera</mat-icon>
-            <mat-icon *ngIf="!LegendVisible">camera</mat-icon>
-        </button>
-        <button mat-icon-button (click)="toggleJsonInfo()">
-            <mat-icon *ngIf="JsonInfoVisible" color="primary">gesture</mat-icon>
-            <mat-icon *ngIf="!JsonInfoVisible">gesture</mat-icon>
-        </button>        
-        <button mat-icon-button (click)="toggleTextArea()">
-            <mat-icon *ngIf="TextAreaVisible" color="primary">edit</mat-icon>
-            <mat-icon *ngIf="!TextAreaVisible">edit</mat-icon>
-        </button>
-        <button mat-icon-button (click)="togglePreText()">
-            <mat-icon *ngIf="PreTextVisible" color="primary">format_align_justify</mat-icon>
-            <mat-icon *ngIf="!PreTextVisible">format_align_justify</mat-icon>
-        </button>
-        <button mat-icon-button (click)="toggleConfig()">
-            <mat-icon *ngIf="ConfigVisible" color="primary">style</mat-icon>
-            <mat-icon *ngIf="!ConfigVisible">style</mat-icon>
-        </button>
-        <button mat-icon-button (click)="toggleComponents()">
-            <mat-icon *ngIf="ComponentsVisible" color="primary">category</mat-icon>
-            <mat-icon *ngIf="!ComponentsVisible">category</mat-icon>
-        </button>
-        <button mat-icon-button (click)="toggleSonstiges()">
-            <mat-icon *ngIf="SonstigesVisible" color="primary">landscape</mat-icon>
-            <mat-icon *ngIf="!SonstigesVisible">landscape</mat-icon>
-        </button>
-
-        <button mat-icon-button *ngIf="LinkButtonVisible" (click)="toggleConn()">
-            <mat-icon color="primary">link</mat-icon>
-        </button>
-    </mat-card>
-
-    <mat-card class="second-card">
-        <button mat-icon-button (click)="toggleBigButtonRow()">
-            <mat-icon *ngIf="!this.BOManager.BigButtonRow">pets</mat-icon>
-            <mat-icon *ngIf="this.BOManager.BigButtonRow" color="primary">pets</mat-icon>
-        </button>
-        <button mat-icon-button (click)="toggleDebug()">
-            <mat-icon *ngIf="!this.BOManager.IsDebug">all_inclusive</mat-icon>
-            <mat-icon *ngIf="this.BOManager.IsDebug" color="primary">all_inclusive</mat-icon>
-        </button>
-    </mat-card>
-
-    <mat-card class="second-card" *ngIf="ExplorerLineVisible">
-        <pre>--- <span class="color-accent">Race {{CurrentRace}}</span> --- <span class="color-primary">IT {{CurrentTP}}</span> --- Bib {{CurrentBib}} ---</pre>
-    </mat-card>
-
-    <mat-card class="second-card" *ngIf="ExplorerBarVisible">
-        <button mat-icon-button (click)="raceDeltaBtnClick(-1)">
-            <mat-icon>chevron_left</mat-icon>
-        </button>
-        <button mat-icon-button (click)="findCurrentE()">
-            <mat-icon [matBadge]="CurrentRace" color="primary">directions_run</mat-icon>
-        </button>
-        <button mat-icon-button (click)="raceDeltaBtnClick(1)">
-            <mat-icon>chevron_right</mat-icon>
-        </button>
-
-        <button mat-icon-button (click)="timepointDeltaBtnClick(-1)">
-            <mat-icon>chevron_left</mat-icon>
-        </button>
-        <button mat-icon-button (click)="findCurrentR()">
-            <mat-icon [matBadge]="CurrentTP" color="primary">schedule</mat-icon>
-        </button>
-        <button mat-icon-button (click)="timepointDeltaBtnClick(1)">
-            <mat-icon>chevron_right</mat-icon>
-        </button>
-
-        <br *ngIf="break6">
-
-        <button mat-icon-button (click)="bow(-1)">
-            <mat-icon>chevron_left</mat-icon>
-        </button>
-        <button mat-icon-button (click)="findCurrentB()">
-            <mat-icon [matBadge]="CurrentBib" color="primary">person</mat-icon>
-        </button>
-        <button mat-icon-button (click)="bow(1)">
-            <mat-icon>chevron_right</mat-icon>
-        </button>
-    </mat-card>
-
-    <mat-card class="second-card" *ngIf="CommandBarVisible">
-        <button mat-icon-button (click)="autoLoad()">
-            <mat-icon color="accent">replay</mat-icon>
-        </button>
-        <button mat-icon-button (click)="autoSave()">
-            <mat-icon color="accent">save</mat-icon>
-        </button>
-
-        <button mat-icon-button (click)="enableRaceBtnClick()">
-            <mat-icon color="accent">rowing</mat-icon>
-        </button>
-        <button mat-icon-button (click)="clearTimepointBtnClick()">
-            <mat-icon color="accent">delete_outline</mat-icon>
-        </button>
-        <button mat-icon-button (click)="clearRaceBtnClick()">
-            <mat-icon color="accent">delete</mat-icon>
-        </button>
-        <button mat-icon-button (click)="clearBtnClick()">
-            <mat-icon color="accent">delete_forever</mat-icon>
-        </button>
-        <button mat-icon-button color="accent" (click)="updateEvent()">
-            <mat-icon color="accent">redo</mat-icon>
-        </button>
-    </mat-card>
-
-    <mat-card class="second-card" *ngIf=TabsVisible>
-    <mat-tab-group>
-
-    <mat-tab label="Help" *ngIf="HelpTextVisible">
-        <app-help-text #helpTab></app-help-text>
-    </mat-tab>
-
-    <mat-tab *ngIf=LegendVisible>
-        <ng-template mat-tab-label>
-            <mat-icon class="tab-icon">camera</mat-icon>
-            Legend
-        </ng-template>
-        <app-icon-legend></app-icon-legend>
-    </mat-tab>
-    
-    <mat-tab label="Json" *ngIf="JsonInfoVisible">
-        <ng-template mat-tab-label>
-            <mat-icon class="tab-icon">gesture</mat-icon>
-            Json
-        </ng-template>
-        <app-json-info [race]=CurrentRace></app-json-info>
-    </mat-tab>
-
-    <mat-tab *ngIf=TextAreaVisible>
-        <ng-template mat-tab-label>
-            <mat-icon class="tab-icon">edit</mat-icon>
-            Text Area
-        </ng-template>
-        <mat-card class="scroll-card">
-        <mat-card-title>Text Area</mat-card-title>
-        <mat-card-content>
-
-            <div class="button-row" *ngIf="BOManager.BigButtonRow">
-                <button mat-raised-button (click)="memoClear()">Clear</button>
-                <button mat-raised-button (click)="memoAsset()">Asset</button>
-                <button mat-raised-button (click)="memoConvertedData()">Converted</button>
-                <button mat-raised-button (click)="memoText(false)">Text</button>
-                <button mat-raised-button (click)="memoText(true)">Compact</button>
-                <button mat-raised-button color="accent" (click)="memoRead()">Read</button>
-                <button mat-raised-button (click)="memoCopy(memo)">Copy</button>
-            </div>
-
-            <ng-container *ngIf="!BOManager.BigButtonRow">
-                <button mat-icon-button (click)="memoClear()">
-                    <mat-icon>clear</mat-icon>
-                </button>
-                <button mat-icon-button (click)="memoAsset()">
-                    <mat-icon>input</mat-icon>
-                </button>
-                <button mat-icon-button (click)="memoConvertedData()">
-                    <mat-icon color="primary">input</mat-icon>
-                </button>
-                <button mat-icon-button (click)="memoText(false)">
-                    <mat-icon>save</mat-icon>
-                </button>
-                <button mat-icon-button (click)="memoText(true)">
-                    <mat-icon color="primary">save</mat-icon>
-                </button>
-                <button mat-icon-button (click)="memoRead()">
-                    <mat-icon color="accent">send</mat-icon>
-                </button>
-                <button mat-icon-button (click)="memoCopy(memo)">
-                    <mat-icon color="copy">share</mat-icon>
-                </button>
-                <button mat-icon-button (click)="toggleTextAreaLegend()">
-                    <mat-icon>camera</mat-icon>
-                </button>
-            </ng-container>
-
-            <div class="memo-form">
-                <mat-form-field class="memo">
-                    <textarea #memo matInput spellcheck="false" rows="16" class="memo" [(ngModel)]="MemoText"
-                        [ngModelOptions]="{standalone: true}"></textarea>
-                </mat-form-field>
-            </div>
-
-            <app-icon-bar-legend [caption]="'Text Area'" [bar]="textAreaIcons" *ngIf="TextAreaLegendVisible"></app-icon-bar-legend>
-
-        </mat-card-content>
-        </mat-card>
-    </mat-tab>
-
-    <mat-tab *ngIf="PreTextVisible">
-        <ng-template mat-tab-label>
-            <mat-icon class="tab-icon">format_align_justify</mat-icon>
-            Pre Text
-        </ng-template>
-        <mat-card class="scroll-card">
-        <mat-card-title>Pre Text</mat-card-title>
-        <mat-card-content>
-
-            <div class="button-row" *ngIf="BOManager.BigButtonRow">
-                <button mat-raised-button (click)="clearTextOutput()">Clear</button>
-                <button mat-raised-button (click)="showConvertedData()">Converted</button>
-                <button mat-raised-button (click)="getTxtBackup(false)">Text</button>
-                <button mat-raised-button (click)="getTxtBackup(true)">Compact</button>
-            </div>
-
-            <ng-container *ngIf="!BOManager.BigButtonRow">
-                <button mat-icon-button (click)="clearTextOutput()">
-                    <mat-icon>clear</mat-icon>
-                </button>
-                <button mat-icon-button (click)="showConvertedData()">
-                    <mat-icon>input</mat-icon>
-                </button>
-                <button mat-icon-button (click)="showQueue()">
-                    <mat-icon color="accent">wb_sunny</mat-icon>
-                </button>
-                <button mat-icon-button (click)="getTxtBackup(false)">
-                    <mat-icon>save</mat-icon>
-                </button>
-                <button mat-icon-button (click)="getTxtBackup(true)">
-                    <mat-icon color="primary">save</mat-icon>
-                </button>
-                <button mat-icon-button (click)="copyCompact()">
-                    <mat-icon color="primary">share</mat-icon>
-                </button>
-                <button mat-icon-button (click)="togglePreTextLegend()">
-                    <mat-icon>camera</mat-icon>
-                </button>
-            </ng-container>
-
-            <pre>{{TestOutput}}</pre>
-
-            <app-icon-bar-legend [caption]="'Pre Text'" [bar]="preTextIcons" *ngIf="PreTextLegendVisible"></app-icon-bar-legend>
-        </mat-card-content>
-        </mat-card>
-    </mat-tab>
-
-    <mat-tab *ngIf="ConfigVisible">
-        <ng-template mat-tab-label>
-            <mat-icon class="tab-icon">style</mat-icon>
-            Config
-        </ng-template>
-        <button mat-icon-button (click)="reduceToParams()">
-        <mat-icon color="primary">ac_unit</mat-icon>
-        </button>
-        <button mat-icon-button (click)="reduceToProps()">
-            <mat-icon color="primary">settings</mat-icon>
-        </button>
-        <button mat-icon-button (click)="reduceToEntry()">
-            <mat-icon color="primary">perm_identity</mat-icon>
-        </button>
-        <button mat-icon-button (click)="reduceToEvent()">
-            <mat-icon>event</mat-icon>
-        </button>
-        <app-form-entry-row *ngIf="EntryVisible" (entryDeleted)="onEntryDeleted($event)" (entryRowChanged)="onEntryRowChanged($event)"></app-form-entry-row>
-        <app-form-event-params-quick *ngIf="ParamsVisible" (paramsChanged)="onParamsChanged($event)"></app-form-event-params-quick>
-        <app-form-event-props-quick *ngIf="PropsVisible" (propsChanged)="onPropsChanged($event)"></app-form-event-props-quick>
-    </mat-tab>
-
-    <mat-tab *ngIf="ComponentsVisible">
-        <ng-template mat-tab-label>
-            <mat-icon class="tab-icon">category</mat-icon>
-            Components
-        </ng-template>
-        <button mat-icon-button (click)="reduceToAssetMenu()">
-            <mat-icon color="primary">local_library</mat-icon>
-        </button>
-        <button mat-icon-button (click)="reduceToEventMenu()">
-            <mat-icon color="primary">cloud</mat-icon>
-        </button>
-        <button mat-icon-button (click)="reduceToSave()">
-            <mat-icon color="primary">archive</mat-icon>
-        </button>
-        <button mat-icon-button (click)="reduceToLoad()">
-            <mat-icon color="primary">unarchive</mat-icon>
-        </button>
-        <button mat-icon-button (click)="reduceComponents()">
-            <mat-icon>texture</mat-icon>
-        </button>
-    
-        <app-test-data *ngIf="AssetMenuVisible" (dataAvailable)="onDataAvailable($event)"></app-test-data>
-        <app-event-menu *ngIf="EventMenuVisible" #menuTab (dataAvailable)="onDataAvailable($event)"></app-event-menu>
-        <app-save *ngIf="SaveVisible"></app-save>
-        <app-load *ngIf="LoadVisible" (dataLoaded)="onDataLoaded($event)"></app-load>
-    </mat-tab>
-
-    <mat-tab label="Conn" *ngIf="ConnVisible">
-        <app-connection-control #connBar [wantInput]=wantInput [wantOutput]=wantOutput
-        (newNettoAvailable)="handleWebSocketMsg($event)"></app-connection-control>
-    </mat-tab>
-
-    <mat-tab label="Api">
-        <app-url-option></app-url-option>
-        <app-api *ngIf="ApiVisible" [race]=CurrentRace (notify)="onNotify($event)" #apiBar (eventDataAvailable)="onDataAvailable($event)"
-            (raceDataAvailable)="onRaceDataAvailable($event)"></app-api>
-
-        <ng-container *ngIf="BOManager.IsDebug">
-            <pre>{{breakText}}</pre>
-            <pre>{{breakpointSet | json}}</pre>s
-        </ng-container>
-    </mat-tab>
-
-    <mat-tab *ngIf="SonstigesVisible">
-        <ng-template mat-tab-label>
-            <mat-icon class="tab-icon">landscape</mat-icon>
-            Sonstiges
-        </ng-template>
-        <app-featured-event (dataAvailable)="onDataAvailable($event)"></app-featured-event>
-
-        <mat-card class="scroll-card">
-        <mat-card-title>Local Storage</mat-card-title>
-        <mat-card-content>
-        <div class="button-row">
-            <button mat-stroked-button color="primary" (click)="autoSave()">Save</button>
-            <button mat-stroked-button color="primary" (click)="autoLoad()">Load</button>
-            <button mat-stroked-button color="primary" (click)="resetBtnClick()">Reset</button>
+  <mat-card class="main-card">
+    @if (ButtonPanelVisible) {
+      <ng-container>
+        <div class="button-line">
+          <button mat-stroked-button color="primary" (click)="noop()">Blank</button>
+          <button mat-stroked-button color="primary" (click)="toggleRows()">Rows</button>
+          <button mat-stroked-button color="primary" (click)="initCurrent()">Next</button>
         </div>
-        </mat-card-content>
-        </mat-card>
 
-        <app-result-hash></app-result-hash>
-        <app-result-upload [race]=CurrentRace></app-result-upload>
-    </mat-tab>
+        <div class="button-line">
+          <button mat-raised-button (click)="raceDeltaBtnClick(-1)">R-</button>
+          <button mat-raised-button (click)="reduceToEvent()">R {{ CurrentRace }}</button>
+          <button mat-raised-button (click)="raceDeltaBtnClick(1)">R+</button>
+        </div>
 
-    </mat-tab-group>
-</mat-card>
+        <div class="button-line">
+          <button mat-raised-button (click)="timepointDeltaBtnClick(-1)">IT-</button>
+          <button mat-raised-button (click)="reduceToRace()">IT {{ CurrentTP }}</button>
+          <button mat-raised-button (click)="timepointDeltaBtnClick(1)">IT+</button>
+        </div>
 
+        <div class="button-line">
+          <button mat-raised-button (click)="bow(-1)">Bib-</button>
+          <button mat-raised-button (click)="reduceToBib()">{{ CurrentBib }}</button>
+          <button mat-raised-button (click)="bow(1)">Bib+</button>
+        </div>
+
+        @if (ThrowoutsRowVisible) {
+          <div class="button-line">
+            <button mat-raised-button (click)="throwOut(-1)">T-</button>
+            <button mat-raised-button (click)="reduceToEntries()">{{ Throwouts }}</button>
+            <button mat-raised-button (click)="throwOut(+1)">T+</button>
+          </div>
+        }
+
+        @if (FormsRowVisible) {
+          <div class="button-line">
+            <button mat-stroked-button color="primary" (click)="reduceToParams()">Params</button>
+            <button mat-stroked-button color="primary" (click)="reduceToProps()">Props</button>
+            <button mat-stroked-button color="primary" (click)="reduceToEntry()">Names</button>
+          </div>
+        }
+
+        @if (ClearingRowVisible) {
+          <div class="button-line">
+            <button mat-raised-button color="accent" (click)="clearBtnClick()">Clear</button>
+            <button mat-raised-button color="accent" (click)="clearRaceBtnClick()">Clear R</button>
+            <button mat-raised-button color="accent" (click)="clearTimepointBtnClick()">
+              Clear IT
+            </button>
+          </div>
+        }
+
+        @if (ResetRowVisible) {
+          <div class="button-line">
+            <button mat-raised-button color="primary" (click)="resetBtnClick()">Reset</button>
+            <button mat-raised-button color="primary" (click)="exampleBtnClick()">Example</button>
+            <button mat-raised-button color="primary" (click)="assetBtnClick(3)">1991</button>
+          </div>
+        }
+
+        @if (TableRowVisible) {
+          <div class="button-line">
+            <button mat-stroked-button (click)="ensureBib()">Bib</button>
+            <button mat-stroked-button (click)="ensureEvent()">Event</button>
+            <button mat-stroked-button (click)="ensureRace()">Race</button>
+          </div>
+        }
+
+        <p></p>
+      </ng-container>
+    }
+
+    @if (InputVisible) {
+      <app-timing-buttons
+        #timingTab
+        (sendMsg)="sendMsg($event)"
+        (updateAll)="handleUpdate($event)"
+        (calc)="handleCalc($event)"
+      >
+      </app-timing-buttons>
+    }
+
+    @if (BibVisible) {
+      <app-bib-tab #bibInfo [bib]="CurrentBib" (bibChanged)="onBibChanged(CurrentBib)">
+      </app-bib-tab>
+    }
+
+    @if (EntriesVisible) {
+      <app-entries-tab #entriesTab (entriesTableChanged)="onEntriesTableChanged($event)">
+      </app-entries-tab>
+    }
+
+    @if (RaceVisible) {
+      <app-race-tab #raceTab [race]="CurrentRace" [timepoint]="CurrentTP"> </app-race-tab>
+    }
+
+    @if (EventVisible) {
+      <app-event-tab #eventTab [EventName]="EventName"></app-event-tab>
+    }
+  </mat-card>
+
+  <mat-card class="second-card">
+    <button mat-icon-button (click)="toggleButtonPanel()">
+      @if (!this.ButtonPanelVisible) {
+        <mat-icon>dashboard</mat-icon>
+      }
+      @if (this.ButtonPanelVisible) {
+        <mat-icon color="primary">dashboard</mat-icon>
+      }
+    </button>
+    <button mat-icon-button (click)="toggleExplorerLine()">
+      @if (ExplorerLineVisible) {
+        <mat-icon color="accent">maximize</mat-icon>
+      }
+      @if (!ExplorerLineVisible) {
+        <mat-icon>maximize</mat-icon>
+      }
+    </button>
+    <button mat-icon-button (click)="toggleExplorerBar()">
+      @if (ExplorerBarVisible) {
+        <mat-icon color="primary">explore</mat-icon>
+      }
+      @if (!ExplorerBarVisible) {
+        <mat-icon>explore</mat-icon>
+      }
+    </button>
+    <button mat-icon-button (click)="toggleCommandBar()">
+      @if (CommandBarVisible) {
+        <mat-icon color="accent">functions</mat-icon>
+      }
+      @if (!CommandBarVisible) {
+        <mat-icon>functions</mat-icon>
+      }
+    </button>
+  </mat-card>
+
+  <mat-card class="second-card">
+    <button mat-icon-button (click)="toggleLegend()">
+      @if (LegendVisible) {
+        <mat-icon color="primary">camera</mat-icon>
+      }
+      @if (!LegendVisible) {
+        <mat-icon>camera</mat-icon>
+      }
+    </button>
+    <button mat-icon-button (click)="toggleJsonInfo()">
+      @if (JsonInfoVisible) {
+        <mat-icon color="primary">gesture</mat-icon>
+      }
+      @if (!JsonInfoVisible) {
+        <mat-icon>gesture</mat-icon>
+      }
+    </button>
+    <button mat-icon-button (click)="toggleTextArea()">
+      @if (TextAreaVisible) {
+        <mat-icon color="primary">edit</mat-icon>
+      }
+      @if (!TextAreaVisible) {
+        <mat-icon>edit</mat-icon>
+      }
+    </button>
+    <button mat-icon-button (click)="togglePreText()">
+      @if (PreTextVisible) {
+        <mat-icon color="primary">format_align_justify</mat-icon>
+      }
+      @if (!PreTextVisible) {
+        <mat-icon>format_align_justify</mat-icon>
+      }
+    </button>
+    <button mat-icon-button (click)="toggleConfig()">
+      @if (ConfigVisible) {
+        <mat-icon color="primary">style</mat-icon>
+      }
+      @if (!ConfigVisible) {
+        <mat-icon>style</mat-icon>
+      }
+    </button>
+    <button mat-icon-button (click)="toggleComponents()">
+      @if (ComponentsVisible) {
+        <mat-icon color="primary">category</mat-icon>
+      }
+      @if (!ComponentsVisible) {
+        <mat-icon>category</mat-icon>
+      }
+    </button>
+    <button mat-icon-button (click)="toggleSonstiges()">
+      @if (SonstigesVisible) {
+        <mat-icon color="primary">landscape</mat-icon>
+      }
+      @if (!SonstigesVisible) {
+        <mat-icon>landscape</mat-icon>
+      }
+    </button>
+
+    @if (LinkButtonVisible) {
+      <button mat-icon-button (click)="toggleConn()">
+        <mat-icon color="primary">link</mat-icon>
+      </button>
+    }
+  </mat-card>
+
+  <mat-card class="second-card">
+    <button mat-icon-button (click)="toggleBigButtonRow()">
+      @if (!this.BOManager.BigButtonRow) {
+        <mat-icon>pets</mat-icon>
+      }
+      @if (this.BOManager.BigButtonRow) {
+        <mat-icon color="primary">pets</mat-icon>
+      }
+    </button>
+    <button mat-icon-button (click)="toggleDebug()">
+      @if (!this.BOManager.IsDebug) {
+        <mat-icon>all_inclusive</mat-icon>
+      }
+      @if (this.BOManager.IsDebug) {
+        <mat-icon color="primary">all_inclusive</mat-icon>
+      }
+    </button>
+  </mat-card>
+
+  @if (ExplorerLineVisible) {
+    <mat-card class="second-card">
+      <pre>--- <span class="color-accent">Race {{CurrentRace}}</span> --- <span class="color-primary">IT {{CurrentTP}}</span> --- Bib {{CurrentBib}} ---</pre>
+    </mat-card>
+  }
+
+  @if (ExplorerBarVisible) {
+    <mat-card class="second-card">
+      <button mat-icon-button (click)="raceDeltaBtnClick(-1)">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      <button mat-icon-button (click)="findCurrentE()">
+        <mat-icon [matBadge]="CurrentRace" color="primary">directions_run</mat-icon>
+      </button>
+      <button mat-icon-button (click)="raceDeltaBtnClick(1)">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+
+      <button mat-icon-button (click)="timepointDeltaBtnClick(-1)">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      <button mat-icon-button (click)="findCurrentR()">
+        <mat-icon [matBadge]="CurrentTP" color="primary">schedule</mat-icon>
+      </button>
+      <button mat-icon-button (click)="timepointDeltaBtnClick(1)">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+
+      @if (break6) {
+        <br />
+      }
+
+      <button mat-icon-button (click)="bow(-1)">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      <button mat-icon-button (click)="findCurrentB()">
+        <mat-icon [matBadge]="CurrentBib" color="primary">person</mat-icon>
+      </button>
+      <button mat-icon-button (click)="bow(1)">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </mat-card>
+  }
+
+  @if (CommandBarVisible) {
+    <mat-card class="second-card">
+      <button mat-icon-button (click)="autoLoad()">
+        <mat-icon color="accent">replay</mat-icon>
+      </button>
+      <button mat-icon-button (click)="autoSave()">
+        <mat-icon color="accent">save</mat-icon>
+      </button>
+
+      <button mat-icon-button (click)="enableRaceBtnClick()">
+        <mat-icon color="accent">rowing</mat-icon>
+      </button>
+      <button mat-icon-button (click)="clearTimepointBtnClick()">
+        <mat-icon color="accent">delete_outline</mat-icon>
+      </button>
+      <button mat-icon-button (click)="clearRaceBtnClick()">
+        <mat-icon color="accent">delete</mat-icon>
+      </button>
+      <button mat-icon-button (click)="clearBtnClick()">
+        <mat-icon color="accent">delete_forever</mat-icon>
+      </button>
+      <button mat-icon-button color="accent" (click)="updateEvent()">
+        <mat-icon color="accent">redo</mat-icon>
+      </button>
+    </mat-card>
+  }
+
+  @if (TabsVisible) {
+    <mat-card class="second-card">
+      <mat-tab-group>
+        @if (HelpTextVisible) {
+          <mat-tab label="Help">
+            <app-help-text #helpTab></app-help-text>
+          </mat-tab>
+        }
+
+        @if (LegendVisible) {
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon class="tab-icon">camera</mat-icon>
+              Legend
+            </ng-template>
+            <app-icon-legend></app-icon-legend>
+          </mat-tab>
+        }
+
+        @if (JsonInfoVisible) {
+          <mat-tab label="Json">
+            <ng-template mat-tab-label>
+              <mat-icon class="tab-icon">gesture</mat-icon>
+              Json
+            </ng-template>
+            <app-json-info [race]="CurrentRace"></app-json-info>
+          </mat-tab>
+        }
+
+        @if (TextAreaVisible) {
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon class="tab-icon">edit</mat-icon>
+              Text Area
+            </ng-template>
+            <mat-card class="scroll-card">
+              <mat-card-title>Text Area</mat-card-title>
+              <mat-card-content>
+                @if (BOManager.BigButtonRow) {
+                  <div class="button-row">
+                    <button mat-raised-button (click)="memoClear()">Clear</button>
+                    <button mat-raised-button (click)="memoAsset()">Asset</button>
+                    <button mat-raised-button (click)="memoConvertedData()">Converted</button>
+                    <button mat-raised-button (click)="memoText(false)">Text</button>
+                    <button mat-raised-button (click)="memoText(true)">Compact</button>
+                    <button mat-raised-button color="accent" (click)="memoRead()">Read</button>
+                    <button mat-raised-button (click)="memoCopy(memo)">Copy</button>
+                  </div>
+                }
+
+                @if (!BOManager.BigButtonRow) {
+                  <ng-container>
+                    <button mat-icon-button (click)="memoClear()">
+                      <mat-icon>clear</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="memoAsset()">
+                      <mat-icon>input</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="memoConvertedData()">
+                      <mat-icon color="primary">input</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="memoText(false)">
+                      <mat-icon>save</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="memoText(true)">
+                      <mat-icon color="primary">save</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="memoRead()">
+                      <mat-icon color="accent">send</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="memoCopy(memo)">
+                      <mat-icon color="copy">share</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="toggleTextAreaLegend()">
+                      <mat-icon>camera</mat-icon>
+                    </button>
+                  </ng-container>
+                }
+
+                <div class="memo-form">
+                  <mat-form-field class="memo">
+                    <textarea
+                      #memo
+                      matInput
+                      spellcheck="false"
+                      rows="16"
+                      class="memo"
+                      [(ngModel)]="MemoText"
+                      [ngModelOptions]="{ standalone: true }"
+                    ></textarea>
+                  </mat-form-field>
+                </div>
+
+                @if (TextAreaLegendVisible) {
+                  <app-icon-bar-legend
+                    [caption]="'Text Area'"
+                    [bar]="textAreaIcons"
+                  ></app-icon-bar-legend>
+                }
+              </mat-card-content>
+            </mat-card>
+          </mat-tab>
+        }
+
+        @if (PreTextVisible) {
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon class="tab-icon">format_align_justify</mat-icon>
+              Pre Text
+            </ng-template>
+            <mat-card class="scroll-card">
+              <mat-card-title>Pre Text</mat-card-title>
+              <mat-card-content>
+                @if (BOManager.BigButtonRow) {
+                  <div class="button-row">
+                    <button mat-raised-button (click)="clearTextOutput()">Clear</button>
+                    <button mat-raised-button (click)="showConvertedData()">Converted</button>
+                    <button mat-raised-button (click)="getTxtBackup(false)">Text</button>
+                    <button mat-raised-button (click)="getTxtBackup(true)">Compact</button>
+                  </div>
+                }
+
+                @if (!BOManager.BigButtonRow) {
+                  <ng-container>
+                    <button mat-icon-button (click)="clearTextOutput()">
+                      <mat-icon>clear</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="showConvertedData()">
+                      <mat-icon>input</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="showQueue()">
+                      <mat-icon color="accent">wb_sunny</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="getTxtBackup(false)">
+                      <mat-icon>save</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="getTxtBackup(true)">
+                      <mat-icon color="primary">save</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="copyCompact()">
+                      <mat-icon color="primary">share</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="togglePreTextLegend()">
+                      <mat-icon>camera</mat-icon>
+                    </button>
+                  </ng-container>
+                }
+
+                <pre>{{ TestOutput }}</pre>
+
+                @if (PreTextLegendVisible) {
+                  <app-icon-bar-legend [caption]="'Pre Text'" [bar]="preTextIcons">
+                  </app-icon-bar-legend>
+                }
+              </mat-card-content>
+            </mat-card>
+          </mat-tab>
+        }
+
+        @if (ConfigVisible) {
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon class="tab-icon">style</mat-icon>
+              Config
+            </ng-template>
+            <button mat-icon-button (click)="reduceToParams()">
+              <mat-icon color="primary">ac_unit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="reduceToProps()">
+              <mat-icon color="primary">settings</mat-icon>
+            </button>
+            <button mat-icon-button (click)="reduceToEntry()">
+              <mat-icon color="primary">perm_identity</mat-icon>
+            </button>
+            <button mat-icon-button (click)="reduceToEvent()">
+              <mat-icon>event</mat-icon>
+            </button>
+            @if (EntryVisible) {
+              <app-form-entry-row
+                (entryDeleted)="onEntryDeleted($event)"
+                (entryRowChanged)="onEntryRowChanged($event)"
+              ></app-form-entry-row>
+            }
+            @if (ParamsVisible) {
+              <app-form-event-params-quick
+                (paramsChanged)="onParamsChanged($event)"
+              ></app-form-event-params-quick>
+            }
+            @if (PropsVisible) {
+              <app-form-event-props-quick
+                (propsChanged)="onPropsChanged($event)"
+              ></app-form-event-props-quick>
+            }
+          </mat-tab>
+        }
+
+        @if (ComponentsVisible) {
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon class="tab-icon">category</mat-icon>
+              Components
+            </ng-template>
+            <button mat-icon-button (click)="reduceToAssetMenu()">
+              <mat-icon color="primary">local_library</mat-icon>
+            </button>
+            <button mat-icon-button (click)="reduceToEventMenu()">
+              <mat-icon color="primary">cloud</mat-icon>
+            </button>
+            <button mat-icon-button (click)="reduceToSave()">
+              <mat-icon color="primary">archive</mat-icon>
+            </button>
+            <button mat-icon-button (click)="reduceToLoad()">
+              <mat-icon color="primary">unarchive</mat-icon>
+            </button>
+            <button mat-icon-button (click)="reduceComponents()">
+              <mat-icon>texture</mat-icon>
+            </button>
+
+            @if (AssetMenuVisible) {
+              <app-test-data (dataAvailable)="onDataAvailable($event)"> </app-test-data>
+            }
+            @if (EventMenuVisible) {
+              <app-event-menu #menuTab (dataAvailable)="onDataAvailable($event)"> </app-event-menu>
+            }
+            @if (SaveVisible) {
+              <app-save></app-save>
+            }
+            @if (LoadVisible) {
+              <app-load (dataLoaded)="onDataLoaded($event)"></app-load>
+            }
+          </mat-tab>
+        }
+
+        @if (ConnVisible) {
+          <mat-tab label="Conn">
+            <app-connection-control
+              #connBar
+              [wantInput]="wantInput"
+              [wantOutput]="wantOutput"
+              (newNettoAvailable)="handleWebSocketMsg($event)"
+            ></app-connection-control>
+          </mat-tab>
+        }
+
+        <mat-tab label="Api">
+          <app-url-option></app-url-option>
+          @if (ApiVisible) {
+            <app-api
+              [race]="CurrentRace"
+              (notify)="onNotify($event)"
+              #apiBar
+              (eventDataAvailable)="onDataAvailable($event)"
+              (raceDataAvailable)="onRaceDataAvailable($event)"
+            >
+            </app-api>
+          }
+
+          @if (BOManager.IsDebug) {
+            <ng-container>
+              <pre>{{ breakText }}</pre>
+              <pre>{{ breakpointSet | json }}</pre>
+              s
+            </ng-container>
+          }
+        </mat-tab>
+
+        @if (SonstigesVisible) {
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon class="tab-icon">landscape</mat-icon>
+              Sonstiges
+            </ng-template>
+            <app-featured-event (dataAvailable)="onDataAvailable($event)"></app-featured-event>
+
+            <mat-card class="scroll-card">
+              <mat-card-title>Local Storage</mat-card-title>
+              <mat-card-content>
+                <div class="button-row">
+                  <button mat-stroked-button color="primary" (click)="autoSave()">Save</button>
+                  <button mat-stroked-button color="primary" (click)="autoLoad()">Load</button>
+                  <button mat-stroked-button color="primary" (click)="resetBtnClick()">
+                    Reset
+                  </button>
+                </div>
+              </mat-card-content>
+            </mat-card>
+
+            <app-result-hash></app-result-hash>
+            <app-result-upload [race]="CurrentRace"></app-result-upload>
+          </mat-tab>
+        }
+      </mat-tab-group>
+    </mat-card>
+  }
 </div>

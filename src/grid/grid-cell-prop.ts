@@ -21,21 +21,22 @@ export class TCellProp {
   get HasGroup(): boolean {
     return this.GroupColor !== ColorConst.clFleetNone;
   }
-
 }
 
 export class TCellProps {
-  private T: Array<TCellProp> = [];
+  private T: TCellProp[] = [];
 
   ColCount = 0;
 
   private Grow(i: number) {
     while (i > this.LastArrayIndex) {
-        this.T.push(new TCellProp());
+      this.T.push(new TCellProp());
     }
   }
 
-  get LastArrayIndex(): number { return this.T.length - 1; }
+  get LastArrayIndex(): number {
+    return this.T.length - 1;
+  }
 
   GetCellProp(ACol: number, ARow: number): TCellProp {
     const i = this.ColCount * ARow + ACol;
@@ -54,5 +55,4 @@ export class TCellProps {
     this.T = [];
     this.ColCount = 0;
   }
-
 }

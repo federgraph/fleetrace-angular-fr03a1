@@ -1,4 +1,4 @@
-export class TimingParams {
+export interface ITimingParams {
   race: number;
   tp: number;
   bib: number;
@@ -11,16 +11,15 @@ export class IEventDataItem {
 
 export interface IEventDataFolder {
   Folder: string;
-  Items: Array<string>;
+  Items: string[];
 }
 
 export interface IEventDataMenu {
   Path: string;
-  Menu: Array<IEventDataFolder>;
+  Menu: IEventDataFolder[];
 }
 
 export class TTestData {
-
   static readonly DefaultEmptyEvent = `#Params
 DP.StartlistCount = 8
 DP.ITCount = 2
@@ -910,7 +909,6 @@ FR.*.W6.Bib85.QU=DNC
 
 EP.IM = Strict
 `;
-
 }
 
 export class TEventDataAsset implements IEventDataItem {
@@ -951,5 +949,4 @@ export class TEventDataAsset implements IEventDataItem {
     this.EventName = 'Test Data IDM 1997';
     this.EventData = TTestData.IDM_1997;
   }
-
 }

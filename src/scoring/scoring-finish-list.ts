@@ -3,63 +3,61 @@ import { TEntry } from './scoring-entry';
 import { environment } from '../environments/environment';
 
 export class TFinishList extends Array<TFinish> {
+  constructor() {
+    super();
+    if (environment.wantES5) {
+      Object.setPrototypeOf(this, TFinishList.prototype);
+    }
+  }
 
-    constructor() {
-        super();
-        if (environment.wantES5) {
-            Object.setPrototypeOf(this, TFinishList.prototype);
-        }
+  /**
+   * returns a finish if found, otherwise null
+   */
+  findEntry(e: TEntry): TFinish {
+    if (this.length === 0) {
+      return null;
     }
 
-    /**
-     * returns a finish if found, otherwise null
-     */
-    findEntry(e: TEntry): TFinish {
-        if (this.length === 0) {
-            return null;
-        }
-
-        let f: TFinish;
-        for (f of this) {
-            if ((f.Entry != null) && (f.Entry.equals(e))) {
-                return f;
-            }
-        }
-        return null;
+    let f: TFinish;
+    for (f of this) {
+      if (f.Entry != null && f.Entry.equals(e)) {
+        return f;
+      }
     }
+    return null;
+  }
 
-    Add(e: TFinish) {
-        this.push(e);
+  Add(e: TFinish) {
+    this.push(e);
+  }
+
+  Remove(e: TFinish) {
+    const i = this.indexOf(e);
+    if (i > -1) {
+      this.splice(i, 1);
     }
+  }
 
-    Remove(e: TFinish) {
-        const i = this.indexOf(e);
-        if (i > -1) {
-            this.splice(i, 1);
-        }
+  AddAll(al: TFinishList) {
+    for (const f of al) {
+      this.push(f);
     }
+  }
 
-    AddAll(al: TFinishList) {
-        for (const f of al) {
-            this.push(f);
-        }
+  RemoveAll(al: TFinishList) {
+    for (let i = 0; i < this.length; i++) {
+      this.Remove(al[i]);
     }
+  }
 
-    RemoveAll(al: TFinishList) {
-        for (let i = 0; i < this.length; i++) {
-            this.Remove(al[i]);
-        }
+  Contains(obj: TFinish): boolean {
+    return this.indexOf(obj) > -1;
+  }
+
+  Exchange(x: number, y: number) {
+    if (this.length < 2) {
+      return;
     }
-
-    Contains(obj: TFinish): boolean {
-        return this.indexOf(obj) > -1;
-    }
-
-    Exchange(x: number, y: number) {
-        if (this.length < 2) {
-            return;
-        }
-        this.splice(y, 1, this.splice(x, 1, this[y])[0]);
-    }
-
+    this.splice(y, 1, this.splice(x, 1, this[y])[0]);
+  }
 }

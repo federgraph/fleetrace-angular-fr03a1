@@ -1,28 +1,30 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import { Component, inject, OnInit } from '@angular/core';
 import { TStringList } from '../../util/fb-strings';
-import { TEventRowCollection, TEventRowCollectionItem } from '../../col/event/event-row-collection';
+import { TEventRowCollectionItem } from '../../col/event/event-row-collection';
 import { TBOManager } from '../../bo/bo-manager';
 import { TableToken } from '../../fr/fr-excel-importer';
 import { TUtils } from '../../util/fb-classes';
+import { MaterialModule } from '../material/material.module';
 
 @Component({
   selector: 'app-result-hash',
+  imports: [MaterialModule],
   templateUrl: './result-hash.component.html',
-  styleUrls: ['./result-hash.component.scss']
+  styleUrls: ['./result-hash.component.scss'],
 })
 export class ResultHashComponent implements OnInit {
+  CL = new TStringList();
+  CompareMsg = '';
+  ComparedOK = true;
 
-  CL: TStringList = new TStringList();
-  CompareMsg: string = '';
-  ComparedOK: boolean = true;
-
-  Info: string = 'info';
+  Info = 'info';
   TestOutput: string;
 
-  constructor(public BOManager: TBOManager) { }
+  public BOManager = inject(TBOManager);
 
-  ngOnInit() {
-  }
+  constructor() {}
+
+  ngOnInit() {}
 
   show() {
     // this.CL.Clear();
@@ -41,7 +43,11 @@ export class ResultHashComponent implements OnInit {
   check() {
     this.checkMsgList(this.CL);
     this.Info = this.CompareMsg;
-    this.ComparedOK ? this.TestOutput = '' : this.TestOutput = this.CL.Text;
+    if (this.ComparedOK) {
+      this.TestOutput = '';
+    } else {
+      this.TestOutput = this.CL.Text;
+    }
     this.CL.Clear();
   }
 
@@ -78,7 +84,7 @@ export class ResultHashComponent implements OnInit {
   }
 
   checkMsgList(SL: TStringList): boolean {
-    let ML: TStringList;
+    // let ML: TStringList;
     let b1: number;
     let b2: number;
     let p1: number;
@@ -90,7 +96,7 @@ export class ResultHashComponent implements OnInit {
     let result = true;
     this.CompareMsg = 'Check OK';
     this.ComparedOK = true;
-    ML = this.BOManager.BO.ExcelImporter.CompareList;
+    const ML = this.BOManager.BO.ExcelImporter.CompareList;
     if (ML.Count === 0) {
       result = false;
       this.CompareMsg = 'Original CompareList (ML) is empty.';
@@ -126,12 +132,11 @@ export class ResultHashComponent implements OnInit {
   }
 
   getMemoString(): string {
-    let b: boolean;
     const SL = new TStringList();
     this.CL.Clear();
     this.getMsgList(this.CL);
     SL.Add('');
-    b = this.checkMsgList(this.CL);
+    const b = this.checkMsgList(this.CL);
     if (b) {
       SL.Add('CompareList-Check ok');
     } else {
@@ -144,5 +149,4 @@ export class ResultHashComponent implements OnInit {
 
     return SL.Text;
   }
-
 }

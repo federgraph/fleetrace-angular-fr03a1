@@ -1,15 +1,17 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TBOManager } from '../../bo/bo-manager';
 import { TTestData, IEventDataItem } from '../shared/test-data';
+import { MaterialModule } from '../material/material.module';
+import { FormsModule } from '@angular/forms';
 
 @Component({
+  imports: [FormsModule, MaterialModule],
   selector: 'app-load',
   templateUrl: './load.component.html',
-  styleUrls: ['./load.component.scss']
+  styleUrls: ['./load.component.scss'],
 })
 export class LoadComponent implements OnInit {
-
   option = 0;
 
   // load options
@@ -24,7 +26,7 @@ export class LoadComponent implements OnInit {
     'from session storage',
     'from local storage',
     'from localhost:3000',
-    'from firebase db'
+    'from firebase db',
   ];
 
   TestOutput: string;
@@ -32,19 +34,21 @@ export class LoadComponent implements OnInit {
   EventName = 'imported data';
   EventData = '';
 
-  Info: string = 'info';
+  Info = 'info';
 
-  ok: boolean = false;
+  ok = false;
 
   eventDataKey = 'fr-event-data';
   keyString = 'key "fr-event-data"';
 
-  @Output() dataLoaded: EventEmitter<IEventDataItem> = new EventEmitter();
+  @Output() dataLoaded = new EventEmitter<IEventDataItem>();
 
-  constructor(public BOManager: TBOManager, public snackBar: MatSnackBar) { }
+  public BOManager = inject(TBOManager);
+  public snackBar = inject(MatSnackBar);
 
-  ngOnInit() {
-  }
+  constructor() {}
+
+  ngOnInit() {}
 
   clear() {
     this.TestOutput = '';
@@ -57,11 +61,9 @@ export class LoadComponent implements OnInit {
     this.TestOutput = '';
     this.EventData = '';
 
-
-    let t: string = '';
+    let t = '';
 
     switch (this.option) {
-
       case this.loStatic:
         this.EventData = TTestData.DefaultExample;
         this.ok = true;
@@ -117,7 +119,6 @@ export class LoadComponent implements OnInit {
         this.Info = 'invalid selection';
         break;
     }
-
   }
 
   read() {
@@ -134,5 +135,4 @@ export class LoadComponent implements OnInit {
   openSnackBar(msg: string) {
     this.snackBar.open(msg, null, { duration: 1500 });
   }
-
 }

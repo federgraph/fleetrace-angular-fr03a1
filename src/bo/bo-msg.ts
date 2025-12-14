@@ -8,10 +8,9 @@ import { TRaceNode } from '../col/race/race-node';
 import { TRaceBO } from '../col/race/race-bo';
 
 export class TBOMsg extends TBaseMsg {
-
   MsgParser: TMsgParser;
-  ItemPos: number = 0;
-  AthleteID: number = 0;
+  ItemPos = 0;
+  AthleteID = 0;
 
   constructor(public BO: TBO) {
     super();
@@ -51,7 +50,7 @@ export class TBOMsg extends TBaseMsg {
       this.MsgType = TMsgType.Option;
     } else {
       const temp: string = this.MsgValue.toLowerCase();
-      if ((temp === 'empty') || (temp === 'null') || (temp === '99:99:99.99')) {
+      if (temp === 'empty' || temp === 'null' || temp === '99:99:99.99') {
         this.MsgValue = '-1';
       }
       const cr: TRaceRowCollectionItem = this.FindCR();
@@ -74,12 +73,12 @@ export class TBOMsg extends TBaseMsg {
     const r = this.GetRaceIndex();
     if (this.Cmd === 'ST' || this.Cmd === 'SC') {
       s = o.EditST(cr, s);
-    } else if ((this.Cmd.substring(0, 2) === 'IT') || (this.Cmd.substring(0, 2) === 'FC')) {
+    } else if (this.Cmd.substring(0, 2) === 'IT' || this.Cmd.substring(0, 2) === 'FC') {
       const channel: number = TUtils.StrToIntDef(this.Cmd.substring(2), -1);
       if (channel > -1) {
         s = o.EditIT(cr, s, 'col_IT' + channel.toString());
       }
-    } else if ((this.Cmd === 'FT') || (this.Cmd === 'FC')) {
+    } else if (this.Cmd === 'FT' || this.Cmd === 'FC') {
       s = o.EditFT(cr, s);
     } else if (this.Cmd === 'QU') {
       this.BO.EditQU(r, cr.Index, s);
@@ -108,7 +107,7 @@ export class TBOMsg extends TBaseMsg {
     }
     const s: string = this.RunID.substring(1);
     const i: number = TUtils.StrToIntDef(s, -1);
-    if ( i < 1 || i > this.BO.BOParams.RaceCount) {
+    if (i < 1 || i > this.BO.BOParams.RaceCount) {
       return '';
     }
     return 'col_R' + i.toString();
@@ -126,13 +125,13 @@ export class TBOMsg extends TBaseMsg {
     return i;
   }
 
-  ClearResult() {
+  override ClearResult() {
     super.ClearResult();
     this.ItemPos = -1;
     this.AthleteID = -1;
   }
 
-  DispatchProt(): boolean {
+  override DispatchProt(): boolean {
     this.ClearResult();
 
     // ignore Errors in compact format-------------
@@ -142,7 +141,7 @@ export class TBOMsg extends TBaseMsg {
     }
 
     // Comments-----------------------------------
-    if ((this.Prot === '') || this.Prot.startsWith('//') || this.Prot.startsWith('#')) {
+    if (this.Prot === '' || this.Prot.startsWith('//') || this.Prot.startsWith('#')) {
       this.MsgType = TMsgType.Comment;
       return true;
     }

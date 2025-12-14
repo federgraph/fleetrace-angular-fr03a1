@@ -15,9 +15,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatListModule } from '@angular/material/list';
-import { MatToolbarModule  } from '@angular/material/toolbar';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatCardModule} from '@angular/material/card';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatCardModule } from '@angular/material/card';
 
 import { AppComponent } from './app.component';
 import { EntriesComponent } from './entries/entries.component';
@@ -55,7 +55,28 @@ import { ApiComponent } from './api/api.component';
 import { ConnectionControlComponent } from './connection-control/connection-control.component';
 
 @NgModule({
-  declarations: [
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    LayoutModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    MatRadioModule,
+    MatButtonModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatListModule,
+    MatTooltipModule,
+    MatSnackBarModule,
+    MatBadgeModule,
+    MatTabsModule,
+    MatCardModule,
     AppComponent,
     EventMenuComponent,
     TestDataComponent,
@@ -83,37 +104,6 @@ import { ConnectionControlComponent } from './connection-control/connection-cont
     ConnectionControlComponent,
     UrlOptionComponent,
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    LayoutModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatSelectModule,
-    MatRadioModule,
-    MatButtonModule,
-    MatIconModule,
-    MatToolbarModule,
-    MatListModule,
-    MatTooltipModule,
-    MatSnackBarModule,
-    MatBadgeModule,
-    MatTabsModule,
-    MatCardModule,
-  ],
-  providers: [
-    TIniImage,
-    TMainParams,
-    TBOParams,
-    TMsgToken,
-    TBOManager,
-    ONLINE_SERVICES
-  ],
-  bootstrap: [AppComponent]
+  providers: [TIniImage, TMainParams, TBOParams, TMsgToken, TBOManager, ONLINE_SERVICES],
 })
-export class AppModule { }
+export class AppModule {}

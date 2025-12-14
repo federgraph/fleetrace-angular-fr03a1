@@ -1,4 +1,4 @@
-﻿import { Injectable } from '@angular/core';
+﻿import { inject, Injectable } from '@angular/core';
 
 import { TBOParams } from './bo-params';
 import { TIniImage } from '../fr/fr-ini-image';
@@ -9,24 +9,24 @@ import { TBO } from '../fr/fr-bo';
 import { TMainParams } from './bo-main-params';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TBOManager {
   SL: TStringList;
 
   BO: TBO;
-    BigButtonRow: boolean = false;
-    IsDebug: boolean = false;
+  BigButtonRow = false;
+  IsDebug = false;
 
-  constructor(
-    public IniImage: TIniImage,
-    public MainParams: TMainParams,
-    public BOParams: TBOParams,
-    public MsgToken: TMsgToken,
-  ) {
+  public IniImage = inject(TIniImage);
+  public MainParams = inject(TMainParams);
+  public BOParams = inject(TBOParams);
+  public MsgToken = inject(TMsgToken);
+
+  constructor() {
     this.SL = new TStringList();
     this.SL.Text = this.GetDefaultData();
-    this.BO = new TBO(this.BOParams, IniImage, this, this.MsgToken);
+    this.BO = new TBO(this.BOParams, this.IniImage, this, this.MsgToken);
   }
 
   GetTestData(): string {
@@ -147,6 +147,4 @@ export class TBOManager {
     this.BO.Load(ml.Text); // load data in data
     this.BO.Calc();
   }
-
 }
-

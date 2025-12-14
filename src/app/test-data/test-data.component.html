@@ -1,16 +1,18 @@
 <mat-card class="scroll-card">
-<mat-card-title>Bundled Assets</mat-card-title>
-<mat-card-content>    
+  <mat-card-title>Bundled Assets</mat-card-title>
+  <mat-card-content>
+    @for (m of EDM.Menu; track m) {
+      <ng-container>
+        <button class="btn" mat-raised-button (click)="selectFolder(m)">{{ m.Folder }}</button>
+      </ng-container>
+    }
 
-<ng-container *ngFor="let m of EDM.Menu">
-    <button class="btn" mat-raised-button (click)="selectFolder(m)">{{m.Folder}}</button>
-</ng-container>
+    <p></p>
 
-<p></p>
-
-<ng-container *ngFor="let en of Items">
-    <button mat-button (click)="loadEvent(en)">{{en}}</button><br>
-</ng-container>
-
-</mat-card-content>
+    @for (en of Items; track en) {
+      <ng-container>
+        <button mat-button (click)="loadEvent(en)">{{ en }}</button><br />
+      </ng-container>
+    }
+  </mat-card-content>
 </mat-card>

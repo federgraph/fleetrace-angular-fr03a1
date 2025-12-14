@@ -16,7 +16,7 @@ import {
   TNotifyEvent,
   TTable,
   TTableRow,
-  TTableCell
+  TTableCell,
 } from './grid-def';
 
 export interface IColGrid<
@@ -26,8 +26,8 @@ export interface IColGrid<
   C extends TBaseRowCollection<G, B, N, C, I, PC, PI>,
   I extends TBaseRowCollectionItem<G, B, N, C, I, PC, PI>,
   PC extends TBaseColProps<G, B, N, C, I, PC, PI>,
-  PI extends TBaseColProp<G, B, N, C, I, PC, PI>> {
-
+  PI extends TBaseColProp<G, B, N, C, I, PC, PI>,
+> {
   FirstRowIndex: number;
   HeaderRowIndex: number;
   ColCount: number;
@@ -56,15 +56,14 @@ export abstract class TBaseRowCollectionItem<
   C extends TBaseRowCollection<G, B, N, C, I, PC, PI>,
   I extends TBaseRowCollectionItem<G, B, N, C, I, PC, PI>,
   PC extends TBaseColProps<G, B, N, C, I, PC, PI>,
-  PI extends TBaseColProp<G, B, N, C, I, PC, PI>> {
-
-  BaseID: number = 0;
+  PI extends TBaseColProp<G, B, N, C, I, PC, PI>,
+> {
+  BaseID = 0;
 
   constructor(
     public Collection: C,
-    public BO: TBO
-  ) {
-  }
+    public BO: TBO,
+  ) {}
 
   get ru(): N {
     return this.Collection.Node;
@@ -117,8 +116,12 @@ export abstract class TBaseRowCollectionItem<
     // virtual
   }
 
-  get Index(): number { return this.GetIndex(); }
-  set Index(value: number) { this.SetIndex(value); }
+  get Index(): number {
+    return this.GetIndex();
+  }
+  set Index(value: number) {
+    this.SetIndex(value);
+  }
 }
 
 /**
@@ -131,13 +134,13 @@ export abstract class TBaseRowCollection<
   C extends TBaseRowCollection<G, B, N, C, I, PC, PI>,
   I extends TBaseRowCollectionItem<G, B, N, C, I, PC, PI>,
   PC extends TBaseColProps<G, B, N, C, I, PC, PI>,
-  PI extends TBaseColProp<G, B, N, C, I, PC, PI>> {
-
-  Items: Array<I>;
+  PI extends TBaseColProp<G, B, N, C, I, PC, PI>,
+> {
+  Items: I[];
 
   constructor(
     public Node: N,
-    public BO: TBO
+    public BO: TBO,
   ) {
     this.Items = new Array<I>();
   }
@@ -146,7 +149,7 @@ export abstract class TBaseRowCollection<
     return this.Items.indexOf(row);
   }
 
-  forEach(callback: (cr: I, index: number, cl: Array<I>) => void) {
+  forEach(callback: (cr: I, index: number, cl: I[]) => void) {
     for (let i = 0; i < this.Items.length; i++) {
       callback(this.Items[i], i, this.Items);
     }
@@ -245,9 +248,12 @@ export abstract class TBaseRowCollection<
     }
   }
 
-  get Count(): number { return this.GetCount(); }
-  get FilteredCount(): number { return this.Count; }
-
+  get Count(): number {
+    return this.GetCount();
+  }
+  get FilteredCount(): number {
+    return this.Count;
+  }
 }
 
 /** Eventhandler definitions
@@ -280,18 +286,18 @@ export class TBaseColProp<
   C extends TBaseRowCollection<G, B, N, C, I, PC, PI>,
   I extends TBaseRowCollectionItem<G, B, N, C, I, PC, PI>,
   PC extends TBaseColProps<G, B, N, C, I, PC, PI>,
-  PI extends TBaseColProp<G, B, N, C, I, PC, PI>> extends TCollectionItem<PC, PI> {
-
-  private FNameID: string = '';
-  NumID: number = 0; // for better performance of method GetTextDefault
-  Caption: string = '';
+  PI extends TBaseColProp<G, B, N, C, I, PC, PI>,
+> extends TCollectionItem<PC, PI> {
+  private FNameID = '';
+  NumID = 0; // for better performance of method GetTextDefault
+  Caption = '';
   Width = 35;
   Alignment: TColAlignment;
   Visible = true;
-  Sortable: boolean = false;
+  Sortable = false;
   ColType: TColType = TColType.colTypeInteger;
-  Descending: boolean = false;
-  ReadOnly: boolean = true;
+  Descending = false;
+  ReadOnly = true;
 
   OnGetSortKey: TBaseGetTextEvent<I>;
   OnGetSortKey2: TBaseGetTextEvent2<I>;
@@ -316,10 +322,9 @@ export class TBaseColProp<
   }
 
   SetNameID(Value: string) {
-    let o: PC;
-    o = this.Collection as PC;
+    const o = this.Collection as PC;
 
-    if (Value === '' || Value !== this.FNameID && o.IsDuplicateNameID(Value)) {
+    if (Value === '' || (Value !== this.FNameID && o.IsDuplicateNameID(Value))) {
       this.FNameID = 'col_' + TUtils.IntToStr(this.ID);
       if (this.Caption === '' || this.Caption === this.FNameID) {
         this.Caption = Value;
@@ -340,11 +345,10 @@ export class TBaseColProp<
    * This is just an example of how you override InitColsAvail.
    */
   TMyColProp_InitColsAvail() {
-
-    let cp: PI;
+    // let cp: PI;
     let ColsAvail: PC;
 
-    if (typeof (this.Collection) === typeof (TBaseColProps)) {
+    if (typeof this.Collection === typeof TBaseColProps) {
       ColsAvail = this.Collection;
     } else {
       return;
@@ -353,7 +357,7 @@ export class TBaseColProp<
     // super().InitColsAvail();
     this.InitColsAvail();
 
-    cp = ColsAvail.Add();
+    const cp = ColsAvail.Add();
     cp.NameID = 'col_Run';
     cp.Caption = 'Run';
     cp.Width = 35;
@@ -375,7 +379,6 @@ export class TBaseColProp<
   }
 
   Assign(cp: PI) {
-
     if (cp) {
       this.FNameID = cp.FNameID;
       this.NumID = cp.NumID;
@@ -426,8 +429,12 @@ export class TBaseColProp<
     return result;
   }
 
-  get NameID(): string { return this.FNameID; }
-  set NameID(value: string) { this.SetNameID(value); }
+  get NameID(): string {
+    return this.FNameID;
+  }
+  set NameID(value: string) {
+    this.SetNameID(value);
+  }
 }
 
 /** Container for column objects, the StringGrid will maintain two ColProps Collections.
@@ -441,12 +448,12 @@ export abstract class TBaseColProps<
   C extends TBaseRowCollection<G, B, N, C, I, PC, PI>,
   I extends TBaseRowCollectionItem<G, B, N, C, I, PC, PI>,
   PC extends TBaseColProps<G, B, N, C, I, PC, PI>,
-  PI extends TBaseColProp<G, B, N, C, I, PC, PI>> extends TCollection<PC, PI> {
+  PI extends TBaseColProp<G, B, N, C, I, PC, PI>,
+> extends TCollection<PC, PI> {
+  private FSortColIndex = -1;
+  UseCustomColCaptions = false;
 
-  private FSortColIndex: number = -1;
-  UseCustomColCaptions: boolean = false;
-
-  constructor(public BO: TBO) {
+  constructor(public override BO: TBO) {
     super(BO);
   }
 
@@ -471,14 +478,14 @@ export abstract class TBaseColProps<
     return null;
   }
 
-  GetItem(Index: number): PI {
+  override GetItem(Index: number): PI {
     if (Index >= 0 && Index < this.Count) {
       return super.GetItem(Index);
     }
     return null;
   }
 
-  SetItem(Index: number, value: PI) {
+  override SetItem(Index: number, value: PI) {
     super.SetItem(Index, value);
   }
 
@@ -492,10 +499,12 @@ export abstract class TBaseColProps<
 
   private GetSortColIndex(): number {
     let result = -1;
-    if (this.FSortColIndex >= 0
-      && this.FSortColIndex < this.Count
-      && this.GetItem(this.FSortColIndex)
-      && this.GetItem(this.FSortColIndex).Sortable) {
+    if (
+      this.FSortColIndex >= 0 &&
+      this.FSortColIndex < this.Count &&
+      this.GetItem(this.FSortColIndex) &&
+      this.GetItem(this.FSortColIndex).Sortable
+    ) {
       result = this.FSortColIndex;
     } else {
       this.FSortColIndex = -1;
@@ -549,7 +558,7 @@ export abstract class TBaseColProps<
   }
 
   get Grid(): G {
-    if (this.Owner !== null && typeof (this.Owner) === typeof (TColGrid)) {
+    if (this.Owner !== null && typeof this.Owner === typeof TColGrid) {
       return this.Owner as G;
     }
     return null;
@@ -566,17 +575,17 @@ export abstract class TBaseColProps<
     return false;
   }
 
-  Add(): PI {
+  override Add(): PI {
     return super.Add();
   }
 
   Init() {
-    let cp: PI;
+    // let cp: PI;
 
     this.Clear();
 
     // BaseID
-    cp = this.Add();
+    const cp = this.Add();
     cp.NameID = 'col_BaseID';
     cp.Caption = 'ID';
     cp.Width = 25;
@@ -606,10 +615,18 @@ export abstract class TBaseColProps<
     }
   }
 
-  get VisibleCount(): number { return this.GetVisibleCount(); }
-  get SortColIndex(): number { return this.GetSortColIndex(); }
-  set SortColIndex(value: number) { this.SetSortColIndex(value); }
-  get GridName(): string { return this.GetGridName(); }
+  get VisibleCount(): number {
+    return this.GetVisibleCount();
+  }
+  get SortColIndex(): number {
+    return this.GetSortColIndex();
+  }
+  set SortColIndex(value: number) {
+    this.SetSortColIndex(value);
+  }
+  get GridName(): string {
+    return this.GetGridName();
+  }
 }
 
 /** The application may build a tree or list of Nodes with each Node having a BaseRowCollection */
@@ -620,15 +637,15 @@ export abstract class TBaseNode<
   C extends TBaseRowCollection<G, B, N, C, I, PC, PI>,
   I extends TBaseRowCollectionItem<G, B, N, C, I, PC, PI>,
   PC extends TBaseColProps<G, B, N, C, I, PC, PI>,
-  PI extends TBaseColProp<G, B, N, C, I, PC, PI>> {
-
+  PI extends TBaseColProp<G, B, N, C, I, PC, PI>,
+> {
   Collection: C;
 
   private FModified = false;
   private FOnModified: TNotifyEvent;
 
-  NameID: string = '';
-  Layout: number = 0;
+  NameID = '';
+  Layout = 0;
 
   constructor(
     public ColBO: B,
@@ -658,11 +675,19 @@ export abstract class TBaseNode<
     this.Collection.Clear();
   }
 
-  get Modified(): boolean { return this.FModified; }
-  set Modified(value: boolean) { this.SetModified(value); }
+  get Modified(): boolean {
+    return this.FModified;
+  }
+  set Modified(value: boolean) {
+    this.SetModified(value);
+  }
 
-  get OnModified(): TNotifyEvent { return this.FOnModified; }
-  set OnModified(value: TNotifyEvent) { this.SetOnModified(value); }
+  get OnModified(): TNotifyEvent {
+    return this.FOnModified;
+  }
+  set OnModified(value: TNotifyEvent) {
+    this.SetOnModified(value);
+  }
 }
 
 /**
@@ -676,8 +701,8 @@ export class TBaseColBO<
   C extends TBaseRowCollection<G, B, N, C, I, PC, PI>,
   I extends TBaseRowCollectionItem<G, B, N, C, I, PC, PI>,
   PC extends TBaseColProps<G, B, N, C, I, PC, PI>,
-  PI extends TBaseColProp<G, B, N, C, I, PC, PI>> {
-
+  PI extends TBaseColProp<G, B, N, C, I, PC, PI>,
+> {
   protected FCurrentNode: N;
   protected FCurrentRow: I;
 
@@ -708,11 +733,19 @@ export class TBaseColBO<
     // virtual
   }
 
-  get CurrentRow(): I { return this.GetCurrentRow(); }
-  set CurrentRow(value: I) { this.SetCurrentRow(value); }
+  get CurrentRow(): I {
+    return this.GetCurrentRow();
+  }
+  set CurrentRow(value: I) {
+    this.SetCurrentRow(value);
+  }
 
-  get CurrentNode(): N { return this.GetCurrentNode(); }
-  set CurrentNode(value: N) { this.SetCurrentNode(value); }
+  get CurrentNode(): N {
+    return this.GetCurrentNode();
+  }
+  set CurrentNode(value: N) {
+    this.SetCurrentNode(value);
+  }
 }
 
 /**
@@ -734,8 +767,8 @@ export abstract class TColGrid<
   C extends TBaseRowCollection<G, B, N, C, I, PC, PI>,
   I extends TBaseRowCollectionItem<G, B, N, C, I, PC, PI>,
   PC extends TBaseColProps<G, B, N, C, I, PC, PI>,
-  PI extends TBaseColProp<G, B, N, C, I, PC, PI>> {
-
+  PI extends TBaseColProp<G, B, N, C, I, PC, PI>,
+> {
   FColBODefault: B;
   FColsActiveDefault: PC;
 
@@ -779,7 +812,7 @@ export abstract class TColGrid<
   MenuMode = false;
   IsCollectionGrid = false;
 
-  Name: string = '';
+  Name = '';
   DisplayOrder: TDisplayOrderList;
   Grid: IColGrid<G, B, N, C, I, PC, PI>;
 
@@ -811,7 +844,6 @@ export abstract class TColGrid<
   abstract SetupGrid(): void;
 
   NewTable(): TTable {
-
     let tr: TTableRow;
     let tc: TTableCell;
     let cp: PI;
@@ -879,7 +911,7 @@ export abstract class TColGrid<
     this.Grid.ColCount = this.ColsActive.VisibleCount;
     for (let i = 0; i < this.ColsActive.Count; i++) {
       const cp: PI = this.ColsActive.Items[i];
-      if ((cp != null) && cp.Visible) {
+      if (cp != null && cp.Visible) {
         // this.Grid.Width[i] = cp.Width;
         if (!this.MenuMode) {
           this.Grid.SetCells(i, 0, cp.Caption);
@@ -910,8 +942,8 @@ export abstract class TColGrid<
   }
 
   SetColorSchema(Value: TColGridColorScheme) {
-    let t: TColGridColorRec;
-    t = TColGridColors.GetGridColors(Value);
+    // let t: TColGridColorRec;
+    const t = TColGridColors.GetGridColors(Value);
     this.FColorSchema = Value;
     this.FDefaultColor = t.DefaultColor;
     this.FAlternatingColor = t.AlternatingColor;
@@ -922,14 +954,9 @@ export abstract class TColGrid<
     this.FTransColor = t.TransColor;
   }
 
-  UpdateCellProp(
-    rd: N,
-    cp: PI,
-    IsSorted: boolean,
-    ACol: number, ARow: number): TCellProp {
-
+  UpdateCellProp(rd: N, cp: PI, IsSorted: boolean, ACol: number, ARow: number): TCellProp {
     let bc: TColor;
-    let CellProp: TCellProp;
+    // let CellProp: TCellProp;
     let IsNormalRow: boolean;
     let cc: TColGridColorClass;
 
@@ -942,7 +969,7 @@ export abstract class TColGrid<
       return null;
     }
 
-    CellProp = this.CellProps.GetCellProp(ACol, ARow);
+    const CellProp = this.CellProps.GetCellProp(ACol, ARow);
     CellProp.ShowGroup = false;
     CellProp.GroupColor = ColorConst.clFleetNone;
 
@@ -950,7 +977,6 @@ export abstract class TColGrid<
     cc = TColGridColorClass.Blank;
 
     if (ARow > this.HeaderRowIndex) {
-
       IsNormalRow = this.IsOddRow(ARow - 1);
 
       // alternating row color
@@ -1032,6 +1058,7 @@ export abstract class TColGrid<
         }
       }
     }
+    return null;
   }
 
   /**
@@ -1104,7 +1131,7 @@ export abstract class TColGrid<
     for (let c = 0; c < this.Grid.ColCount; c++) {
       rd = this.GetBaseNode();
       cp = this.ColsActive.Items[c];
-      IsSorted = (this.ColsActive.SortColIndex !== -1);
+      IsSorted = this.ColsActive.SortColIndex !== -1;
       for (let r = 0; r < this.Grid.RowCount; r++) {
         this.UpdateCellProp(rd, cp, IsSorted, c, r);
       }
@@ -1117,7 +1144,9 @@ export abstract class TColGrid<
     }
   }
 
-  get ColBO(): B { return this.FColBO; }
+  get ColBO(): B {
+    return this.FColBO;
+  }
 
   GetBaseRowCollection(): C {
     const rd: N = this.GetBaseNode();
@@ -1151,7 +1180,10 @@ export abstract class TColGrid<
    */
   private UpdateGridRowCount(): C {
     // should never be in edit mode
-    console.assert(this.Grid.IsEditorMode === false, 'unexpected state: CollectionGrid in edit mode');
+    console.assert(
+      this.Grid.IsEditorMode === false,
+      'unexpected state: CollectionGrid in edit mode',
+    );
 
     const cl = this.GetBaseRowCollection();
     console.assert(cl != null, 'RowCollection null in Grid');
@@ -1159,7 +1191,10 @@ export abstract class TColGrid<
       // check RowCount, sollte immer stimmen, wenn schon Zeilen vorhanden sind
       if (this.Grid.RowCount !== cl.Count + this.FirstRowIndex) {
         if (cl.Count > 0) {
-          console.assert(this.Grid.RowCount === cl.Count + this.FirstRowIndex, 'unexpected state for Grid.RowCount');
+          console.assert(
+            this.Grid.RowCount === cl.Count + this.FirstRowIndex,
+            'unexpected state for Grid.RowCount',
+          );
           this.Grid.RowCount = cl.FilteredCount + this.FirstRowIndex;
         } else {
           this.Grid.RowCount = this.FirstRowIndex + 1;
@@ -1222,7 +1257,7 @@ export abstract class TColGrid<
   InitDisplayOrder(col: number) {
     // do it only sortable columns
     const cp: PI = this.ColsActive.Items[col];
-    if (!cp || (!cp.Sortable)) {
+    if (!cp || !cp.Sortable) {
       return;
     }
 
@@ -1260,13 +1295,13 @@ export abstract class TColGrid<
 
   AddRowCollectionItem() {
     let cl: C;
-    let cr: I;
+    // let cr: I;
 
     cl = null;
     if (this.ColBO && this.ColBO.CurrentNode) {
       cl = this.ColBO.CurrentNode.Collection;
     }
-    cr = cl.Add();
+    const cr = cl.Add();
     this.UpdateAll();
     this.Grid.Enabled = cl.FilteredCount > 0;
   }
@@ -1318,7 +1353,8 @@ export abstract class TColGrid<
    * will jump around if the 'current position' iterates over the rows.
    */
   ToggleColorPaint() {
-    if (this.ColorPaint) { // ColsActive.SortColIndex = -1
+    if (this.ColorPaint) {
+      // ColsActive.SortColIndex = -1
       this.ColsActive.SortColIndex = 0; // turn ColorPaint off
     } else {
       this.ColsActive.SortColIndex = -1; // turn ColorPaint on
@@ -1338,7 +1374,7 @@ export abstract class TColGrid<
     return result;
   }
 
-  Content(SL: TStringList, aCaption: string, wantHtmlTag: boolean = false) {
+  Content(SL: TStringList, aCaption: string, wantHtmlTag = false) {
     let s: string;
     let cp: TBaseColProp<G, B, N, C, I, PC, PI>;
     let sColor: string;
@@ -1434,12 +1470,26 @@ export abstract class TColGrid<
     return TUtils.Odd(t);
   }
 
-  get ColsActive(): PC { return this.FColsActive; }
-  get ColorPaint(): boolean { return this.GetColorPaint(); }
-  set ColorPaint(value: boolean) { this.SetColorPaint(value); }
+  get ColsActive(): PC {
+    return this.FColsActive;
+  }
+  get ColorPaint(): boolean {
+    return this.GetColorPaint();
+  }
+  set ColorPaint(value: boolean) {
+    this.SetColorPaint(value);
+  }
 
-  get ColsAvail(): PC { return this.FColsAvail; }
-  set ColsAvail(value: PC) { this.SetColsAvail(value); }
-  get ColorSchema(): TColGridColorScheme { return this.FColorSchema; }
-  set ColorSchema(value: TColGridColorScheme) { this.SetColorSchema(value); }
+  get ColsAvail(): PC {
+    return this.FColsAvail;
+  }
+  set ColsAvail(value: PC) {
+    this.SetColsAvail(value);
+  }
+  get ColorSchema(): TColGridColorScheme {
+    return this.FColorSchema;
+  }
+  set ColorSchema(value: TColGridColorScheme) {
+    this.SetColorSchema(value);
+  }
 }

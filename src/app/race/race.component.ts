@@ -1,15 +1,19 @@
-﻿import { Component, Input } from '@angular/core';
+﻿import { Component, inject, Input } from '@angular/core';
 import { TBOManager } from '../../bo/bo-manager';
 import { TRaceColGrid, TSimpleRaceGrid } from '../../col/race/race-grid';
 import { TRaceNode } from '../../col/race/race-node';
 import { TBO } from '../../fr/fr-bo';
 import { TTable } from '../../grid/grid-def';
 import { IconData, RaceIcons } from '../icon-legend/icon-data';
+import { MaterialModule } from '../material/material.module';
+import { IconBarLegendComponent } from '../icon-bar-legend/icon-bar-legend.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-race-tab',
+  imports: [CommonModule, MaterialModule, IconBarLegendComponent],
   templateUrl: './race.component.html',
-  styleUrls: ['./race.component.css']
+  styleUrls: ['./race.component.css'],
 })
 export class RaceComponent {
   FRace = 1;
@@ -49,7 +53,9 @@ export class RaceComponent {
     this.show();
   }
 
-  constructor(public BOManager: TBOManager) {
+  public BOManager = inject(TBOManager);
+
+  constructor() {
     this.initGrid();
     this.legend = IconData.readIconData(RaceIcons);
   }
@@ -98,7 +104,6 @@ export class RaceComponent {
     } else {
       console.log(`out of range: RNode[${this.race}] in race.component.calc `);
     }
-
   }
 
   clearRace() {
@@ -128,15 +133,10 @@ export class RaceComponent {
 
   toggleLayout() {
     const cb = this.BOManager.BO.RaceBO;
-    if (!cb) {
-      return;
-    }
+    if (!cb) return;
 
-    if (cb.TableLayout === 0) {
-      cb.TableLayout = 1;
-    } else {
-      cb.TableLayout = 0;
-    }
+    if (cb.TableLayout === 0) cb.TableLayout = 1;
+    else cb.TableLayout = 0;
 
     cb.InitColsActiveLayout(this.ColGrid, this.FTimePoint);
     this.show();
@@ -183,5 +183,4 @@ export class RaceComponent {
   toggleLegend() {
     this.LegendVisible = !this.LegendVisible;
   }
-
 }

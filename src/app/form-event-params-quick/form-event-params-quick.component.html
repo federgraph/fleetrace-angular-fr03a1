@@ -1,28 +1,26 @@
 <mat-card class="scroll-card">
-<mat-card-title>Event Params Quick</mat-card-title>
-<mat-card-content>
-
-<div class="button-row">
-  <button mat-raised-button (click)="raceDelta(-1)">R-</button>
-  <button mat-raised-button (click)="noop()">{{RaceCount}}</button>
-  <button mat-raised-button (click)="raceDelta(1)">R+</button>
-</div>
-<div class="button-row">
-  <button mat-raised-button (click)="itDelta(-1)">IT-</button>
-  <button mat-raised-button (click)="noop()">{{ITCount}}</button>
-  <button mat-raised-button (click)="itDelta(1)">IT+</button>
-</div>
-<div class="button-row">
-  <button mat-raised-button (click)="slDelta(-1)">S-</button>
-  <button mat-raised-button (click)="noop()">{{StartlistCount}}</button>
-  <button mat-raised-button (click)="slDelta(1)">S+</button>
-</div>
-<div class="button-row">
-  <button mat-raised-button (click)="reset()">Reset</button>
-  <button mat-raised-button (click)="patch()">Patch</button>
-  <button mat-raised-button (click)="submit()">Submit</button>
-  <mat-checkbox class="checkbox" [(ngModel)]="newEvent">New Event</mat-checkbox>
-</div>
-
-</mat-card-content>
+  <mat-card-title>Event Params Quick</mat-card-title>
+  <mat-card-content>
+    <div class="button-row">
+      <button mat-raised-button (click)="raceDelta(-1)">R-</button>
+      <button mat-raised-button (click)="noop()">{{ RaceCount }}</button>
+      <button mat-raised-button (click)="raceDelta(1)">R+</button>
+    </div>
+    <div class="button-row">
+      <button mat-raised-button (click)="itDelta(-1)">IT-</button>
+      <button mat-raised-button (click)="noop()">{{ ITCount }}</button>
+      <button mat-raised-button (click)="itDelta(1)">IT+</button>
+    </div>
+    <div class="button-row">
+      <button mat-raised-button (click)="slDelta(-1)">S-</button>
+      <button mat-raised-button (click)="noop()">{{ StartlistCount }}</button>
+      <button mat-raised-button (click)="slDelta(1)">S+</button>
+    </div>
+    <div class="button-row">
+      <button mat-raised-button (click)="reset()">Reset</button>
+      <button mat-raised-button (click)="patch()">Patch</button>
+      <button mat-raised-button (click)="submit()">Submit</button>
+      <mat-checkbox class="checkbox" [(ngModel)]="newEvent">New Event</mat-checkbox>
+    </div>
+  </mat-card-content>
 </mat-card>

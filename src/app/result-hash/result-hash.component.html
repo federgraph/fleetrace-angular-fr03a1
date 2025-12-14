@@ -1,18 +1,16 @@
 <mat-card class="scroll-card">
-<mat-card-title>Result Hash</mat-card-title>
-<mat-card-content>
+  <mat-card-title>Result Hash</mat-card-title>
+  <mat-card-content>
+    <div class="button-row">
+      <button mat-raised-button (click)="show()">Show</button>
+      <button mat-raised-button (click)="check()">Check</button>
+      <button mat-raised-button (click)="clear()">Clear</button>
+    </div>
 
-<div class="button-row">
-  <button mat-raised-button (click)="show()">Show</button>
-  <button mat-raised-button (click)="check()">Check</button>
-  <button mat-raised-button (click)="clear()">Clear</button>
-</div>
+    <pre class="info">--- {{ Info }} ---</pre>
 
-<pre class="info">--- {{Info}} ---</pre>
+    <p></p>
 
-<p></p>
-
-<pre>{{TestOutput}}</pre>
-
-</mat-card-content>
+    <pre>{{ TestOutput }}</pre>
+  </mat-card-content>
 </mat-card>

@@ -1,24 +1,34 @@
-<h3>{{caption}} Icons</h3>
+<h3>{{ caption }} Icons</h3>
 
 <table cellspacing="0">
   <tr>
-    <th *ngIf="BOManager.IsDebug">Icon Name</th>
+    @if (BOManager.IsDebug) {
+      <th>Icon Name</th>
+    }
     <th>Icon</th>
     <th>Meaning</th>
     <th>Action Type</th>
-    <th *ngIf="BOManager.IsDebug">Click Method</th>
-  </tr>    
-  <tr *ngFor="let cr of bar">
-      <td *ngIf="BOManager.IsDebug">{{cr.Name}}</td>
-      <td>
-      <button mat-icon-button>
-        <mat-icon [color]="cr.IconColorString">{{cr.Name}}</mat-icon>
-      </button>
-    </td>
-    <td>{{cr.Meaning}}</td>
-    <td>{{cr.IconActionString}}</td>
-    <td *ngIf="BOManager.IsDebug">{{cr.Method}}</td>
+    @if (BOManager.IsDebug) {
+      <th>Click Method</th>
+    }
   </tr>
+  @for (cr of bar; track cr) {
+    <tr>
+      @if (BOManager.IsDebug) {
+        <td>{{ cr.Name }}</td>
+      }
+      <td>
+        <button mat-icon-button>
+          <mat-icon [color]="cr.IconColorString">{{ cr.Name }}</mat-icon>
+        </button>
+      </td>
+      <td>{{ cr.Meaning }}</td>
+      <td>{{ cr.IconActionString }}</td>
+      @if (BOManager.IsDebug) {
+        <td>{{ cr.Method }}</td>
+      }
+    </tr>
+  }
 </table>
 
 <p></p>

@@ -9,49 +9,45 @@
     "build": "ng build",
     "build-fg": "ng build --prod --base-href=/fr/",
     "build-fr": "ng build --base-href=/fr/",
+    "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "pret": "npx prettier --write 'src/**/*.{ts,html,scss}'"
+  },
+  "prettier": {
+    "printWidth": 100,
+    "singleQuote": true,
+    "overrides": [
+      {
+        "files": "*.html",
+        "options": {
+          "parser": "angular"
+        }
+      }
+    ]
   },
   "private": true,
+  "packageManager": "npm@11.6.2",
   "dependencies": {
-    "@angular/animations": "~9.0.0-next.0",
-    "@angular/cdk": "~8.1.2",
-    "@angular/common": "~9.0.0-next.0",
-    "@angular/compiler": "~9.0.0-next.0",
-    "@angular/core": "~9.0.0-next.0",
-    "@angular/forms": "~9.0.0-next.0",
-    "@angular/http": "^7.2.15",
-    "@angular/material": "~8.1.2",
-    "@angular/platform-browser": "~9.0.0-next.0",
-    "@angular/platform-browser-dynamic": "~9.0.0-next.0",
-    "@angular/router": "~9.0.0-next.0",
-    "copyfiles": "^2.0.0",
-    "core-js": "^2.5.4",
-    "hammerjs": "^2.0.8",
-    "rimraf": "^2.6.2",
-    "rxjs": "~6.5.2",
-    "tslib": "^1.9.0",
-    "zone.js": "~0.9.1"
+    "@angular/common": "^21.0.0",
+    "@angular/compiler": "^21.0.0",
+    "@angular/core": "^21.0.0",
+    "@angular/forms": "^21.0.0",
+    "@angular/material": "^21.0.1",
+    "@angular/platform-browser": "^21.0.0",
+    "@angular/router": "^21.0.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.802.0",
-    "@angular/cli": "~8.2.0",
-    "@angular/compiler-cli": "~9.0.0-next.0",
-    "@angular/language-service": "~9.0.0-next.0",
-    "@types/jasmine": "~3.3.8",
-    "@types/jasminewd2": "~2.0.3",
-    "@types/node": "~8.9.4",
-    "codelyzer": "^5.1.0",
-    "jasmine-core": "~3.4.0",
-    "jasmine-spec-reporter": "~4.2.1",
-    "karma": "~4.1.0",
-    "karma-chrome-launcher": "~2.2.0",
-    "karma-coverage-istanbul-reporter": "~2.0.1",
-    "karma-jasmine": "~2.0.1",
-    "karma-jasmine-html-reporter": "^1.4.0",
-    "protractor": "~5.4.0",
-    "ts-node": "~7.0.0",
-    "tslint": "~5.15.0",
-    "typescript": "~3.5.3"
+    "@angular/build": "^21.0.1",
+    "@angular/cli": "^21.0.1",
+    "@angular/compiler-cli": "^21.0.0",
+    "angular-eslint": "21.1.0",
+    "eslint": "^9.39.1",
+    "jsdom": "^27.1.0",
+    "typescript": "~5.9.2",
+    "typescript-eslint": "8.47.0",
+    "vitest": "^4.0.8"
   }
 }

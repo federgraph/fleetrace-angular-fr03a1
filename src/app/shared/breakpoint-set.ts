@@ -1,20 +1,20 @@
 ﻿import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 export class BreakpointSet {
-  XSmall: boolean = false;
-  Small: boolean = false;
-  Medium: boolean = false;
-  Large: boolean = false;
-  XLarge: boolean = false;
-  Handset: boolean = false;
-  Tablet: boolean = false;
-  Web: boolean = false;
-  HandsetPortrait: boolean = false;
-  TabletPortrait: boolean = false;
-  WebPortrait: boolean = false;
-  HandsetLandscape: boolean = false;
-  TabletLandscape: boolean = false;
-  WebLandscape: boolean = false;
+  XSmall = false;
+  Small = false;
+  Medium = false;
+  Large = false;
+  XLarge = false;
+  Handset = false;
+  Tablet = false;
+  Web = false;
+  HandsetPortrait = false;
+  TabletPortrait = false;
+  WebPortrait = false;
+  HandsetLandscape = false;
+  TabletLandscape = false;
+  WebLandscape = false;
 
   clear() {
     this.XSmall = false;
@@ -53,7 +53,7 @@ export class BreakpointSet {
     this.WebLandscape = o.isMatched(Breakpoints.WebLandscape);
   }
 
-  all(): Array<string> {
+  all(): string[] {
     const result = [
       Breakpoints.XSmall,
       Breakpoints.Small,
@@ -71,7 +71,7 @@ export class BreakpointSet {
 
       Breakpoints.HandsetLandscape,
       Breakpoints.TabletLandscape,
-      Breakpoints.WebLandscape
+      Breakpoints.WebLandscape,
     ];
     return result;
   }
@@ -92,4 +92,3 @@ export class BreakpointSet {
     }
   }
 }
-

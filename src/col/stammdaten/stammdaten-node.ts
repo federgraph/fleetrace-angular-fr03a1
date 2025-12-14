@@ -7,50 +7,43 @@ import { TStammdatenColProp } from './stammdaten-col-prop';
 import { TBO } from '../../fr/fr-bo';
 
 export class TStammdatenNode extends TBaseNode<
-        TStammdatenColGrid,
-        TStammdatenBO,
-        TStammdatenNode,
-        TStammdatenRowCollection,
-        TStammdatenRowCollectionItem,
-        TStammdatenColProps,
-        TStammdatenColProp
-    > {
+  TStammdatenColGrid,
+  TStammdatenBO,
+  TStammdatenNode,
+  TStammdatenRowCollection,
+  TStammdatenRowCollectionItem,
+  TStammdatenColProps,
+  TStammdatenColProp
+> {
+  constructor(
+    public override ColBO: TStammdatenBO,
+    public override BO: TBO,
+  ) {
+    super(ColBO, BO);
+  }
 
-        constructor(
-            public ColBO: TStammdatenBO,
-            public BO: TBO,
-        ) {
-            super(
-                ColBO,
-                BO,
-            );
-        }
+  NewCol(): TStammdatenRowCollection {
+    return new TStammdatenRowCollection(this.BO, this);
+  }
 
-        NewCol(): TStammdatenRowCollection {
-            return new TStammdatenRowCollection(this.BO, this);
-        }
+  Load(): void {
+    // let o: TStammdatenRowCollectionItem;
+    this.Collection.Clear();
+    const o = this.Collection.Add();
+    o.SNR = 1001;
+    o.FN = 'FN';
+    o.LN = 'LN';
+    o.SN = 'SN';
+    o.NC = 'GER';
+  }
 
-        Load(): void {
-            let o: TStammdatenRowCollectionItem;
-            this.Collection.Clear();
-            o = this.Collection.Add();
-            o.SNR = 1001;
-            o.FN = 'FN';
-            o.LN = 'LN';
-            o.SN = 'SN';
-            o.NC = 'GER';
-        }
+  Init(RowCount: number): void {
+    let o: TStammdatenRowCollectionItem;
+    this.Collection.Clear();
 
-        Init(RowCount: number): void {
-            let o: TStammdatenRowCollectionItem;
-            this.Collection.Clear();
-
-            for (let i = 0; i < RowCount; i++) {
-                o = this.Collection.Add();
-                o.SNR = 1001 + i;
-            }
-        }
-
+    for (let i = 0; i < RowCount; i++) {
+      o = this.Collection.Add();
+      o.SNR = 1001 + i;
     }
-
-
+  }
+}

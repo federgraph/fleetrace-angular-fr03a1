@@ -1,25 +1,28 @@
-﻿import { Component, Output, EventEmitter } from '@angular/core';
+﻿import { Component, Output, EventEmitter, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { IEventDataItem, TEventDataAsset } from '../shared/test-data';
+import { MaterialModule } from '../material/material.module';
 
 @Component({
   selector: 'app-featured-event',
+  imports: [MaterialModule],
   templateUrl: './featured-event.component.html',
-  styleUrls: ['./featured-event.component.scss']
+  styleUrls: ['./featured-event.component.scss'],
 })
 export class FeaturedEventComponent {
-
-  Counter: number = 0;
-  Info: string = 'info';
-  Error: string = '';
-  HasError: boolean = false;
+  Counter = 0;
+  Info = 'info';
+  Error = '';
+  HasError = false;
   CurrentEventData: IEventDataItem;
 
-  @Output() dataAvailable: EventEmitter<IEventDataItem> = new EventEmitter();
+  @Output() dataAvailable = new EventEmitter<IEventDataItem>();
 
   FeaturedUrl = '/api/event-data';
 
-  constructor(private httpClient: HttpClient) {
+  private httpClient = inject(HttpClient);
+
+  constructor() {
     this.CurrentEventData = new TEventDataAsset();
   }
 
@@ -45,13 +48,13 @@ export class FeaturedEventComponent {
   }
 
   loadEventDataItem(fn: string): void {
-    this.httpClient.get(fn, {responseType: 'text'}).subscribe(
-      data => this.onEventDataItemAvailable(data),
+    this.httpClient.get(fn, { responseType: 'text' }).subscribe(
+      (data) => this.onEventDataItemAvailable(data),
       (err: HttpErrorResponse) => {
         console.log('Error detected in loadEventDataItem.');
         this.Error = 'Got error, see console log for more detailed info.';
         this.HasError = true;
-      }
+      },
     );
   }
 
@@ -63,5 +66,4 @@ export class FeaturedEventComponent {
       console.log('featured-event: cannot load event data item.');
     }
   }
-
 }

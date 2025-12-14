@@ -1,24 +1,24 @@
 <mat-card class="scroll-card">
-<mat-card-title>Loading Event Data</mat-card-title>
-<mat-card-content>
-    
-<div class="radio-button-row">
-  <mat-radio-group class="radio-group" [(ngModel)]="option">
-      <mat-radio-button class="radio-button" *ngFor="let o of options; let i = index" [value]=i>{{o}}</mat-radio-button>
-  </mat-radio-group>
-</div>
+  <mat-card-title>Loading Event Data</mat-card-title>
+  <mat-card-content>
+    <div class="radio-button-row">
+      <mat-radio-group class="radio-group" [(ngModel)]="option">
+        @for (o of options; track o; let i = $index) {
+          <mat-radio-button class="radio-button" [value]="i">{{ o }}</mat-radio-button>
+        }
+      </mat-radio-group>
+    </div>
 
-<p></p>
+    <p></p>
 
-<button mat-raised-button (click)="clear()">Clear</button>
-<button mat-raised-button (click)="load()">Load</button>
-<button mat-raised-button (click)="read()">Read</button>
+    <button mat-raised-button (click)="clear()">Clear</button>
+    <button mat-raised-button (click)="load()">Load</button>
+    <button mat-raised-button (click)="read()">Read</button>
 
-<pre class="info">--- {{Info}} ---</pre>
+    <pre class="info">--- {{ Info }} ---</pre>
 
-<p></p>
+    <p></p>
 
-<pre>{{TestOutput}}</pre>
-
-</mat-card-content>
+    <pre>{{ TestOutput }}</pre>
+  </mat-card-content>
 </mat-card>

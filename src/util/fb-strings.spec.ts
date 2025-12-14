@@ -47,6 +47,4 @@ describe('TStringList', () => {
     const ct = SL.CommaText;
     expect(ct).toBe('Hello,crazy,World');
   });
-
 });
-

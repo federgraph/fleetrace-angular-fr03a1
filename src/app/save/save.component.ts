@@ -1,19 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { TBOManager } from '../../bo/bo-manager';
 import { TStringList } from '../../util/fb-strings';
 import { JsonInfo } from '../shared/data-array';
 import { EventDataJson } from '../shared/data-model';
+import { FormsModule } from '@angular/forms';
+import { MaterialModule } from '../material/material.module';
 import { ApiService } from '../shared/api.service';
 
 @Component({
   selector: 'app-save',
+  imports: [FormsModule, MaterialModule],
   templateUrl: './save.component.html',
-  styleUrls: ['./save.component.scss']
+  styleUrls: ['./save.component.scss'],
 })
 export class SaveComponent implements OnInit {
-
   option = 0;
 
   // save options
@@ -30,11 +32,11 @@ export class SaveComponent implements OnInit {
     'to session storage',
     'to local storage',
     'upload to api service',
-    'uplolad to firebase db'
+    'uplolad to firebase db',
   ];
 
   TestOutput: string;
-  Info: string = 'info';
+  Info = 'info';
 
   eventDataKey = 'fr-event-data';
   keyString = 'key "fr-event-data"';
@@ -43,14 +45,13 @@ export class SaveComponent implements OnInit {
   stagedJson: EventDataJson;
   stagedStringArray: string[];
 
-  constructor(
-    public BOManager: TBOManager,
-    public snackBar: MatSnackBar,
-    private apiService: ApiService) {
-  }
+  public BOManager = inject(TBOManager);
+  public snackBar = inject(MatSnackBar);
+  private apiService = inject(ApiService);
 
-  ngOnInit() {
-  }
+  constructor() {}
+
+  ngOnInit() {}
 
   clear() {
     this.TestOutput = '';
@@ -151,7 +152,7 @@ export class SaveComponent implements OnInit {
         if (this.stagedCompactText !== '') {
           sessionStorage.setItem(this.eventDataKey, this.stagedCompactText);
           this.Info = 'compact text saved to session storage.';
-          this.openSnackBar('saved to browser\'s session storage');
+          this.openSnackBar("saved to browser's session storage");
         } else {
           this.Info = 'nothing staged for saving to localStorage';
           this.TestOutput = '';
@@ -162,7 +163,7 @@ export class SaveComponent implements OnInit {
         if (this.stagedCompactText !== '') {
           localStorage.setItem(this.eventDataKey, this.stagedCompactText);
           this.Info = 'compact text saved to local storage.';
-          this.openSnackBar('saved to browser\'s local storage');
+          this.openSnackBar("saved to browser's local storage");
         } else {
           this.Info = 'nothing staged for saving to localStorage';
           this.TestOutput = '';
@@ -172,7 +173,9 @@ export class SaveComponent implements OnInit {
       case this.soAjax:
         this.Info = 'saving to api service...';
         this.stagedJson = this.getJson();
-        this.apiService.push2(this.stagedJson).subscribe(data => this.TestOutput = data.retvalue);
+        this.apiService
+          .push2(this.stagedJson)
+          .subscribe((data) => (this.TestOutput = data.retvalue));
         break;
 
       case this.soDB:
@@ -183,7 +186,6 @@ export class SaveComponent implements OnInit {
         this.Info = 'invalid selection';
         break;
     }
-
   }
 
   openSnackBar(msg: string) {
@@ -198,5 +200,4 @@ export class SaveComponent implements OnInit {
     document.execCommand('copy');
     document.body.removeChild(dummy);
   }
-
 }

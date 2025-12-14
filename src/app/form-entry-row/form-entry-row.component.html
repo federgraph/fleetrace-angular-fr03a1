@@ -1,71 +1,113 @@
 <h2>Entry</h2>
 
 <div class="form-container">
-
   <form [formGroup]="form" (ngSubmit)="submit()">
-
     <div formGroupName="entry">
-
       <mat-form-field class="mff">
-        <input matInput type="number" placeholder="SNR" formControlName="SNR">
+        <input matInput type="number" placeholder="SNR" formControlName="SNR" />
       </mat-form-field>
 
       <mat-form-field class="mff">
-        <input matInput placeholder="FN" formControlName="N1">
+        <input matInput placeholder="FN" formControlName="N1" />
       </mat-form-field>
 
       <mat-form-field class="mff">
-        <input matInput placeholder="LN" formControlName="N2">
+        <input matInput placeholder="LN" formControlName="N2" />
       </mat-form-field>
 
       <mat-form-field class="mff">
-        <input matInput placeholder="SN" formControlName="N3">
+        <input matInput placeholder="SN" formControlName="N3" />
       </mat-form-field>
 
       <mat-form-field class="mff">
-        <input matInput placeholder="NC" formControlName="N4">
+        <input matInput placeholder="NC" formControlName="N4" />
       </mat-form-field>
 
       <mat-form-field class="mff">
-        <input matInput placeholder="GR" formControlName="N5">
+        <input matInput placeholder="GR" formControlName="N5" />
       </mat-form-field>
 
       <mat-form-field class="mff">
-        <input matInput placeholder="PB" formControlName="N6">
+        <input matInput placeholder="PB" formControlName="N6" />
       </mat-form-field>
-
     </div>
 
-    <div class="button-row" *ngIf="BOManager.BigButtonRow">
-      <button mat-button type="button" (click)="toggleJson()">Debug</button>
-      <button mat-raised-button type="button" class="btn" type="button" (click)="reset()">Reset</button>
-      <button mat-raised-button type="button" class="btn" type="button" (click)="patch()">Patch</button>
-      <button mat-raised-button type="submit" class="btn" color="accent" type="submit" [disabled]="!form.valid">Submit</button>
-      <button mat-raised-button type="button" class="btn" type="button" (click)="delete()">Delete</button>
-    </div>
+    @if (BOManager.BigButtonRow) {
+      <div class="button-row">
+        <button mat-button type="button" (click)="toggleJson()">Debug</button>
+        <button mat-raised-button type="button" class="btn" type="button" (click)="reset()">
+          Reset
+        </button>
+        <button mat-raised-button type="button" class="btn" type="button" (click)="patch()">
+          Patch
+        </button>
+        <button
+          mat-raised-button
+          type="submit"
+          class="btn"
+          color="accent"
+          type="submit"
+          [disabled]="!form.valid"
+        >
+          Submit
+        </button>
+        <button mat-raised-button type="button" class="btn" type="button" (click)="delete()">
+          Delete
+        </button>
+      </div>
+    }
 
-    <ng-container *ngIf="!BOManager.BigButtonRow">
-    <button mat-icon-button type="button" (click)="toggleJson()" matTooltip="show debug output" *ngIf="BOManager.IsDebug">
-      <mat-icon>info</mat-icon>
-    </button>
-    <button mat-icon-button type="button" (click)="reset()" matTooltip="reset form data to default">
-      <mat-icon>clear</mat-icon>
-    </button>
-    <button mat-icon-button type="button" (click)="patch()" matTooltip="patch with data from current event">
-      <mat-icon>undo</mat-icon>
-    </button>
-    <button mat-icon-button type="submit" (click)="submit()" matTooltip="submit, create new row if SNR not present">
-      <mat-icon color="accent">send</mat-icon>
-    </button>
-    <button mat-icon-button type="button" (click)="delete()" matTooltip="delete row where SNR matches">
-      <mat-icon>delete</mat-icon>
-    </button>
-    </ng-container>
-
+    @if (!BOManager.BigButtonRow) {
+      <ng-container>
+        @if (BOManager.IsDebug) {
+          <button
+            mat-icon-button
+            type="button"
+            (click)="toggleJson()"
+            matTooltip="show debug output"
+          >
+            <mat-icon>info</mat-icon>
+          </button>
+        }
+        <button
+          mat-icon-button
+          type="button"
+          (click)="reset()"
+          matTooltip="reset form data to default"
+        >
+          <mat-icon>clear</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          type="button"
+          (click)="patch()"
+          matTooltip="patch with data from current event"
+        >
+          <mat-icon>undo</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          type="submit"
+          (click)="submit()"
+          matTooltip="submit, create new row if SNR not present"
+        >
+          <mat-icon color="accent">send</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          type="button"
+          (click)="delete()"
+          matTooltip="delete row where SNR matches"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </ng-container>
+    }
   </form>
-
 </div>
 
 <p></p>
 
-<pre *ngIf="JsonVisible">{{ form.value | json }}</pre>
+@if (JsonVisible) {
+  <pre>{{ form.value | json }}</pre>
+}

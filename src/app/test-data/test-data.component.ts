@@ -1,24 +1,28 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { TEventDataMenu } from '../shared/asset-menu';
 import { TEventDataAsset, IEventDataItem, IEventDataFolder } from '../shared/test-data';
+import { MaterialModule } from '../material/material.module';
 
 @Component({
+  imports: [MaterialModule],
   selector: 'app-test-data',
   templateUrl: './test-data.component.html',
-  styleUrls: ['./test-data.component.css']
+  styleUrls: ['./test-data.component.css'],
 })
 export class TestDataComponent {
   EDM: TEventDataMenu;
 
   Folder: string;
-  Items: Array<string> = [];
+  Items: string[] = [];
 
   CurrentEventAsset: TEventDataAsset;
 
-  @Output() dataAvailable: EventEmitter<IEventDataItem> = new EventEmitter();
+  @Output() dataAvailable = new EventEmitter<IEventDataItem>();
 
-  constructor(private httpClient: HttpClient) {
+  private httpClient = inject(HttpClient);
+
+  constructor() {
     this.EDM = new TEventDataMenu();
     this.CurrentEventAsset = new TEventDataAsset();
   }
@@ -35,15 +39,13 @@ export class TestDataComponent {
   }
 
   loadAssetText(fn: string): void {
-    this.httpClient.get(fn, {responseType: 'text'}).subscribe(
-        data => this.onAssetAvailable(data),
-        (err: HttpErrorResponse) => console.log(`Got error: ${err}`)
-     );
+    this.httpClient.get(fn, { responseType: 'text' }).subscribe(
+      (data) => this.onAssetAvailable(data),
+      (err: HttpErrorResponse) => console.log(`Got error: ${err}`),
+    );
   }
 
-  /**
-   * async event handler, used loadEvent()
-   */
+  /**async event handler, used loadEvent() */
   onAssetAvailable(data: string) {
     if (data !== '') {
       this.CurrentEventAsset.EventData = data;
@@ -52,5 +54,4 @@ export class TestDataComponent {
       console.log('test data component: cannot load asset data.');
     }
   }
-
 }

@@ -1,10 +1,9 @@
 ﻿<mat-card class="scroll-card">
-<mat-card-title>Help</mat-card-title>
-<mat-card-content>
+  <mat-card-title>Help</mat-card-title>
+  <mat-card-content>
+    <p>See https://federgraph.github.io/fleetrace-help-en/angular/FREO.html.</p>
 
-<p>See https://federgraph.github.io/fleetrace-help-en/angular/FREO.html.</p>
-
-<pre>
+    <pre>
 FR  = fleet race
 SPA = single page application
 FR03 = the current version with race and event part
@@ -12,71 +11,92 @@ Local Storage Key = 'fr03-event-data'
 Project Name = FR03A1
 Semantic Version = 1.0.0-beta.x
 Last Change = 19 July 2019
-</pre>
+    </pre>
 
-<ul>
-    <li>A Typescript / Angular app.</li>
-    <li>You can input timing data and compute results locally.</li>
-    <li>Since you own the data you could get a license, host the app on your site, and serve results to at least all the entries in a race.</li>
-</ul>
+    <ul>
+      <li>A Typescript / Angular app.</li>
+      <li>You can input timing data and compute results locally.</li>
+      <li>
+        Since you own the data you could get a license, host the app on your site, and serve results
+        to at least all the entries in a race.
+      </li>
+    </ul>
 
-<h4>Getting Started</h4>
+    <h4>Getting Started</h4>
 
-<p>I recommend that you try out the following steps, it should work:</p>
+    <p>I recommend that you try out the following steps, it should work:</p>
 
-<ol>
-    <li>Click Reset button, it will load the default test event and show the race table below the input area.</li>
-    <li>The test event has two races and one intermediate time point.</li>
-    <li>Navigate through the races with R- and R+ buttons, and through the time points  with IT- and IT+</li>
-    <li>Note that there is a time point called IT0, which is the finish of the race.</li>
-    <li>Click Next button, it will take you back to Race 1 - IT 1, the first mark rounding in the race.</li>
-    <li>Because button Next has figured out where we are in the progress of the race - at the beginning.</li>
-    <li>Notice how the current race and current IT are displayed as part of the input header line.</li>
-    <li>Click on the circular fab buttons (floating action buttons).</li>
-    <li>At least once: select the dnf radio button before you click.</li>
-    <li>Notice how the radio selection will jump back to time when you click a fab.</li>
-    <li>The fab just clicked will turn blue.</li>
-    <li>Click Next again when all fabs have been used up.</li>
-    <li>You will be advanced to the finish time point of race 1, please check.</li>
-    <li>Click Rows and Event to show the event table in addition to the race table.</li>
-    <li>Continue with the fabs and this time watch both tables.</li>
-    <li>Play with the toolbar icon buttons, most of them have the Reduce To action type.</li>
-    <li>Some of the buttons will toggle, some will show, hide, or have an action type of Reduce To.</li>
-    <li>Go ahead and input timing info for Race 2.</li>
-    <li>You can skip IT1 and only do the finish.</li>
-    <li>There are only two races in this test event.</li>
-    <li>When done, examine that series scoring is correct in table event.</li>
-    <li>Adjust the number of throwouts with button T+ and T-.</li>
-    <li>Note that you can sort the html table with a click on the column header.</li>
-    <li>Find the Pre-Text area and use it to copy result data in compact format to the clipboard.</li>
-    <li>Try and paste the text data you just copied into your favorite code editor program.</li>
-    <li>I assume that you test in Chrome on the desktop before you use it on a tablet or even a phone.</li>
-</ol>
+    <ol>
+      <li>
+        Click Reset button, it will load the default test event and show the race table below the
+        input area.
+      </li>
+      <li>The test event has two races and one intermediate time point.</li>
+      <li>
+    Navigate through the races with R- and R+ buttons, and through the time points with IT- and IT+
+      </li>
+      <li>Note that there is a time point called IT0, which is the finish of the race.</li>
+      <li>
+    Click Next button, it will take you back to Race 1 - IT 1, the first mark rounding in the race.
+      </li>
+      <li>
+    Because button Next has figured out where we are in the progress of the race - at the beginning.
+      </li>
+      <li>Notice how the current race and current IT are displayed as part of the input header line.</li>
+      <li>Click on the circular fab buttons (floating action buttons).</li>
+      <li>At least once: select the dnf radio button before you click.</li>
+      <li>Notice how the radio selection will jump back to time when you click a fab.</li>
+      <li>The fab just clicked will turn blue.</li>
+      <li>Click Next again when all fabs have been used up.</li>
+      <li>You will be advanced to the finish time point of race 1, please check.</li>
+      <li>Click Rows and Event to show the event table in addition to the race table.</li>
+      <li>Continue with the fabs and this time watch both tables.</li>
+      <li>Play with the toolbar icon buttons, most of them have the Reduce To action type.</li>
+      <li>
+        Some of the buttons will toggle, some will show, hide, or have an action type of Reduce To.
+      </li>
+      <li>Go ahead and input timing info for Race 2.</li>
+      <li>You can skip IT1 and only do the finish.</li>
+      <li>There are only two races in this test event.</li>
+      <li>When done, examine that series scoring is correct in table event.</li>
+      <li>Adjust the number of throwouts with button T+ and T-.</li>
+      <li>Note that you can sort the html table with a click on the column header.</li>
+      <li>Find the Pre-Text area and use it to copy result data in compact format to the clipboard.</li>
+      <li>Try and paste the text data you just copied into your favorite code editor program.</li>
+      <li>
+        I assume that you test in Chrome on the desktop before you use it on a tablet or even a
+        phone.
+      </li>
+    </ol>
 
-<p>You need to input a finish position or a status value for all the entries in a race.</p>
+    <p>You need to input a finish position or a status value for all the entries in a race.</p>
 
-<p>I will go through some terms quickly.</p>
+    <p>I will go through some terms quickly.</p>
 
-<ul>
-   <li>A regatta has events.</li>
-   <li>An event has races.</li>
-   <li>A race has time points.</li>
-   <li>At minimum, there is the finish time point.</li>
-   <li>You may set up some intermediate time points.</li>
-   <li>Remember that IT0 is the finish time point.</li>
-   <li>IT1 is the first time point and so on.</li>
-   <li>You need to do the finish; all other time points are optional.</li>
-   <li>The entries in a race are called bibs, corresponding to bows or bow numbers.</li>
-   <li>By tapping on fabs you finish off bibs until done.</li>
-   <li>You can assign a status value like dnf to a bib instead of a time.</li>
-   <li>You can also erase the time for the current bib or reset the status to ok.</li>
-   <li>A bib with a status other than ok will not have a fab on the next IT.</li>
-   <li>A bib with a finish position other than 0 for the race in the event will also be excluded.</li>
-</ul>
+    <ul>
+      <li>A regatta has events.</li>
+      <li>An event has races.</li>
+      <li>A race has time points.</li>
+      <li>At minimum, there is the finish time point.</li>
+      <li>You may set up some intermediate time points.</li>
+      <li>Remember that IT0 is the finish time point.</li>
+      <li>IT1 is the first time point and so on.</li>
+      <li>You need to do the finish; all other time points are optional.</li>
+      <li>The entries in a race are called bibs, corresponding to bows or bow numbers.</li>
+      <li>By tapping on fabs you finish off bibs until done.</li>
+      <li>You can assign a status value like dnf to a bib instead of a time.</li>
+      <li>You can also erase the time for the current bib or reset the status to ok.</li>
+      <li>A bib with a status other than ok will not have a fab on the next IT.</li>
+      <li>
+        A bib with a finish position other than 0 for the race in the event will also be excluded.
+      </li>
+    </ul>
 
-<p>There are variations of the application, see Help file on GitHub.</p>
+    <p>There are variations of the application, see Help file on GitHub.</p>
 
-<p>FREO was developed and is maintained by federgraph.de, license is GPL 3.0, see repository on GitHub</p>
-
-</mat-card-content>
+    <p>
+      FREO was developed and is maintained by federgraph.de, license is GPL 3.0, see repository on
+      GitHub
+    </p>
+  </mat-card-content>
 </mat-card>

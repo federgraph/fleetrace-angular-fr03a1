@@ -1,20 +1,22 @@
 <mat-card class="scroll-card">
-<mat-card-title>Event Data Menu</mat-card-title>
-<mat-card-content>    
+  <mat-card-title>Event Data Menu</mat-card-title>
+  <mat-card-content>
+    @if (EDM) {
+      <ng-container>
+        @for (m of EDM.Menu; track m) {
+          <ng-container>
+            <p>
+              <i>{{ m.Folder }}</i>
+            </p>
 
-<ng-container *ngIf="EDM">
-
-    <ng-container *ngFor="let m of EDM.Menu">
-
-        <p><i>{{m.Folder}}</i></p>
-
-        <div *ngFor="let en of m.Items; let i = index">
-            <button mat-button (click)="loadEvent(m.Folder, en, i)">{{en}}</button>
-        </div>
-
-    </ng-container>
-
-</ng-container>
-
-</mat-card-content>
+            @for (en of m.Items; track en; let i = $index) {
+              <div>
+                <button mat-button (click)="loadEvent(m.Folder, en, i)">{{ en }}</button>
+              </div>
+            }
+          </ng-container>
+        }
+      </ng-container>
+    }
+  </mat-card-content>
 </mat-card>

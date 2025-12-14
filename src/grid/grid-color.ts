@@ -32,23 +32,23 @@ export class TColorRec {
 }
 
 export class ColorConst {
-  static readonly clWhite = 0xFFFFFF;
-  static readonly clYellow = 0xFFFF00;
+  static readonly clWhite = 0xffffff;
+  static readonly clYellow = 0xffff00;
 
-  static readonly TColorRecCornflowerblue = 0xED9564;
-  static readonly TColorRecOrange = 0x00A5FF;
-  static readonly TColorRecDarkorange = 0x008CFF;
-  static readonly TColorRecYellowgreen = 0x32CD9A;
-  static readonly TColorRecCrimson = 0x3C14DC;
-  static readonly TColorRecLightgray = 0xD3D3D3;
-  static readonly TColorRecDarkgray = 0xA9A9A9;
-  static readonly TColorRecSkyblue = 0xFFBF00;
+  static readonly TColorRecCornflowerblue = 0xed9564;
+  static readonly TColorRecOrange = 0x00a5ff;
+  static readonly TColorRecDarkorange = 0x008cff;
+  static readonly TColorRecYellowgreen = 0x32cd9a;
+  static readonly TColorRecCrimson = 0x3c14dc;
+  static readonly TColorRecLightgray = 0xd3d3d3;
+  static readonly TColorRecDarkgray = 0xa9a9a9;
+  static readonly TColorRecSkyblue = 0xffbf00;
 
   static readonly clFleetNone = ColorConst.TColorRecDarkorange;
-  static readonly clFleetYellow = 0xCCFFFF;
-  static readonly clFleetBlue = 0xFFFFCC;
-  static readonly clFleetRed = 0xCCCCFF;
-  static readonly clFleetGreen = 0xCCFFCC;
+  static readonly clFleetYellow = 0xccffff;
+  static readonly clFleetBlue = 0xffffcc;
+  static readonly clFleetRed = 0xccccff;
+  static readonly clFleetGreen = 0xccffcc;
 
   static readonly clEventBtn = ColorConst.TColorRecDarkorange;
 
@@ -56,27 +56,26 @@ export class ColorConst {
   static readonly clHeader = ColorConst.TColorRecLightgray;
 
   static readonly clFocus = ColorConst.clYellow;
-  static readonly clEditable = 0xFFFFE8;
+  static readonly clEditable = 0xffffe8;
   static readonly clAlternatingEditable = ColorConst.clEditable;
 
   static readonly clNormal = ColorConst.clWhite;
-  static readonly clAlternate = 0xE0FFFF;
+  static readonly clAlternate = 0xe0ffff;
 
-  static readonly clHellRot = 0x8080FF;
-  static readonly clTransRot = 0x89AAF5;
+  static readonly clHellRot = 0x8080ff;
+  static readonly clTransRot = 0x89aaf5;
 
-  static readonly clHellBlau = 0xFF8888;
-  static readonly clTransBlau = 0xECAD93;
+  static readonly clHellBlau = 0xff8888;
+  static readonly clTransBlau = 0xecad93;
 
-  static readonly clHellGruen = 0x80FF80; // for LED
+  static readonly clHellGruen = 0x80ff80; // for LED
 
-  static readonly clMG = 0x00FFFF; // TColorRec.MoneyGreen;
-  static readonly clMGA = 0xFFFBF0;
+  static readonly clMG = 0x00ffff; // TColorRec.MoneyGreen;
+  static readonly clMGA = 0xfffbf0;
   static readonly clBtnFace = TColorRec.Silver;
 }
 
 export class TColorTranslator {
-
   colors: { [index: string]: string } = {
     aliceblue: 'f0f8ff',
     antiquewhite: 'faebd7',
@@ -236,7 +235,7 @@ export class TColorTranslator {
     whitesmoke: 'f5f5f5',
 
     yellow: 'ffff00',
-    yellowgreen: '9acd32'
+    yellowgreen: '9acd32',
   };
 
   static fromRGB(R: number, G: number, B: number): number {
@@ -275,7 +274,6 @@ export class TColorTranslator {
   }
 
   TranslateColor(aColor: TColor): string {
-
     const ir = this.GetRValue(aColor);
     const ig = this.GetGValue(aColor);
     const ib = this.GetBValue(aColor);
@@ -284,7 +282,6 @@ export class TColorTranslator {
     // result = Format('#%2x%2x%2x', [this.b, this.g, this.r]);
     return c.toHex();
   }
-
 }
 
 let ColorTranslator: TColorTranslator;
@@ -314,12 +311,11 @@ export enum TColGridColorScheme {
   colorRed,
   colorBlue,
   colorMoneyGreen,
-  colorRubyGraphite
+  colorRubyGraphite,
 }
 
 export class TColGridColors {
-
-  static StyleName: string = '';
+  static StyleName = '';
 
   static GetColorScheme(): TColGridColorScheme {
     let result = TColGridColorScheme.colorRed;
@@ -387,41 +383,67 @@ export class TColGridColors {
 
   static HTMLColor(c: TColor): string {
     switch (c) {
+      case ColorConst.clEditable:
+        return '#F0F8FF';
 
-      case ColorConst.clEditable: return '#F0F8FF';
+      case ColorConst.clNormal:
+        return 'white';
+      case ColorConst.clAlternate:
+        return '#FFFFE0';
 
-      case ColorConst.clNormal: return 'white';
-      case ColorConst.clAlternate: return '#FFFFE0';
+      case ColorConst.clMGA:
+        return '#C0DCC0'; // green
+      case ColorConst.clMG:
+        return 'aqua'; // '#F0FBFF'; //blue
 
-      case ColorConst.clMGA: return '#C0DCC0'; // green
-      case ColorConst.clMG: return 'aqua'; // '#F0FBFF'; //blue
+      case ColorConst.clHellBlau:
+        return '#8080FF';
+      case ColorConst.clTransBlau:
+        return '#89AAF5';
 
-      case ColorConst.clHellBlau: return '#8080FF';
-      case ColorConst.clTransBlau: return '#89AAF5';
+      case ColorConst.clHellRot:
+        return '#FF8888';
+      case ColorConst.clTransRot:
+        return '#ECAD93';
 
-      case ColorConst.clHellRot: return '#FF8888';
-      case ColorConst.clTransRot: return '#ECAD93';
+      case TColorRec.SkyBlue:
+        return '#87CEEB';
+      case 0x000080ff:
+        return '#FF8000';
 
-      case TColorRec.SkyBlue: return '#87CEEB';
-      case 0x000080FF: return '#FF8000';
-
-      case TColorRec.Lightgray: return 'silver';
+      case TColorRec.Lightgray:
+        return 'silver';
       //
-      case TColorRec.Red: return 'red';
-      case TColorRec.Maroon: return 'maroon';
-      case TColorRec.Black: return 'black';
-      case TColorRec.Yellow: return 'yellow';
-      case TColorRec.Olive: return 'olive';
-      case TColorRec.Lime: return 'lime';
-      case TColorRec.Green: return 'green';
-      case TColorRec.Teal: return 'teal';
-      case TColorRec.Gray: return 'gray';
-      case TColorRec.Aqua: return 'aqua';
-      case TColorRec.Blue: return 'blue';
-      case TColorRec.Navy: return 'navy';
-      case TColorRec.Silver: return 'silver';
-      case TColorRec.Purple: return 'purple';
-      case TColorRec.Fuchsia: return 'fuchsia';
+      case TColorRec.Red:
+        return 'red';
+      case TColorRec.Maroon:
+        return 'maroon';
+      case TColorRec.Black:
+        return 'black';
+      case TColorRec.Yellow:
+        return 'yellow';
+      case TColorRec.Olive:
+        return 'olive';
+      case TColorRec.Lime:
+        return 'lime';
+      case TColorRec.Green:
+        return 'green';
+      case TColorRec.Teal:
+        return 'teal';
+      case TColorRec.Gray:
+        return 'gray';
+      case TColorRec.Aqua:
+        return 'aqua';
+      case TColorRec.Blue:
+        return 'blue';
+      case TColorRec.Navy:
+        return 'navy';
+      case TColorRec.Silver:
+        return 'silver';
+      case TColorRec.Purple:
+        return 'purple';
+      case TColorRec.Fuchsia:
+        return 'fuchsia';
       // case ColorConst.clMoneyGreen: return '#C0DCC0';
       // case ColorConst.clCream: return '#F0FBFF';
       default:
@@ -430,7 +452,6 @@ export class TColGridColors {
         }
         return ColorTranslator.TranslateColor(c);
     }
-
   }
 
   static CSSClass(cellProp: TCellProp): string {
@@ -475,5 +496,4 @@ export class TColGridColors {
       }
     }
   }
-
 }

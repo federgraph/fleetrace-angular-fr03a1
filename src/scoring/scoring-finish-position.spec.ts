@@ -2,28 +2,25 @@ import { TFinishPosition } from './scoring-finish-position';
 import { Constants } from './scoring-penalty';
 
 describe('scoring-finish-position', () => {
+  it('should pass isValidFinish test ', () => {
+    const fp = new TFinishPosition(1);
 
-    it('should pass isValidFinish test ', () => {
+    let b: boolean = fp.isValidFinish();
+    expect(b).toBe(true);
 
-        const fp = new TFinishPosition(1);
+    b = fp.isFinisher();
+    expect(b).toBe(true);
+  });
 
-        let b: boolean = fp.isValidFinish();
-        expect(b).toBe(true);
+  it('should be able to test for nofinish penalty', () => {
+    const nf = Constants.NF;
 
-        b = fp.isFinisher();
-        expect(b).toBe(true);
-    });
+    let f = 0;
+    let t = f & nf;
+    expect(t === 0).toBe(true);
 
-    it('should be able to test for nofinish penalty', () => {
-        const nf = Constants.NF;
-
-        let f = 0;
-        let t = f & nf;
-        expect(t === 0).toBe(true);
-
-        f = Constants.DNS;
-        t = f & nf;
-        expect(t !== 0).toBe(true);
-    });
-
+    f = Constants.DNS;
+    t = f & nf;
+    expect(t !== 0).toBe(true);
+  });
 });

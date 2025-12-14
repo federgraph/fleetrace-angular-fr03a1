@@ -1,7 +1,6 @@
 import { TUtils, TLineParser, TStringContainer } from './fb-classes';
 
 describe('TUtils', () => {
-
   it('should have good IsFalse method ', () => {
     let b;
     b = TUtils.IsFalse('0');
@@ -37,8 +36,7 @@ describe('TUtils', () => {
   });
 
   it('should have an IsEmptyOrTrue method that also accepts an empty string for true ', () => {
-    let b;
-    b = TUtils.IsEmptyOrTrue('');
+    const b = TUtils.IsEmptyOrTrue('');
     expect(b).toBe(true);
   });
 
@@ -87,7 +85,7 @@ describe('TUtils', () => {
     expect(s.endsWith('/')).toBe(true);
 
     const t = TUtils.IncludeTrailingSlash(s);
-    expect(s).toBe(s);
+    expect(s).toBe(t);
   });
 
   it('should have working IncludeTrailingBackSlash method ', () => {
@@ -96,7 +94,7 @@ describe('TUtils', () => {
     expect(s.endsWith('\\')).toBe(true);
 
     const t = TUtils.IncludeTrailingBackSlash(s);
-    expect(s).toBe(s);
+    expect(s).toBe(t);
   });
 
   it('should have working StringToBoolean method ', () => {
@@ -146,31 +144,27 @@ describe('TUtils', () => {
     n = TUtils.StrToIntDef('a', 1);
     expect(n).toBe(1);
   });
-
 });
 
 describe('TLineParser', () => {
-    let LP: TLineParser;
+  let LP: TLineParser;
 
-    beforeEach(() => {
-      LP = new TLineParser();
-    });
-
-    it('should have working ParseLine method ', () => {
-      let b = LP.ParseLine('Key=Value');
-      expect(b).toBe(true);
-      let s = LP.SL.Items(0);
-      expect(s).toBe('Key=Value');
-
-      b = LP.ParseLine('Key = Value');
-      s = LP.SL.Items(0);
-      expect(s).toBe('Key=Value');
-
-      b = LP.ParseLine('Key Part_Value Part');
-      s = LP.SL.Items(0);
-      expect(s).toBe('Key_Part_Value_Part');
-    });
-
+  beforeEach(() => {
+    LP = new TLineParser();
   });
 
+  it('should have working ParseLine method ', () => {
+    let b = LP.ParseLine('Key=Value');
+    expect(b).toBe(true);
+    let s = LP.SL.Items(0);
+    expect(s).toBe('Key=Value');
 
+    b = LP.ParseLine('Key = Value');
+    s = LP.SL.Items(0);
+    expect(s).toBe('Key=Value');
+
+    b = LP.ParseLine('Key Part_Value Part');
+    s = LP.SL.Items(0);
+    expect(s).toBe('Key_Part_Value_Part');
+  });
+});

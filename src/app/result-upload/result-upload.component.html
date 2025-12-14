@@ -1,18 +1,16 @@
 <mat-card class="scroll-card">
-<mat-card-title>Result Upload</mat-card-title>
-<mat-card-content>
-  
-<div class="button-row">
-  <button mat-raised-button (click)="show()">Show</button>
-  <button mat-raised-button (click)="post()">Post</button>
-  <button mat-raised-button (click)="clear()">Clear</button>
-</div>
+  <mat-card-title>Result Upload</mat-card-title>
+  <mat-card-content>
+    <div class="button-row">
+      <button mat-raised-button (click)="show()">Show</button>
+      <button mat-raised-button (click)="post()">Post</button>
+      <button mat-raised-button (click)="clear()">Clear</button>
+    </div>
 
-<pre class="info">--- {{Info}} ---</pre>
+    <pre class="info">--- {{ Info }} ---</pre>
 
-<p></p>
+    <p></p>
 
-<pre>{{TestOutput | json}}</pre>
-
-</mat-card-content>
+    <pre>{{ TestOutput | json }}</pre>
+  </mat-card-content>
 </mat-card>

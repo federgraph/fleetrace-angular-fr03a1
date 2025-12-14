@@ -1,63 +1,71 @@
 ﻿<mat-card class="scroll-card">
-<mat-card-title>Api</mat-card-title>
-<mat-card-content>
+  <mat-card-title>Api</mat-card-title>
+  <mat-card-content>
+    @if (oneRow) {
+      <div>
+        <button mat-raised-button (click)="pushEJ()">Push EJ</button>
+        <button mat-raised-button (click)="pullEJ()">Pull EJ</button>
+        <button mat-raised-button (click)="clear()" color="warn">Clear</button>
+        <button mat-raised-button (click)="cls()" color="primary">cls</button>
+        <button mat-raised-button (click)="showMore()" color="primary">more</button>
+      </div>
+    }
 
-<div *ngIf="oneRow">
-    <button mat-raised-button (click)="pushEJ()">Push EJ</button>
-    <button mat-raised-button (click)="pullEJ()">Pull EJ</button>
-    <button mat-raised-button (click)="clear()" color="warn">Clear</button>
-    <button mat-raised-button (click)="cls()" color="primary">cls</button>
-    <button mat-raised-button (click)="showMore()" color="primary">more</button>
-</div>
+    @if (wantConsumeRow) {
+      <div>
+        <button mat-raised-button (click)="showConsumeLegend()">Consume</button>
+        <button mat-raised-button (click)="pullE()">Pull E</button>
+        <button mat-raised-button (click)="pullEJ()">Pull EJ</button>
+        <button mat-raised-button (click)="pullRJ()">Pull RJ</button>
+        <button mat-raised-button (click)="clear()" color="warn">Clear</button>
+        <button mat-raised-button (click)="cls()" color="primary">cls</button>
+        <button mat-raised-button (click)="showLess()" color="primary">less</button>
+      </div>
+    }
 
-<div *ngIf="wantConsumeRow">
-    <button mat-raised-button (click)="showConsumeLegend()">Consume</button>
-    <button mat-raised-button (click)="pullE()">Pull E</button>
-    <button mat-raised-button (click)="pullEJ()">Pull EJ</button>
-    <button mat-raised-button (click)="pullRJ()">Pull RJ</button>
-    <button mat-raised-button (click)="clear()" color="warn">Clear</button>
-    <button mat-raised-button (click)="cls()" color="primary">cls</button>
-    <button mat-raised-button (click)="showLess()" color="primary">less</button>
-</div>
+    @if (wantPostRow) {
+      <div>
+        <button mat-raised-button (click)="showPostLegend()">Post</button>
+        <button mat-raised-button (click)="pushE()">Push E</button>
+        <button mat-raised-button (click)="pushEJ()">Push EJ</button>
+        <button mat-raised-button (click)="pushRJ()">Push RJ</button>
+        <button mat-raised-button (click)="pushED()">ED</button>
+        <button mat-raised-button (click)="pushRD()">RD</button>
+        <button mat-raised-button (click)="push2()">UD 2</button>
+        <button mat-raised-button (click)="push3()">UD 3</button>
+      </div>
+    }
 
-<div *ngIf="wantPostRow">
-    <button mat-raised-button (click)="showPostLegend()">Post</button>
-    <button mat-raised-button (click)="pushE()">Push E</button>
-    <button mat-raised-button (click)="pushEJ()">Push EJ</button>
-    <button mat-raised-button (click)="pushRJ()">Push RJ</button>
-    <button mat-raised-button (click)="pushED()">ED</button>
-    <button mat-raised-button (click)="pushRD()">RD</button>
-    <button mat-raised-button (click)="push2()">UD 2</button>
-    <button mat-raised-button (click)="push3()">UD 3</button>
-</div>
+    @if (wantInspectRow) {
+      <div id="inspect-button-row">
+        <button mat-raised-button (click)="showInspectLegend()">Inspect</button>
+        <button mat-raised-button (click)="inspectE()">event-data</button>
+        <button mat-raised-button (click)="inspectEJ()">event-data-json</button>
+        <button mat-raised-button (click)="inspectRJ()">race-data-json</button>
+        <button mat-raised-button (click)="inspectED()">ed.json</button>
+        <button mat-raised-button (click)="inspectRD()">rd.json</button>
+        <button mat-raised-button (click)="inspect2()">ud/2</button>
+        <button mat-raised-button (click)="inspect3()">ud/3</button>
+      </div>
+    }
 
-<div *ngIf="wantInspectRow" id="inspect-button-row">
-    <button mat-raised-button (click)="showInspectLegend()">Inspect</button>
-    <button mat-raised-button (click)="inspectE()">event-data</button>
-    <button mat-raised-button (click)="inspectEJ()">event-data-json</button>
-    <button mat-raised-button (click)="inspectRJ()">race-data-json</button>
-    <button mat-raised-button (click)="inspectED()">ed.json</button>
-    <button mat-raised-button (click)="inspectRD()">rd.json</button>
-    <button mat-raised-button (click)="inspect2()">ud/2</button>
-    <button mat-raised-button (click)="inspect3()">ud/3</button>
-</div>
+    @if (wantBackupRow) {
+      <div id="backup-button-row">
+        <button mat-raised-button (click)="showBackupLegend()">Backup</button>
+        <button mat-raised-button (click)="getBackup()">backup</button>
+        <button mat-raised-button (click)="getBacklog()">backlog</button>
+        <button mat-raised-button (click)="getBackupAndLog()">backup + log</button>
+        <button mat-raised-button (click)="getBackupString()">b</button>
+        <button mat-raised-button (click)="getBacklogString()">l</button>
+        <button mat-raised-button (click)="getBackupAndLogString()">b+l</button>
+        <button mat-raised-button (click)="getBackupAndLogJsonString()">(b+l).json</button>
+      </div>
+    }
 
-<div *ngIf="wantBackupRow" id="backup-button-row">
-    <button mat-raised-button (click)="showBackupLegend()">Backup</button>
-    <button mat-raised-button (click)="getBackup()">backup</button>
-    <button mat-raised-button (click)="getBacklog()">backlog</button>
-    <button mat-raised-button (click)="getBackupAndLog()">backup + log</button>
-    <button mat-raised-button (click)="getBackupString()">b</button>
-    <button mat-raised-button (click)="getBacklogString()">l</button>
-    <button mat-raised-button (click)="getBackupAndLogString()">b+l</button>
-    <button mat-raised-button (click)="getBackupAndLogJsonString()">(b+l).json</button>
-</div>
+    <pre class="info">--- {{ Info }} ---</pre>
 
-<pre class="info">--- {{Info}} ---</pre>
+    <p></p>
 
-<p></p>
-
-<pre>{{TestOutput}}</pre>
-
-</mat-card-content>
+    <pre>{{ TestOutput }}</pre>
+  </mat-card-content>
 </mat-card>

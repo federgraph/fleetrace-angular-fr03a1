@@ -1,104 +1,155 @@
-﻿<h2>Input <span id="input-name-label">( R{{CurrentRace}} - IT{{CurrentTP}} - Bib{{CurrentBib}} )</span></h2>
+﻿<h2>
+  Input
+  <span id="input-name-label"
+    >( R{{ CurrentRace }} - IT{{ CurrentTP }} - Bib{{ CurrentBib }} )</span
+  >
+</h2>
 
-<div *ngIf="CheckBarVisible" class="checkbox-button-row">
+@if (CheckBarVisible) {
+  <div class="checkbox-button-row">
     <mat-checkbox class="checkbox" [(ngModel)]="Auto">Auto</mat-checkbox>
     <mat-checkbox class="checkbox" [(ngModel)]="WantUpdateEvent">UE</mat-checkbox>
-    <mat-checkbox class="checkbox" [disabled]=true [ngModel]="StrictInputMode">Strict</mat-checkbox>
+    <mat-checkbox class="checkbox" [disabled]="true" [ngModel]="StrictInputMode"
+      >Strict</mat-checkbox
+    >
     <button mat-icon-button (click)="tryToggleStrict()">
-        <mat-icon>cached</mat-icon>
+      <mat-icon>cached</mat-icon>
     </button>
-</div>
+  </div>
+}
 
-<div *ngIf="RadioBarVisible" class="radio-button-row">
+@if (RadioBarVisible) {
+  <div class="radio-button-row">
     <mat-radio-group [(ngModel)]="option">
-        <mat-radio-button class="radio-button" *ngFor="let o of options; let i = index" [value]=i>{{o}}</mat-radio-button>
+      @for (o of options; track o; let i = $index) {
+        <mat-radio-button class="radio-button" [value]="i">{{ o }}</mat-radio-button>
+      }
     </mat-radio-group>
-</div>
+  </div>
+}
 
 <div class="timing-button-row">
-    <ng-container *ngFor="let bt of BowTupples">
-        <button *ngIf="bt[1]" mat-fab color="accent" (click)=clickBow(bt[0])>{{bt[0]}}</button>
-        <button *ngIf="!bt[1]" mat-fab color="primary" (click)=clickBiw(bt[0])>{{bt[0]}}</button>
+  @for (bt of BowTupples; track bt) {
+    <ng-container>
+      @if (bt[1]) {
+        <button mat-fab color="accent" (click)="clickBow(bt[0])">{{ bt[0] }}</button>
+      } @else {
+        <button mat-fab color="primary" (click)="clickBiw(bt[0])">{{ bt[0] }}</button>
+      }
     </ng-container>
+  }
 </div>
 
 <div class="button-row">
-    <button mat-icon-button (click)="toggleChecks()">
-        <mat-icon color="primary">check_box_outline_blank</mat-icon>
+  <button mat-icon-button (click)="toggleChecks()">
+    <mat-icon color="primary">check_box_outline_blank</mat-icon>
+  </button>
+  <button mat-icon-button (click)="toggleRadios()">
+    <mat-icon color="primary">radio_button_unchecked</mat-icon>
+  </button>
+  <button mat-icon-button (click)="toggleFabs()">
+    <mat-icon [matBadge]="countShown" color="accent">grain</mat-icon>
+  </button>
+  <button mat-icon-button (click)="toggleWidget()">
+    <mat-icon color="primary">apps</mat-icon>
+  </button>
+  <button mat-icon-button (click)="toggleEdit()">
+    <mat-icon color="primary">keyboard</mat-icon>
+  </button>
+  @if (BOManager.BO.UseQueue) {
+    <button mat-icon-button (click)="processQueue()" [disabled]="QueueIsEmpty">
+      <mat-icon [matBadge]="BOManager.BO.msgQueueR.length">attachment</mat-icon>
     </button>
-    <button mat-icon-button (click)="toggleRadios()">
-        <mat-icon color="primary">radio_button_unchecked</mat-icon>
+  }
+  @if (BOManager.BO.UseQueue) {
+    <button mat-icon-button (click)="clearQueue()">
+      <mat-icon color="accent">clear</mat-icon>
     </button>
-    <button mat-icon-button (click)="toggleFabs()">
-        <mat-icon [matBadge]="countShown" color="accent">grain</mat-icon>
-    </button>
-    <button mat-icon-button (click)="toggleWidget()">
-        <mat-icon color="primary">apps</mat-icon>
-    </button>
-    <button mat-icon-button (click)="toggleEdit()">
-        <mat-icon color="primary">keyboard</mat-icon>
-    </button>
-    <button *ngIf="BOManager.BO.UseQueue" mat-icon-button (click)="processQueue()" [disabled]="QueueIsEmpty">
-        <mat-icon [matBadge]="BOManager.BO.msgQueueR.length">attachment</mat-icon>
-    </button>
-    <button  *ngIf="BOManager.BO.UseQueue" mat-icon-button (click)="clearQueue()">
-        <mat-icon color="accent">clear</mat-icon>
-    </button>
-    <button mat-icon-button (click)="toggleUseQueue()">
-        <mat-icon color="accent">attach_file</mat-icon>
-    </button>
-    <button mat-icon-button (click)="generateMsg()">
-        <mat-icon color="primary">toys</mat-icon>
-    </button>
-    <button mat-icon-button (click)="toggleInputLegend()">
-        <mat-icon>camera</mat-icon>
-    </button>
+  }
+  <button mat-icon-button (click)="toggleUseQueue()">
+    <mat-icon color="accent">attach_file</mat-icon>
+  </button>
+  <button mat-icon-button (click)="generateMsg()">
+    <mat-icon color="primary">toys</mat-icon>
+  </button>
+  <button mat-icon-button (click)="toggleInputLegend()">
+    <mat-icon>camera</mat-icon>
+  </button>
 </div>
 
-<app-timing-widget *ngIf="WidgetVisible" #widgetTab [race]="CurrentRace" [timepoint]="CurrentTP" (newTimeAvailable)="onKeyTimeReceived($event)"></app-timing-widget>
+@if (WidgetVisible) {
+  <app-timing-widget
+    #widgetTab
+    [race]="CurrentRace"
+    [timepoint]="CurrentTP"
+    (newTimeAvailable)="onKeyTimeReceived($event)"
+  ></app-timing-widget>
+}
 
-<ng-container *ngIf=EditVisible>
+@if (EditVisible) {
+  <ng-container>
     <div class="msg-form">
-        <mat-form-field class="msg-edit">
-            <input matInput class="msg-input" type='text' spellcheck="false" placeholder="msg 1 (primary)" [(ngModel)]="InputMsgText1">
-        </mat-form-field>
-        <button mat-icon-button (click)="send1()">
-            <mat-icon color="accent">send</mat-icon>
-        </button>
-        <button mat-icon-button (click)="togglePrepareBar()">
-            <mat-icon>short_text</mat-icon>
-        </button>
-        <ng-container *ngIf="InputMsgText2Visible">
-            <br>
-            <mat-form-field class="msg-edit">
-                <input matInput class="msg-input" type='text' spellcheck="false" [disabled]=true placeholder="msg 2 (secondary)" [(ngModel)]="InputMsgText2">
-            </mat-form-field>
-            <button mat-icon-button (click)="send2()">
-                <mat-icon>send</mat-icon>
-            </button>
-            <button mat-icon-button (click)="clearInput2()">
-                <mat-icon>clear</mat-icon>
-            </button>
+      <mat-form-field class="msg-edit">
+        <input
+          matInput
+          class="msg-input"
+          type="text"
+          spellcheck="false"
+          placeholder="msg 1 (primary)"
+          [(ngModel)]="InputMsgText1"
+        />
+      </mat-form-field>
+      <button mat-icon-button (click)="send1()">
+        <mat-icon color="accent">send</mat-icon>
+      </button>
+      <button mat-icon-button (click)="togglePrepareBar()">
+        <mat-icon>short_text</mat-icon>
+      </button>
+      @if (InputMsgText2Visible) {
+        <ng-container>
+          <br />
+          <mat-form-field class="msg-edit">
+            <input
+              matInput
+              class="msg-input"
+              type="text"
+              spellcheck="false"
+              [disabled]="true"
+              placeholder="msg 2 (secondary)"
+              [(ngModel)]="InputMsgText2"
+            />
+          </mat-form-field>
+          <button mat-icon-button (click)="send2()">
+            <mat-icon>send</mat-icon>
+          </button>
+          <button mat-icon-button (click)="clearInput2()">
+            <mat-icon>clear</mat-icon>
+          </button>
         </ng-container>
+      }
     </div>
-    <div class="button-row" *ngIf="PrepareBarVisible">
+    @if (PrepareBarVisible) {
+      <div class="button-row">
         <button mat-icon-button (click)="prepareSNR()">
-            <mat-icon>person</mat-icon>
+          <mat-icon>person</mat-icon>
         </button>
         <button mat-icon-button (click)="prepareBib()">
-            <mat-icon>face</mat-icon>
+          <mat-icon>face</mat-icon>
         </button>
         <button mat-icon-button (click)="prepareNC()">
-            <mat-icon>panorama</mat-icon>
+          <mat-icon>panorama</mat-icon>
         </button>
         <button mat-icon-button (click)="prepareRV()">
-            <mat-icon>star</mat-icon>
+          <mat-icon>star</mat-icon>
         </button>
         <button mat-icon-button (click)="prepareQU()">
-            <mat-icon>star_border</mat-icon>
+          <mat-icon>star_border</mat-icon>
         </button>
-    </div>
-</ng-container>
+      </div>
+    }
+  </ng-container>
+}
 
-<app-icon-bar-legend [caption]="'Editbar'" [bar]="editbarIcons" *ngIf="InputLegendVisible"></app-icon-bar-legend>
-
+@if (InputLegendVisible) {
+  <app-icon-bar-legend [caption]="'Editbar'" [bar]="editbarIcons"></app-icon-bar-legend>
+}

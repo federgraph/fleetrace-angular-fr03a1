@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TBOManager } from '../../bo/bo-manager';
 import {
   IconData,
@@ -18,18 +18,20 @@ import {
   EventNavIcons,
   MsgEdit2Icons,
   RaceIcons,
-  EntriesIcons
+  EntriesIcons,
 } from './icon-data';
 
 import { IconPool } from '../icon-bar-legend/icon-pool';
+import { MaterialModule } from '../material/material.module';
+import { IconBarLegendComponent } from '../icon-bar-legend/icon-bar-legend.component';
 
 @Component({
+  imports: [MaterialModule, IconBarLegendComponent],
   selector: 'app-icon-legend',
   templateUrl: './icon-legend.component.html',
-  styleUrls: ['./icon-legend.component.css']
+  styleUrls: ['./icon-legend.component.css'],
 })
 export class IconLegendComponent {
-
   toolbarIcons: IconData[];
   eventNavIcons: IconData[];
   cardToggleIcons: IconData[];
@@ -50,7 +52,9 @@ export class IconLegendComponent {
   pool: string[];
   PoolVisible = false;
 
-  constructor(public BOManager: TBOManager) {
+  public BOManager = inject(TBOManager);
+
+  constructor() {
     this.toolbarIcons = IconData.readIconData(ToolbarIcons);
 
     this.eventNavIcons = IconData.readIconData(EventNavIcons);
