@@ -25,9 +25,8 @@ export class TBOMsg extends TBaseMsg {
       } else {
         return qn.FindBib(this.Bib);
       }
-    } else {
-      return null;
     }
+    return null;
   }
 
   HandleProt() {

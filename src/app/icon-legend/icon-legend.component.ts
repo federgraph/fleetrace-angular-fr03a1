@@ -22,12 +22,12 @@ import {
 } from './icon-data';
 
 import { IconPool } from '../icon-bar-legend/icon-pool';
-import { MaterialModule } from '../material/material.module';
 import { IconBarLegendComponent } from '../icon-bar-legend/icon-bar-legend.component';
+import { MaterialModule } from '../material/material.module';
 
 @Component({
-  imports: [MaterialModule, IconBarLegendComponent],
   selector: 'app-icon-legend',
+  imports: [MaterialModule, IconBarLegendComponent],
   templateUrl: './icon-legend.component.html',
   styleUrls: ['./icon-legend.component.css'],
 })

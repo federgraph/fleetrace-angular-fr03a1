@@ -19,7 +19,8 @@ export class TFinishList extends Array<TFinish> {
     }
 
     let f: TFinish;
-    for (f of this) {
+    for (let i = 0; i < this.length; i++) {
+      f = this[i];
       if (f.Entry != null && f.Entry.equals(e)) {
         return f;
       }

@@ -29,7 +29,7 @@ export class TScoringLowPoint implements IScoringModel {
   HasFleets = false;
   TargetFleetSize = 8;
   IsFinalRace = false;
-  TiebreakerMode: number = TScoringLowPoint.TIE_RRS_DEFAULT;
+  TiebreakerMode = TScoringLowPoint.TIE_RRS_DEFAULT;
 
   /**
    * option per RRS2001 A9 for different penalties for 'long' series

@@ -1,4 +1,4 @@
-﻿import { Component, OnDestroy, Output, EventEmitter, Input, OnInit, inject } from '@angular/core';
+﻿import { Component, OnDestroy, Output, EventEmitter, Input, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { TimingService } from '../shared/timing.service';
@@ -19,7 +19,7 @@ enum AmpelColor {
   templateUrl: './connection-control.component.html',
   styleUrls: ['./connection-control.component.css'],
 })
-export class ConnectionControlComponent implements OnInit, OnDestroy {
+export class ConnectionControlComponent implements OnDestroy {
   @Input() wantInput = true;
   @Input() wantOutput = true;
 
@@ -59,10 +59,6 @@ export class ConnectionControlComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-  }
-
-  ngOnInit() {
-    // this.toggleWatchNetto();
   }
 
   writeInputNetto(nettoText: string) {

@@ -4,8 +4,8 @@ import { TBOManager } from '../../bo/bo-manager';
 import { MaterialModule } from '../material/material.module';
 
 @Component({
-  imports: [MaterialModule],
   selector: 'app-icon-bar-legend',
+  imports: [MaterialModule],
   templateUrl: './icon-bar-legend.component.html',
   styleUrls: ['./icon-bar-legend.component.scss'],
 })

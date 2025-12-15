@@ -19,7 +19,7 @@ export class TNodeList {
   }
 
   private FindRaceNodeByNameID(rd: string): TRaceNode {
-    for (let i = 0; i < this.RaceNodeList.length; i++) {
+    for (let i = 0; i < this.RaceNodeList.length - 1; i++) {
       const rn = this.RaceNodeList[i];
       if (rn.NameID === rd) {
         return rn;

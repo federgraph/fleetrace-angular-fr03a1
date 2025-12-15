@@ -30,8 +30,11 @@ export class TSeriesPointsList extends Array<TSeriesPoints> {
   /**
    * Returns first (and hopefully only) value in list for entry.
    */
-  findPoints(e: TEntry): TSeriesPoints {
-    for (const p of this) {
+  findPoints(e: TEntry): TSeriesPoints | null {
+    let p: TSeriesPoints;
+    for (let i = 0; i < this.length; i++) {
+      p = this[i];
+
       if (p.EqualsWithNull(p.Entry, e)) {
         return p;
       }

@@ -216,9 +216,7 @@ export class ApiComponent implements OnInit {
 
   inspectED() {
     this.Info = 'show EventDataJson from api/ed.json';
-    this.apiService
-      .pullEventData()
-      .subscribe((data) => (this.TestOutput = JSON.stringify(data, null, 2)));
+    this.apiService.pullEventData().subscribe((data) => (this.TestOutput = JSON.stringify(data, null, 2)));
   }
 
   inspectRD() {
