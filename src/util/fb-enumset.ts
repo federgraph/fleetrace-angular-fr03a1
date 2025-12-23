@@ -5,9 +5,6 @@ export class TEnumSet extends Array<boolean> {
 
   constructor(highestIndex: number) {
     super();
-    if (environment.wantES5) {
-      Object.setPrototypeOf(this, TEnumSet.prototype);
-    }
     this.Count = highestIndex + 1;
   }
 

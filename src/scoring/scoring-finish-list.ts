@@ -1,13 +1,9 @@
 import { TFinish } from './scoring-finish';
 import { TEntry } from './scoring-entry';
-import { environment } from '../environments/environment';
 
 export class TFinishList extends Array<TFinish> {
   constructor() {
     super();
-    if (environment.wantES5) {
-      Object.setPrototypeOf(this, TFinishList.prototype);
-    }
   }
 
   /**

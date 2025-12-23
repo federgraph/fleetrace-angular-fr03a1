@@ -125,7 +125,9 @@ export class JsonInfo {
     this.ee.AddTimingSection(bo, Memo, r);
     const SL: string[] = [];
     for (let i = 0; i < Memo.Count; i++) {
-      if (Memo.SL[i]) SL.push(Memo.SL[i]);
+      if (Memo.SL[i]) {
+        SL.push(Memo.SL[i]);
+      }
     }
     return SL;
   }
@@ -187,7 +189,9 @@ export class JsonInfo {
 
     if (bo.BOParams.ITCount > 0 || bo.EventProps.IsTimed) {
       temp = this.getTimeLists();
-      if (temp) o.TimingInfo = temp;
+      if (temp) {
+        o.TimingInfo = temp;
+    }
     }
 
     o.PenaltyInfo = this.getPenaltyLists();

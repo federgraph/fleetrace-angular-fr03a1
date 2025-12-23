@@ -29,8 +29,12 @@ export class TimingWidgetComponent {
   offset = 0;
 
   updateBtnValue(delta: number) {
-    if (delta < 0 && this.offset < 10) return;
-    if (delta > 0 && this.offset > 80) return;
+    if (delta < 0 && this.offset < 10) {
+      return;
+    }
+    if (delta > 0 && this.offset > 80) {
+      return;
+    }
 
     this.bv0 += delta;
     this.bv1 += delta;

@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "http://gshp:3000",
+    "target": "http://gs2020:3000",
     "secure": false
   }
 }

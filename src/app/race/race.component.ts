@@ -133,10 +133,15 @@ export class RaceComponent {
 
   toggleLayout() {
     const cb = this.BOManager.BO.RaceBO;
-    if (!cb) return;
+    if (!cb) {
+      return;
+    }
 
-    if (cb.TableLayout === 0) cb.TableLayout = 1;
-    else cb.TableLayout = 0;
+    if (cb.TableLayout === 0) {
+      cb.TableLayout = 1;
+    } else {
+      cb.TableLayout = 0;
+    }
 
     cb.InitColsActiveLayout(this.ColGrid, this.FTimePoint);
     this.show();

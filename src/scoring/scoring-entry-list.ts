@@ -1,12 +1,8 @@
 import { TEntry } from './scoring-entry';
-import { environment } from '../environments/environment';
 
 export class TEntryList extends Array<TEntry> {
   constructor() {
     super();
-    if (environment.wantES5) {
-      Object.setPrototypeOf(this, TEntryList.prototype);
-    }
   }
 
   Clear() {

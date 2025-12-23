@@ -85,7 +85,9 @@ export class FormEntryRowComponent implements OnInit {
   reset() {
     this.formData = new EntryRow();
     const snr = this.form.get('entry.SNR').value;
-    if (snr && snr > 0) this.formData.SNR = snr;
+    if (snr && snr > 0) {
+      this.formData.SNR = snr;
+    }
     this.rebuildForm();
   }
 

@@ -2,7 +2,6 @@
 import { TBOManager } from '../../bo/bo-manager';
 import { TEventColGrid, TSimpleEventGrid } from '../../col/event/event-grid';
 import { TEventNode } from '../../col/event/event-row-collection';
-import { TBO } from '../../fr/fr-bo';
 import { TTable } from '../../grid/grid-def';
 import { TColorMode } from '../../col/event/event-enums';
 import { IconData, EventIcons } from '../icon-legend/icon-data';

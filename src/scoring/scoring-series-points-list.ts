@@ -1,14 +1,10 @@
 import { TSeriesPoints } from './scoring-series-points';
 import { TEntry } from './scoring-entry';
 import { TEntryList } from './scoring-entry-list';
-import { environment } from '../environments/environment';
 
 export class TSeriesPointsList extends Array<TSeriesPoints> {
   constructor() {
     super();
-    if (environment.wantES5) {
-      Object.setPrototypeOf(this, TSeriesPointsList.prototype);
-    }
   }
 
   get Count() {

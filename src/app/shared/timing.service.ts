@@ -4,7 +4,9 @@ import { WebsocketService } from './websocket.service';
 import { Observable, Subscriber } from 'rxjs';
 import { environment } from '../../environments/environment';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TimingService {
   wsurl: string;
 

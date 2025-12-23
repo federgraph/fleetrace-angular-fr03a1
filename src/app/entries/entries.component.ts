@@ -1,6 +1,5 @@
 import { Component, Output, EventEmitter, inject } from '@angular/core';
 import { TBOManager } from '../../bo/bo-manager';
-import { TBO } from '../../fr/fr-bo';
 import { TStammdatenColGrid, TSimpleStammdatenGrid } from '../../col/stammdaten/stammdaten-grid';
 import { TStammdatenNode } from '../../col/stammdaten/stammdaten-node';
 import { TTable } from '../../grid/grid-def';
@@ -36,8 +35,6 @@ export class EntriesComponent {
   }
 
   initGrid() {
-    this.BOManager.BO = this.BOManager.BO;
-
     const g = new TStammdatenColGrid(this.BOManager.BO);
 
     g.Grid = new TSimpleStammdatenGrid();

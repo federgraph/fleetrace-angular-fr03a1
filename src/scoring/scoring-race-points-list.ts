@@ -5,14 +5,10 @@ import { TEntry } from './scoring-entry';
 import { TRace } from './scoring-race';
 import { TFinishPosition } from './scoring-finish-position';
 import { TEntryList } from './scoring-entry-list';
-import { environment } from '../environments/environment';
 
 export class TRacePointsList extends Array<TRacePoints> {
   constructor() {
     super();
-    if (environment.wantES5) {
-      Object.setPrototypeOf(this, TRacePointsList.prototype);
-    }
   }
 
   get Count() {

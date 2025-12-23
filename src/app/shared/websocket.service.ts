@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Subscriber, Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class WebsocketService {
   private ws: WebSocket;
 

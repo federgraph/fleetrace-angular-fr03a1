@@ -1,5 +1,4 @@
 export const environment = {
   production: true,
-  apiHost: 'gshp',
-  wantES5: true,
+  apiHost: 'gs2022',
 };
